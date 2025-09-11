@@ -1,0 +1,574 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="pulsar_cobot_workspace">
+    
+    <!-- Real-time physics for collaborative robotics -->
+    <physics name="real_time_physics" type="ode">
+      <max_step_size>0.0001</max_step_size> <!-- 100μs for high precision -->
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>10000</real_time_update_rate> <!-- 10kHz -->
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>100</iters>
+          <precon_iters>0</precon_iters>
+          <sor>1.3</sor>
+          <use_dynamic_moi_rescaling>true</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0.0</cfm>
+          <erp>0.8</erp>
+          <contact_max_correcting_vel>10.0</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+    
+    <!-- Lighting setup -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+    <!-- Workshop floor -->
+    <model name="workshop_floor">
+      <static>true</static>
+      <link name="floor">
+        <collision name="floor_collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="floor_visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>10 10</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Wood</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- Work table -->
+    <model name="work_table">
+      <static>true</static>
+      <pose>2 0 0.4 0 0 0</pose>
+      <link name="table_top">
+        <collision name="table_collision">
+          <geometry>
+            <box>
+              <size>2 1 0.8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="table_visual">
+          <geometry>
+            <box>
+              <size>2 1 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- Safety barrier -->
+    <model name="safety_barrier">
+      <static>true</static>
+      <pose>0 2 1 0 0 0</pose>
+      <link name="barrier">
+        <collision name="barrier_collision">
+          <geometry>
+            <box>
+              <size>4 0.1 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="barrier_visual">
+          <geometry>
+            <box>
+              <size>4 0.1 2</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Yellow</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- Collaborative robot arm (simplified 6-DOF) -->
+    <model name="pulsar_cobot">
+      <pose>0 0 0.8 0 0 0</pose>
+      
+      <!-- Base link -->
+      <link name="base_link">
+        <inertial>
+          <mass>5.0</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <iyy>0.1</iyy>
+            <izz>0.1</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="base_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="base_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Blue</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- Link 1 (Shoulder) -->
+      <link name="link1">
+        <pose>0 0 0.15 0 0 0</pose>
+        <inertial>
+          <mass>3.0</mass>
+          <inertia>
+            <ixx>0.05</ixx>
+            <iyy>0.05</iyy>
+            <izz>0.02</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="link1_collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="link1_visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.4</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Orange</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- Link 2 (Upper arm) -->
+      <link name="link2">
+        <pose>0 0 0.55 0 0 0</pose>
+        <inertial>
+          <mass>2.5</mass>
+          <inertia>
+            <ixx>0.04</ixx>
+            <iyy>0.04</iyy>
+            <izz>0.01</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="link2_collision">
+          <geometry>
+            <box>
+              <size>0.08 0.08 0.3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="link2_visual">
+          <geometry>
+            <box>
+              <size>0.08 0.08 0.3</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Orange</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- End effector -->
+      <link name="end_effector">
+        <pose>0 0 0.85 0 0 0</pose>
+        <inertial>
+          <mass>0.5</mass>
+          <inertia>
+            <ixx>0.01</ixx>
+            <iyy>0.01</iyy>
+            <izz>0.01</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="ee_collision">
+          <geometry>
+            <sphere>
+              <radius>0.05</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="ee_visual">
+          <geometry>
+            <sphere>
+              <radius>0.05</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+        
+        <!-- Force/torque sensor -->
+        <sensor name="force_torque_sensor" type="force_torque">
+          <always_on>true</always_on>
+          <update_rate>1000</update_rate>
+          <force_torque>
+            <frame>sensor</frame>
+            <measure_direction>child_to_parent</measure_direction>
+          </force_torque>
+          <plugin name="gazebo_ros_force" filename="libgazebo_ros_force.so">
+            <topicName>/ft_sensor</topicName>
+            <bodyName>end_effector</bodyName>
+            <updateRate>1000.0</updateRate>
+          </plugin>
+        </sensor>
+      </link>
+      
+      <!-- Safety proximity sensors -->
+      <link name="proximity_sensor_1">
+        <pose>0.2 0 0.4 0 0 0</pose>
+        <inertial>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <iyy>0.001</iyy>
+            <izz>0.001</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        
+        <sensor name="proximity" type="ray">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>true</visualize>
+          <update_rate>50</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>5</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.5</min_angle>
+                <max_angle>0.5</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.02</min>
+              <max>2.0</max>
+              <resolution>0.01</resolution>
+            </range>
+          </ray>
+          <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+            <topicName>/proximity_1</topicName>
+            <frameName>proximity_sensor_1</frameName>
+          </plugin>
+        </sensor>
+      </link>
+      
+      <!-- Joints -->
+      <joint name="joint1" type="revolute">
+        <parent>base_link</parent>
+        <child>link1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>100</effort>
+            <velocity>2.0</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.1</damping>
+            <friction>0.1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      
+      <joint name="joint2" type="revolute">
+        <parent>link1</parent>
+        <child>link2</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-1.57</lower>
+            <upper>1.57</upper>
+            <effort>80</effort>
+            <velocity>2.0</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.1</damping>
+            <friction>0.1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      
+      <joint name="joint3" type="revolute">
+        <parent>link2</parent>
+        <child>end_effector</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>50</effort>
+            <velocity>3.0</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.05</damping>
+            <friction>0.05</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      
+      <joint name="proximity_joint_1" type="fixed">
+        <parent>link1</parent>
+        <child>proximity_sensor_1</child>
+      </joint>
+      
+      <!-- Real-time joint position control -->
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/pulsar_cobot</robotNamespace>
+        <controlPeriod>0.001</controlPeriod> <!-- 1kHz control rate -->
+      </plugin>
+    </model>
+    
+    <!-- Human operator (simplified) -->
+    <model name="human_operator">
+      <pose>1.5 -1 0 0 0 1.57</pose>
+      <static>false</static>
+      
+      <link name="torso">
+        <inertial>
+          <mass>60.0</mass>
+          <inertia>
+            <ixx>5.0</ixx>
+            <iyy>5.0</iyy>
+            <izz>2.0</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="torso_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.6</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="torso_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.6</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Green</name>
+            </script>
+          </material>
+        </visual>
+        
+        <!-- Human detection sensor -->
+        <sensor name="human_detector" type="contact">
+          <always_on>true</always_on>
+          <update_rate>1000</update_rate>
+          <contact>
+            <collision>torso_collision</collision>
+          </contact>
+          <plugin name="gazebo_ros_bumper" filename="libgazebo_ros_bumper.so">
+            <bumperTopicName>/human_contact</bumperTopicName>
+            <frameName>torso</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+    
+    <!-- Work objects -->
+    <model name="workpiece_1">
+      <pose>2.3 0.2 0.85 0 0 0</pose>
+      <link name="piece">
+        <inertial>
+          <mass>0.5</mass>
+          <inertia>
+            <ixx>0.01</ixx>
+            <iyy>0.01</iyy>
+            <izz>0.01</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="piece_collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="piece_visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Purple</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- Emergency stop button -->
+    <model name="emergency_stop">
+      <pose>-2 -2 1.2 0 0 0</pose>
+      <static>true</static>
+      <link name="button">
+        <collision name="button_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="button_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+        
+        <sensor name="emergency_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>1000</update_rate>
+          <contact>
+            <collision>button_collision</collision>
+          </contact>
+          <plugin name="gazebo_ros_bumper" filename="libgazebo_ros_bumper.so">
+            <bumperTopicName>/emergency_stop</bumperTopicName>
+            <frameName>button</frameName>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+    
+    <!-- Camera for workspace monitoring -->
+    <model name="overhead_camera">
+      <pose>0 0 3 0 1.57 0</pose>
+      <static>true</static>
+      <link name="camera_link">
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.0472</horizontal_fov>
+            <image>
+              <width>1920</width>
+              <height>1080</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.001</stddev>
+            </noise>
+          </camera>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>30.0</updateRate>
+            <cameraName>/workspace_camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+        </sensor>
+      </link>
+    </model>
+    
+    <!-- Real-time GUI configuration -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>3.0 -3.0 2.0 0.0 0.3 2.4</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    
+  </world>
+</sdf>
