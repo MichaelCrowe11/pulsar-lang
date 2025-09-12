@@ -9,6 +9,9 @@ import sys
 import time
 import math
 import random
+import threading
+import json
+from network_framework import MyceliumNetwork, SignalType
 from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
 from enum import Enum
@@ -394,6 +397,9 @@ class Interpreter:
         self.global_env = Environment()
         self.current_env = self.global_env
         self.environment_params = {}
+        self.main_function = None
+        self.mycelium_network = MyceliumNetwork("Interpreter Network")
+        self.current_node = self.mycelium_network.add_node()
         self.setup_builtins()
     
     def setup_builtins(self):
@@ -412,6 +418,23 @@ class Interpreter:
         self.global_env.define_function('int', self.builtin_int)
         self.global_env.define_function('float', self.builtin_float)
         self.global_env.define_function('str', self.builtin_str)
+        
+        # Additional mycelium-specific functions
+        self.global_env.define_function('signal_alert', self.builtin_signal_alert)
+        self.global_env.define_function('signal_network', self.builtin_signal_network)
+        self.global_env.define_function('create_one_hot', self.builtin_create_one_hot)
+        self.global_env.define_function('calculate_growth_factor', self.builtin_calculate_growth_factor)
+        self.global_env.define_function('apply_activation', self.builtin_apply_activation)
+        self.global_env.define_function('apply_signal_decay', self.builtin_apply_signal_decay)
+        self.global_env.define_function('reverse', self.builtin_reverse)
+        
+        # Network-specific functions
+        self.global_env.define_function('create_network', self.builtin_create_network)
+        self.global_env.define_function('add_node', self.builtin_add_node)
+        self.global_env.define_function('connect_nodes', self.builtin_connect_nodes)
+        self.global_env.define_function('broadcast_signal', self.builtin_broadcast_signal)
+        self.global_env.define_function('update_global_env', self.builtin_update_global_env)
+        self.global_env.define_function('get_network_stats', self.builtin_get_network_stats)
     
     # Built-in function implementations
     def builtin_print(self, *args):
@@ -470,6 +493,117 @@ class Interpreter:
     def builtin_str(self, x):
         return str(x)
     
+    # Mycelium-specific built-in functions
+    def builtin_signal_alert(self, message):
+        print(f"🚨 ALERT: {message}")
+        return None
+    
+    def builtin_signal_network(self, signal_type, value):
+        print(f"📡 Network Signal: {signal_type} = {value}")
+        # In a full implementation, this would propagate across the network
+        return None
+    
+    def builtin_create_one_hot(self, index, size):
+        """Create one-hot encoded array"""
+        result = [0.0] * size
+        if 0 <= index < size:
+            result[index] = 1.0
+        return result
+    
+    def builtin_calculate_growth_factor(self, temp, humidity, co2):
+        """Calculate growth factor based on environmental conditions"""
+        temp_factor = 1.0 - abs(temp - 24.0) / 10.0
+        humidity_factor = 1.0 - abs(humidity - 85.0) / 20.0
+        co2_factor = min(co2 / 1000.0, 1.0)
+        return max(0.0, temp_factor * humidity_factor * co2_factor)
+    
+    def builtin_apply_activation(self, x, activation_type):
+        """Apply activation function"""
+        if activation_type == "relu":
+            return max(0.0, x)
+        elif activation_type == "sigmoid":
+            return 1.0 / (1.0 + math.exp(-x))
+        elif activation_type == "tanh":
+            return math.tanh(x)
+        elif activation_type == "softmax":
+            # For softmax, x should be an array - simplified version
+            if isinstance(x, list):
+                exp_values = [math.exp(val) for val in x]
+                sum_exp = sum(exp_values)
+                return [val / sum_exp for val in exp_values]
+            else:
+                return math.exp(x)  # Single value
+        else:
+            return x  # Linear activation
+    
+    def builtin_apply_signal_decay(self, signal, distance):
+        """Apply signal decay based on distance"""
+        if isinstance(signal, list):
+            decay_factor = math.exp(-distance * 0.1)
+            return [s * decay_factor for s in signal]
+        else:
+            return signal * math.exp(-distance * 0.1)
+    
+    def builtin_reverse(self, array):
+        """Reverse an array"""
+        if isinstance(array, list):
+            return list(reversed(array))
+        else:
+            return array
+    
+    # Network built-in functions
+    def builtin_create_network(self, name="MyceliumNetwork"):
+        """Create a new mycelium network"""
+        network = MyceliumNetwork(name)
+        print(f"🌐 Created network: {name}")
+        return network
+    
+    def builtin_add_node(self, network=None):
+        """Add a node to the network"""
+        if network is None:
+            network = self.mycelium_network
+        node = network.add_node()
+        return node
+    
+    def builtin_connect_nodes(self, node1, node2):
+        """Connect two nodes"""
+        node1.connect_to(node2)
+        return True
+    
+    def builtin_broadcast_signal(self, signal_type_str, payload_dict, network=None):
+        """Broadcast a signal through the network"""
+        if network is None:
+            network = self.mycelium_network
+        
+        # Convert string to SignalType enum
+        signal_type_map = {
+            'growth': SignalType.GROWTH,
+            'nutrient': SignalType.NUTRIENT, 
+            'stress': SignalType.STRESS,
+            'alert': SignalType.ALERT,
+            'data': SignalType.DATA
+        }
+        
+        signal_type = signal_type_map.get(signal_type_str.lower(), SignalType.DATA)
+        network.broadcast_signal(signal_type, payload_dict)
+        return True
+    
+    def builtin_update_global_env(self, parameter, value, network=None):
+        """Update global environment parameter"""
+        if network is None:
+            network = self.mycelium_network
+        
+        # Update both interpreter and network environment
+        self.environment_params[parameter] = value
+        network.update_environment(parameter, value)
+        return True
+    
+    def builtin_get_network_stats(self, network=None):
+        """Get network statistics"""
+        if network is None:
+            network = self.mycelium_network
+        return network.get_stats()
+    
     def interpret(self, source: str):
         try:
             # Tokenize
@@ -479,6 +613,10 @@ class Interpreter:
             # Parse (simplified - just execute statements in order)
             parser = Parser(tokens, self)
             parser.parse()
+            
+            # Execute main function if it exists
+            if self.main_function:
+                self.main_function()
             
         except Exception as e:
             print(f"Error: {e}")
@@ -616,7 +754,7 @@ class Parser:
                 while not func_parser.is_at_end():
                     result = func_parser.statement()
                     if isinstance(result, tuple) and result[0] == 'return':
-                        result = result[1]
+                        result = func_parser.evaluate_expression(result[1]) if result[1] is not None else None
                         break
             finally:
                 # Restore environment
@@ -624,12 +762,12 @@ class Parser:
             
             return result
         
-        # Register function
+        # Register function (always register, execute main later)
+        self.interpreter.current_env.define_function(name, user_function)
+        
+        # Mark main function for later execution
         if name == 'main':
-            # Execute main function immediately
-            user_function()
-        else:
-            self.interpreter.current_env.define_function(name, user_function)
+            self.interpreter.main_function = user_function
     
     def mycelium_declaration(self):
         # Simplified mycelium handling - just skip for now
@@ -971,6 +1109,10 @@ class Parser:
         raise SyntaxError(f"Unexpected token at line {self.peek().line}")
     
     def evaluate_expression(self, expr):
+        # Handle non-tuple expressions directly
+        if not isinstance(expr, tuple):
+            return expr
+            
         if isinstance(expr, tuple):
             if expr[0] == 'literal':
                 return expr[1]
@@ -982,10 +1124,8 @@ class Parser:
                 right = self.evaluate_expression(expr[3])
                 
                 # Ensure operands are fully evaluated
-                if isinstance(left, tuple) and left[0] == 'literal':
-                    left = left[1]
-                if isinstance(right, tuple) and right[0] == 'literal':
-                    right = right[1]
+                left = self._ensure_evaluated(left)
+                right = self._ensure_evaluated(right)
                 
                 if op == TokenType.PLUS:
                     return left + right
@@ -1038,6 +1178,17 @@ class Parser:
                 return self.evaluate_expression(expr[1])
         
         return expr
+    
+    def _ensure_evaluated(self, value):
+        """Ensure a value is fully evaluated, handling nested tuples"""
+        while isinstance(value, tuple) and len(value) >= 2:
+            if value[0] == 'literal':
+                return value[1]
+            elif value[0] in ['identifier', 'call', 'binary', 'unary', 'array', 'grouping']:
+                value = self.evaluate_expression(value)
+            else:
+                break
+        return value
 
 def main():
     if len(sys.argv) < 2:
