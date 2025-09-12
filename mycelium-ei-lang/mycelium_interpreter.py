@@ -12,6 +12,9 @@ import random
 import threading
 import json
 from network_framework import MyceliumNetwork, SignalType
+from bio_algorithms import BiologicalOptimizer
+from bio_ml_integration import BiologicalMLOptimizer
+from cultivation_monitor import CultivationMonitoringPlatform
 from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
 from enum import Enum
@@ -400,6 +403,9 @@ class Interpreter:
         self.main_function = None
         self.mycelium_network = MyceliumNetwork("Interpreter Network")
         self.current_node = self.mycelium_network.add_node()
+        self.bio_optimizer = BiologicalOptimizer()
+        self.bio_ml_optimizer = BiologicalMLOptimizer()
+        self.cultivation_platform = CultivationMonitoringPlatform()
         self.setup_builtins()
     
     def setup_builtins(self):
@@ -435,6 +441,24 @@ class Interpreter:
         self.global_env.define_function('broadcast_signal', self.builtin_broadcast_signal)
         self.global_env.define_function('update_global_env', self.builtin_update_global_env)
         self.global_env.define_function('get_network_stats', self.builtin_get_network_stats)
+        
+        # Bio-algorithm optimization functions
+        self.global_env.define_function('genetic_optimize', self.builtin_genetic_optimize)
+        self.global_env.define_function('swarm_optimize', self.builtin_swarm_optimize)
+        self.global_env.define_function('ant_optimize', self.builtin_ant_optimize)
+        self.global_env.define_function('bio_compare', self.builtin_bio_compare)
+        
+        # Bio-inspired machine learning functions
+        self.global_env.define_function('create_bio_network', self.builtin_create_bio_network)
+        self.global_env.define_function('train_bio_network', self.builtin_train_bio_network)
+        self.global_env.define_function('predict_bio_network', self.builtin_predict_bio_network)
+        self.global_env.define_function('compare_bio_ml', self.builtin_compare_bio_ml)
+        
+        # Advanced cultivation monitoring functions
+        self.global_env.define_function('create_cultivation', self.builtin_create_cultivation)
+        self.global_env.define_function('monitor_cultivation', self.builtin_monitor_cultivation)
+        self.global_env.define_function('get_cultivation_health', self.builtin_get_cultivation_health)
+        self.global_env.define_function('optimize_cultivation', self.builtin_optimize_cultivation)
     
     # Built-in function implementations
     def builtin_print(self, *args):
@@ -603,6 +627,257 @@ class Interpreter:
         if network is None:
             network = self.mycelium_network
         return network.get_stats()
+    
+    # Bio-algorithm optimization functions
+    def builtin_genetic_optimize(self, fitness_func, dimensions=6, population_size=50, max_generations=100):
+        """Run genetic algorithm optimization"""
+        # Handle both function objects and function names
+        if isinstance(fitness_func, str):
+            # Look up function by name
+            func_obj = self.current_env.get_function(fitness_func)
+            if func_obj is None:
+                raise NameError(f"Function not found: {fitness_func}")
+        else:
+            func_obj = fitness_func
+        
+        # Create a wrapper function that accepts list inputs
+        def wrapper(genes):
+            return func_obj(*genes)
+        
+        result = self.bio_optimizer.optimize('genetic', wrapper, dimensions, 
+                                           population_size=population_size, 
+                                           max_generations=max_generations)
+        return {
+            'solution': result['best_solution'],
+            'fitness': result['best_fitness'],
+            'generations': result.get('generations', 0),
+            'time': result['computation_time']
+        }
+    
+    def builtin_swarm_optimize(self, fitness_func, dimensions=6, num_particles=30, max_iterations=100):
+        """Run particle swarm optimization"""
+        import numpy as np
+        
+        # Handle both function objects and function names
+        if isinstance(fitness_func, str):
+            # Look up function by name
+            func_obj = self.current_env.get_function(fitness_func)
+            if func_obj is None:
+                raise NameError(f"Function not found: {fitness_func}")
+        else:
+            func_obj = fitness_func
+        
+        def wrapper(position):
+            if isinstance(position, np.ndarray):
+                return func_obj(*position.tolist())
+            return func_obj(*position)
+        
+        result = self.bio_optimizer.optimize('pso', wrapper, dimensions,
+                                           num_particles=num_particles,
+                                           max_iterations=max_iterations)
+        return {
+            'solution': result['best_solution'],
+            'fitness': result['best_fitness'],
+            'iterations': result.get('iterations', 0),
+            'time': result['computation_time']
+        }
+    
+    def builtin_ant_optimize(self, fitness_func, dimensions=6, num_ants=25, max_iterations=100):
+        """Run ant colony optimization"""
+        # Handle both function objects and function names
+        if isinstance(fitness_func, str):
+            # Look up function by name
+            func_obj = self.current_env.get_function(fitness_func)
+            if func_obj is None:
+                raise NameError(f"Function not found: {fitness_func}")
+        else:
+            func_obj = fitness_func
+        
+        def wrapper(solution):
+            return func_obj(*solution)
+        
+        result = self.bio_optimizer.optimize('aco', wrapper, dimensions,
+                                           num_ants=num_ants,
+                                           max_iterations=max_iterations)
+        return {
+            'solution': result['best_solution'],
+            'fitness': result['best_fitness'],
+            'iterations': result.get('iterations', 0),
+            'time': result['computation_time']
+        }
+    
+    def builtin_bio_compare(self, fitness_func, dimensions=6):
+        """Compare genetic, swarm, and ant colony algorithms"""
+        import numpy as np
+        
+        # Handle both function objects and function names
+        if isinstance(fitness_func, str):
+            # Look up function by name
+            func_obj = self.current_env.get_function(fitness_func)
+            if func_obj is None:
+                raise NameError(f"Function not found: {fitness_func}")
+        else:
+            func_obj = fitness_func
+        
+        def wrapper_func(params):
+            if isinstance(params, np.ndarray):
+                return func_obj(*params.tolist())
+            return func_obj(*params)
+        
+        results = self.bio_optimizer.compare_algorithms(wrapper_func, dimensions)
+        
+        # Convert results to simpler format
+        comparison = {}
+        for algo, result in results.items():
+            if 'error' not in result:
+                comparison[algo] = {
+                    'solution': result['best_solution'],
+                    'fitness': result['best_fitness'],
+                    'time': result['computation_time']
+                }
+            else:
+                comparison[algo] = {'error': result['error']}
+        
+        return comparison
+    
+    # Bio-inspired machine learning functions
+    def builtin_create_bio_network(self, network_id, input_size=4, hidden_size=8, output_size=2):
+        """Create a biological neural network"""
+        network = self.bio_ml_optimizer.create_network(network_id, input_size, hidden_size, output_size)
+        return f"Created bio-network '{network_id}' with architecture {input_size}-{hidden_size}-{output_size}"
+    
+    def builtin_train_bio_network(self, network_id, training_data, epochs=50):
+        """Train a biological neural network"""
+        # Convert training data format if needed
+        if isinstance(training_data, str):
+            # If string, assume it's a simple pattern
+            if training_data == "growth_pattern":
+                # Generate basic mycelium growth training data
+                data = []
+                for _ in range(20):
+                    temp = random.uniform(-1, 1)
+                    humidity = random.uniform(-1, 1)
+                    nutrients = random.uniform(-1, 1)
+                    ph = random.uniform(-1, 1)
+                    
+                    growth = max(0, temp * 0.3 + humidity * 0.4 + nutrients * 0.5)
+                    branching = max(0, nutrients * 0.6 + humidity * 0.2)
+                    
+                    data.append(([temp, humidity, nutrients, ph], [growth, branching]))
+                training_data = data
+        
+        result = self.bio_ml_optimizer.train_network(network_id, training_data, epochs)
+        return {
+            'fitness': result['final_fitness'],
+            'time': result['training_time'],
+            'cycles': result['growth_cycles']
+        }
+    
+    def builtin_predict_bio_network(self, network_id, inputs):
+        """Make prediction using biological neural network"""
+        prediction = self.bio_ml_optimizer.predict(network_id, inputs)
+        return prediction
+    
+    def builtin_compare_bio_ml(self, training_data_pattern="growth_pattern"):
+        """Compare different biological ML approaches"""
+        # Generate training data
+        if training_data_pattern == "growth_pattern":
+            training_data = []
+            for _ in range(30):
+                temp = random.uniform(-1, 1)
+                humidity = random.uniform(-1, 1) 
+                nutrients = random.uniform(-1, 1)
+                ph = random.uniform(-1, 1)
+                
+                growth = max(0, temp * 0.3 + humidity * 0.4 + nutrients * 0.5)
+                branching = max(0, nutrients * 0.6 + humidity * 0.2)
+                
+                training_data.append(([temp, humidity, nutrients, ph], [growth, branching]))
+        else:
+            training_data = training_data_pattern
+        
+        results = self.bio_ml_optimizer.compare_biological_approaches(training_data)
+        
+        # Simplify results format
+        comparison = {}
+        for approach, result in results.items():
+            comparison[approach] = {
+                'fitness': result['final_fitness'],
+                'time': result['training_time']
+            }
+        
+        return comparison
+    
+    # Advanced cultivation monitoring functions
+    def builtin_create_cultivation(self, cultivation_id):
+        """Create a new cultivation monitoring system"""
+        try:
+            controller = self.cultivation_platform.create_cultivation(cultivation_id)
+            return f"Created cultivation system '{cultivation_id}'"
+        except Exception as e:
+            return f"Error creating cultivation: {str(e)}"
+    
+    def builtin_monitor_cultivation(self, cultivation_id):
+        """Monitor a cultivation system and return current status"""
+        if cultivation_id not in self.cultivation_platform.cultivations:
+            return f"Cultivation '{cultivation_id}' not found"
+        
+        controller = self.cultivation_platform.cultivations[cultivation_id]
+        reading = controller.get_current_reading()
+        alerts = controller.check_alerts(reading)
+        
+        return {
+            'temperature': reading.temperature,
+            'humidity': reading.humidity,
+            'growth_rate': reading.growth_rate,
+            'alerts': len(alerts),
+            'stage': controller.stage.value
+        }
+    
+    def builtin_get_cultivation_health(self, cultivation_id):
+        """Get health analysis for a cultivation system"""
+        if cultivation_id not in self.cultivation_platform.cultivations:
+            return f"Cultivation '{cultivation_id}' not found"
+        
+        controller = self.cultivation_platform.cultivations[cultivation_id]
+        reading = controller.get_current_reading()
+        health = controller.analyze_cultivation_health(reading)
+        
+        return {
+            'health_score': health['health_score'],
+            'predicted_growth': health.get('predicted_growth', 0),
+            'recommendations': len(health.get('recommendations', []))
+        }
+    
+    def builtin_optimize_cultivation(self, cultivation_id):
+        """Optimize cultivation parameters using bio-algorithms"""
+        if cultivation_id not in self.cultivation_platform.cultivations:
+            return f"Cultivation '{cultivation_id}' not found"
+        
+        controller = self.cultivation_platform.cultivations[cultivation_id]
+        
+        # Simple optimization function for demonstration
+        def simple_growth_fitness(params):
+            temp, humidity, nutrients = params
+            
+            # Simple growth model
+            temp_factor = max(0, 1.0 - abs(temp - 24.0) / 8.0)
+            humidity_factor = max(0, min(1, humidity / 100.0))
+            nutrient_factor = max(0, min(1, nutrients / 120.0))
+            
+            return temp_factor * humidity_factor * nutrient_factor
+        
+        # Run optimization
+        result = controller.bio_optimizer.optimize('genetic', simple_growth_fitness, 3,
+                                                  population_size=20, max_generations=20)
+        
+        return {
+            'fitness': result['best_fitness'],
+            'optimal_temperature': result['best_solution'][0],
+            'optimal_humidity': result['best_solution'][1], 
+            'optimal_nutrients': result['best_solution'][2],
+            'time': result['computation_time']
+        }
     
     def interpret(self, source: str):
         try:
