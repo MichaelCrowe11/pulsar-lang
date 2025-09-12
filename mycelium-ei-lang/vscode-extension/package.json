@@ -3,12 +3,11 @@
   "displayName": "Mycelium-EI Language Support",
   "description": "Language support for Mycelium-EI-Lang - Bio-inspired programming with quantum computing",
   "version": "0.1.0",
-  "publisher": "MichaelBenjaminCrowe",
+  "publisher": "Mycelium-EI-Lang",
   "author": {
     "name": "Michael Benjamin Crowe"
   },
   "license": "MIT",
-  "icon": "images/icon.png",
   "galleryBanner": {
     "color": "#2d4e3f",
     "theme": "dark"

@@ -75,12 +75,12 @@ jobs:
 
 #### 1. Create Publisher
 ```bash
-vsce create-publisher MichaelBenjaminCrowe
+vsce create-publisher Mycelium-EI-Lang
 ```
 
 #### 2. Login with PAT
 ```bash
-vsce login MichaelBenjaminCrowe
+vsce login Mycelium-EI-Lang
 ```
 
 #### 3. Package Extension
