@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "flask_app.py",
+      "src": "dual_payment_api.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "flask_app.py"
+      "dest": "dual_payment_api.py"
     }
   ]
 }
