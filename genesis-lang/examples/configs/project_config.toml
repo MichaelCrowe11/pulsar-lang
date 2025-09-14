@@ -1,0 +1,52 @@
+[project]
+name = "genesis-example-project"
+version = "1.0.0"
+description = "Example GenesisLang project demonstrating multi-agent workflows"
+
+[agents]
+default_provider = "openai"
+max_concurrent_agents = 10
+timeout_seconds = 300
+
+[agents.providers.openai]
+api_key = "${OPENAI_API_KEY}"
+base_url = "https://api.openai.com/v1"
+model = "gpt-4"
+max_tokens = 4096
+temperature = 0.7
+
+[agents.providers.mock]
+model = "mock-model"
+max_tokens = 4096
+temperature = 0.7
+
+[memory]
+store_type = "basic"
+vector_dimensions = 1536
+max_memory_size = 10000
+
+[tools]
+enabled_tools = [
+    "echo",
+    "calculator", 
+    "http_request",
+    "file_read"
+]
+tool_timeout_seconds = 60
+
+[observability]
+enabled = true
+metrics_endpoint = "http://localhost:9090"
+tracing_endpoint = "http://localhost:14268"
+log_level = "info"
+
+# Phase 1: Enterprise features (commented out for Phase 0)
+# [enterprise]
+# sso_enabled = false
+# rbac_enabled = false  
+# audit_logging = true
+
+# [enterprise.saml_config]
+# entity_id = "genesis-app"
+# sso_url = "https://sso.example.com/saml"
+# certificate_path = "/etc/certs/saml.crt"

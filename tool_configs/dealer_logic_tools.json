@@ -1,0 +1,218 @@
+{
+  "tools": [
+    {
+      "name": "createLead",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{TOOL_CREATE_LEAD_URL}}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Create a new lead in the CRM system",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "department": {"type": "string", "enum": ["sales", "service", "parts"]},
+          "firstName": {"type": "string"},
+          "lastName": {"type": "string"},
+          "phone": {"type": "string"},
+          "email": {"type": "string"},
+          "vehicleInterest": {"type": "string"},
+          "tradeVIN": {"type": "string"},
+          "notes": {"type": "string"},
+          "consents": {
+            "type": "object",
+            "properties": {
+              "recordingDisclosed": {"type": "boolean"},
+              "smsOptIn": {"type": "boolean"},
+              "dncRequest": {"type": "boolean"}
+            }
+          }
+        },
+        "required": ["department", "firstName", "phone", "consents"]
+      }
+    },
+    {
+      "name": "scheduleService",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{TOOL_SCHEDULE_SERVICE_URL}}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Schedule a service appointment",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "vin": {"type": "string"},
+          "licensePlate": {"type": "string"},
+          "odometer": {"type": "integer"},
+          "concern": {"type": "string"},
+          "transport": {"type": "string", "enum": ["wait", "drop", "loaner", "rideshare"]},
+          "preferred": {"type": "string", "description": "ISO datetime"}
+        },
+        "required": ["concern"]
+      }
+    },
+    {
+      "name": "checkRecall",
+      "type": "webhook",
+      "endpoint": {
+        "method": "GET",
+        "url": "{{TOOL_CHECK_RECALL_URL}}",
+        "headers": {
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Check for vehicle recalls using NHTSA database",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "vin": {"type": "string"}
+        },
+        "required": ["vin"]
+      }
+    },
+    {
+      "name": "getInventory",
+      "type": "webhook",
+      "endpoint": {
+        "method": "GET",
+        "url": "{{TOOL_GET_INVENTORY_URL}}",
+        "headers": {
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Search vehicle inventory",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string"}
+        }
+      }
+    },
+    {
+      "name": "bookAppt",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{TOOL_BOOK_APPT_URL}}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Book a sales appointment",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "salespersonId": {"type": "string"},
+          "time": {"type": "string"},
+          "vehicleId": {"type": "string"}
+        },
+        "required": ["time"]
+      }
+    },
+    {
+      "name": "sendSMS",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{TOOL_SEND_SMS_URL}}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Send SMS message using template",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "phone": {"type": "string"},
+          "templateId": {"type": "string"},
+          "vars": {"type": "object"}
+        },
+        "required": ["phone", "templateId"]
+      }
+    },
+    {
+      "name": "getROStatus",
+      "type": "webhook",
+      "endpoint": {
+        "method": "GET",
+        "url": "{{TOOL_GET_RO_STATUS_URL}}",
+        "headers": {
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Get repair order status",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "roId": {"type": "string"},
+          "phone": {"type": "string"}
+        }
+      }
+    },
+    {
+      "name": "sendPaymentLink",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{TOOL_SEND_PAYMENT_LINK_URL}}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Send secure payment link",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "roId": {"type": "string"},
+          "amount": {"type": "number"},
+          "phone": {"type": "string"}
+        },
+        "required": ["roId", "phone"]
+      }
+    },
+    {
+      "name": "partsLookup",
+      "type": "webhook",
+      "endpoint": {
+        "method": "GET",
+        "url": "{{TOOL_PARTS_LOOKUP_URL}}",
+        "headers": {
+          "Authorization": "Bearer {{API_KEY}}"
+        }
+      },
+      "description": "Look up parts availability",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "vin": {"type": "string"},
+          "ymm": {"type": "string"},
+          "query": {"type": "string"}
+        }
+      }
+    },
+    {
+      "name": "transfer",
+      "type": "client",
+      "description": "Transfer call to another department or extension",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "to": {"type": "string", "description": "Extension or department to transfer to"}
+        },
+        "required": ["to"]
+      }
+    }
+  ]
+}

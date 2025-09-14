@@ -1,0 +1,129 @@
+[package]
+name = "genesis-lang"
+version = "0.1.0"
+edition = "2021"
+authors = ["GenesisLang Team <team@genesislang.org>"]
+license = "Apache-2.0"
+description = "GenesisLang: AI/Agent Orchestration System for multi-agent workflows, tools, planning, and memory"
+homepage = "https://genesislang.org"
+repository = "https://github.com/genesis-lang/genesis"
+documentation = "https://docs.genesislang.org"
+keywords = ["ai", "agents", "orchestration", "workflow", "llm"]
+categories = ["development-tools", "api-bindings", "asynchronous"]
+
+[workspace]
+members = [
+    "genesis-sdk",
+    "genesis-control-plane",
+    "genesis-marketplace"
+]
+
+[dependencies]
+# Core dependencies
+tokio = { version = "1.40", features = ["full"] }
+async-trait = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Agent and workflow management
+uuid = { version = "1.10", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+dashmap = "6.0"
+petgraph = "0.6"
+
+# Tool adapters and integrations
+reqwest = { version = "0.12", features = ["json", "multipart"] }
+axum = { version = "0.7", features = ["ws", "macros"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+
+# Memory and vector store
+tiktoken-rs = "0.5"
+
+# State management and persistence
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "chrono", "uuid"], optional = true }
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"], optional = true }
+
+# Observability
+opentelemetry = { version = "0.27", optional = true }
+opentelemetry-otlp = { version = "0.27", optional = true }
+metrics = "0.24"
+metrics-exporter-prometheus = { version = "0.16", optional = true }
+
+# Safety and governance
+validator = { version = "0.19", features = ["derive"] }
+regex = "1.10"
+
+# CLI and configuration
+clap = { version = "4.5", features = ["derive", "env"] }
+config = { version = "0.14", features = ["toml", "yaml", "json"] }
+dotenv = "0.15"
+
+# LLM providers (using simpler dependencies for now)
+async-openai = { version = "0.24", optional = true }
+
+# Configuration parsing
+toml = "0.8"
+
+[dev-dependencies]
+tokio-test = "0.4"
+proptest = "1.5"
+pretty_assertions = "1.4"
+tempfile = "3.10"
+
+[features]
+default = ["sqlite", "openai", "basic-memory"]
+full = ["sqlite", "postgres", "redis", "openai", "vector-memory", "observability", "marketplace"]
+
+# Memory features
+basic-memory = []
+vector-memory = []
+
+# Database features
+sqlite = ["sqlx/sqlite"]
+postgres = ["sqlx/postgres"]
+redis-store = ["dep:redis"]
+
+# LLM provider features
+openai = ["async-openai"]
+
+# Observability features
+observability = ["opentelemetry", "opentelemetry-otlp", "metrics-exporter-prometheus"]
+
+# Marketplace and enterprise features
+marketplace = []
+enterprise = ["observability", "postgres", "redis-store"]
+
+[[bin]]
+name = "genesis"
+path = "src/main.rs"
+
+[[bin]]
+name = "genesis-server"
+path = "src/bin/server.rs"
+
+[[example]]
+name = "simple_agent"
+path = "examples/simple_agent.rs"
+
+[[example]]
+name = "multi_agent_workflow"
+path = "examples/multi_agent_workflow.rs"
+
+[[example]]
+name = "tool_integration"
+path = "examples/tool_integration.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true

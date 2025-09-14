@@ -1,0 +1,795 @@
+{
+    "name": "Elias Crowe ",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_48000",
+            "keywords": [
+                "appointment",
+                "appointment time",
+                "confirm appointment",
+                "hold appointment",
+                "vehicle",
+                "vehicle inquiry",
+                "vehicle request",
+                "vehicle interest",
+                "your vehicle",
+                "next vehicle",
+                "next one",
+                "vehicle search",
+                "vehicle browsing",
+                "vehicle options",
+                "vehicle match",
+                "vehicle availability",
+                "test drive",
+                "hold vehicle",
+                "reserve vehicle",
+                "in person",
+                "review in person",
+                "full picture",
+                "nothing missing",
+                "complete review",
+                "numbers in writing",
+                "review numbers",
+                "vehicle features",
+                "comfort",
+                "payment",
+                "price",
+                "budget",
+                "trade-in",
+                "trade in value",
+                "financing",
+                "monthly payment",
+                "fuel economy",
+                "space",
+                "technology",
+                "safety",
+                "family",
+                "urgency",
+                "available now",
+                "limited availability",
+                "only one left",
+                "just arrived",
+                "schedule visit",
+                "schedule time",
+                "schedule slot",
+                "today",
+                "tomorrow",
+                "morning",
+                "afternoon",
+                "evening",
+                "two times",
+                "choice of times",
+                "yes or no",
+                "commitment",
+                "confirm",
+                "confirmation",
+                "directions",
+                "map",
+                "dealership",
+                "meet in person",
+                "see you then",
+                "see you at",
+                "ready for you",
+                "behind the wheel",
+                "fit check",
+                "quick look",
+                "quick visit",
+                "stop by",
+                "come in",
+                "connect",
+                "connect with you",
+                "follow up",
+                "call back",
+                "call today",
+                "reach out",
+                "contacted you",
+                "recently reached out",
+                "your interest",
+                "your request",
+                "your search",
+                "help you",
+                "find the best way",
+                "most important to you",
+                "what matters to you",
+                "help you decide",
+                "help you choose",
+                "vehicle match",
+                "great options",
+                "options that fit",
+                "options that line up",
+                "hold spot",
+                "hold time",
+                "protect your spot",
+                "protect your appointment",
+                "see everything",
+                "see all the numbers",
+                "all in writing",
+                "no surprises",
+                "clear picture",
+                "accurate numbers",
+                "complete numbers",
+                "make sure it’s right",
+                "make sure it’s accurate",
+                "check fit",
+                "match what you want",
+                "exact match",
+                "appointment confirmed",
+                "arrive",
+                "on time",
+                "still good",
+                "running late",
+                "reschedule",
+                "adjust time",
+                "slide time",
+                "part friends",
+                "no pressure",
+                "no obligation",
+                "quick visit",
+                "10 minute visit",
+                "15 minute visit",
+                "fast appointment",
+                "short appointment",
+                "save you time",
+                "efficient",
+                "productive",
+                "in and out",
+                "quick fit check"
+            ]
+        },
+        "turn": {
+            "turn_timeout": 3,
+            "silence_end_call_timeout": 20,
+            "mode": "turn"
+        },
+        "tts": {
+            "model_id": "eleven_flash_v2",
+            "voice_id": "bbwtljKcdzMEKVt3pb4d",
+            "supported_voices": [],
+            "agent_output_audio_format": "pcm_48000",
+            "optimize_streaming_latency": 2,
+            "stability": 0.75,
+            "speed": 1,
+            "similarity_boost": 0.75,
+            "pronunciation_dictionary_locators": [
+                {
+                    "pronunciation_dictionary_id": "iV3bMKmJzsbu2CRuLY2Q",
+                    "version_id": "eeyEgi0LNUX96L9qxBOc"
+                }
+            ]
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 300,
+            "client_events": [
+                "audio",
+                "interruption",
+                "user_transcript",
+                "agent_response",
+                "agent_response_correction"
+            ]
+        },
+        "language_presets": {
+            "nl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo daar! Ik ben Harper van ElevenLabs. Hoe kan ElevenLabs Conversational AI uw bedrijf vandaag helpen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hallo daar! Ik ben Harper van ElevenLabs. Hoe kan ElevenLabs Conversational AI uw bedrijf vandaag helpen?"
+                }
+            },
+            "fi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Olen Harper ElevenLabsilta. Miten ElevenLabsin keskusteleva tekoäly voisi auttaa yritystäsi tänään?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hei! Olen Harper ElevenLabsilta. Miten ElevenLabsin keskusteleva tekoäly voisi auttaa yritystäsi tänään?"
+                }
+            },
+            "tr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Merhaba! Ben Harper, ElevenLabs'tan. ElevenLabs Konuşma AI, işinize bugün nasıl yardımcı olabilir?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Merhaba! Ben Harper, ElevenLabs'tan. ElevenLabs Konuşma AI, işinize bugün nasıl yardımcı olabilir?"
+                }
+            },
+            "ru": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привет! Я Харпер из ElevenLabs. Как может Conversational AI от ElevenLabs помочь вашему бизнесу сегодня?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Привет! Я Харпер из ElevenLabs. Как может Conversational AI от ElevenLabs помочь вашему бизнесу сегодня?"
+                }
+            },
+            "ta": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "வணக்கம்! நான் ஹார்பர், ElevenLabs-லிருந்து வந்தேன். இன்று உங்கள் வியாபாரத்திற்கு ElevenLabs உரையாடல் செயற்கை நுண்ணறிவு எவ்வாறு உதவ முடியும்?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "வணக்கம்! நான் ஹார்பர், ElevenLabs-லிருந்து வந்தேன். இன்று உங்கள் வியாபாரத்திற்கு ElevenLabs உரையாடல் செயற்கை நுண்ணறிவு எவ்வாறு உதவ முடியும்?"
+                }
+            },
+            "hr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bok! Ja sam Harper iz ElevenLabs. Kako bi ElevenLabs Conversational AI mogao pomoći vašem poslovanju danas?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Bok! Ja sam Harper iz ElevenLabs. Kako bi ElevenLabs Conversational AI mogao pomoći vašem poslovanju danas?"
+                }
+            },
+            "ro": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Salut! Sunt Harper de la ElevenLabs. Cum ar putea ajuta ElevenLabs Conversational AI afacerea ta astăzi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Salut! Sunt Harper de la ElevenLabs. Cum ar putea ajuta ElevenLabs Conversational AI afacerea ta astăzi?"
+                }
+            },
+            "ko": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "안녕하세요! 저는 ElevenLabs의 하퍼입니다. 오늘 ElevenLabs 대화형 AI가 귀하의 비즈니스에 어떻게 도움이 될 수 있을까요?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "안녕하세요! 저는 ElevenLabs의 하퍼입니다. 오늘 ElevenLabs 대화형 AI가 귀하의 비즈니스에 어떻게 도움이 될 수 있을까요?"
+                }
+            },
+            "no": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Jeg er Harper fra ElevenLabs. Hvordan kan ElevenLabs Conversational AI hjelpe bedriften din i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hei! Jeg er Harper fra ElevenLabs. Hvordan kan ElevenLabs Conversational AI hjelpe bedriften din i dag?"
+                }
+            },
+            "hu": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Szia! Harper vagyok az ElevenLabs-tól. Hogyan segíthetne az ElevenLabs beszélgető AI a vállalkozásának ma?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Szia! Harper vagyok az ElevenLabs-tól. Hogyan segíthetne az ElevenLabs beszélgető AI a vállalkozásának ma?"
+                }
+            },
+            "zh": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "你好！我是来自ElevenLabs的Harper。ElevenLabs的会话式人工智能今天如何能帮助您的业务？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "你好！我是来自ElevenLabs的Harper。ElevenLabs的会话式人工智能今天如何能帮助您的业务？"
+                }
+            },
+            "ja": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "こんにちは！私はElevenLabsのハーパーです。ElevenLabsの会話型AIがどのように貴社のビジネスをサポートできるか教えてください。"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "こんにちは！私はElevenLabsのハーパーです。ElevenLabsの会話型AIがどのように貴社のビジネスをサポートできるか教えてください。"
+                }
+            },
+            "fil": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Kamusta! Ako si Harper mula sa ElevenLabs. Paano makakatulong ang ElevenLabs Conversational AI sa iyong negosyo ngayon?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Kamusta! Ako si Harper mula sa ElevenLabs. Paano makakatulong ang ElevenLabs Conversational AI sa iyong negosyo ngayon?"
+                }
+            },
+            "uk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привіт! Я Гарпер з ElevenLabs. Як може ElevenLabs Conversational AI допомогти вашому бізнесу сьогодні?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Привіт! Я Гарпер з ElevenLabs. Як може ElevenLabs Conversational AI допомогти вашому бізнесу сьогодні?"
+                }
+            },
+            "it": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ciao! Sono Harper di ElevenLabs. In che modo l'IA conversazionale di ElevenLabs potrebbe aiutare la tua azienda oggi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Ciao! Sono Harper di ElevenLabs. In che modo l'IA conversazionale di ElevenLabs potrebbe aiutare la tua azienda oggi?"
+                }
+            },
+            "sv": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej där! Jag är Harper från ElevenLabs. Hur kan ElevenLabs Conversational AI hjälpa ditt företag idag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hej där! Jag är Harper från ElevenLabs. Hur kan ElevenLabs Conversational AI hjälpa ditt företag idag?"
+                }
+            },
+            "id": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hai! Saya Harper dari ElevenLabs. Bagaimana ElevenLabs Conversational AI dapat membantu bisnis Anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hai! Saya Harper dari ElevenLabs. Bagaimana ElevenLabs Conversational AI dapat membantu bisnis Anda hari ini?"
+                }
+            },
+            "ar": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "مرحبًا! أنا هاربر من ElevenLabs. كيف يمكن لذكاء ElevenLabs Conversational AI أن يساعد عملك اليوم؟"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "مرحبًا! أنا هاربر من ElevenLabs. كيف يمكن لذكاء ElevenLabs Conversational AI أن يساعد عملك اليوم؟"
+                }
+            },
+            "pt_br": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Sou Harper da ElevenLabs. Como a IA Conversacional da ElevenLabs poderia ajudar o seu negócio hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Olá! Sou Harper da ElevenLabs. Como a IA Conversacional da ElevenLabs poderia ajudar o seu negócio hoje?"
+                }
+            },
+            "es": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "¡Hola! Soy Harper de ElevenLabs. ¿Cómo podría ayudar ElevenLabs Conversational AI a tu negocio hoy?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "¡Hola! Soy Harper de ElevenLabs. ¿Cómo podría ayudar ElevenLabs Conversational AI a tu negocio hoy?"
+                }
+            },
+            "hi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "नमस्ते! मैं हार्पर हूँ ElevenLabs से। आज ElevenLabs Conversational AI आपके व्यवसाय में कैसे मदद कर सकता है?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "नमस्ते! मैं हार्पर हूँ ElevenLabs से। आज ElevenLabs Conversational AI आपके व्यवसाय में कैसे मदद कर सकता है?"
+                }
+            },
+            "el": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Γεια σας! Είμαι η Harper από την ElevenLabs. Πώς θα μπορούσε η Συνομιλητική Τεχνητή Νοημοσύνη της ElevenLabs να βοηθήσει την επιχείρησή σας σήμερα;"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Γεια σας! Είμαι η Harper από την ElevenLabs. Πώς θα μπορούσε η Συνομιλητική Τεχνητή Νοημοσύνη της ElevenLabs να βοηθήσει την επιχείρησή σας σήμερα;"
+                }
+            },
+            "bg": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравейте! Аз съм Харпър от ElevenLabs. Как може ElevenLabs Conversational AI да помогне на вашия бизнес днес?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Здравейте! Аз съм Харпър от ElevenLabs. Как може ElevenLabs Conversational AI да помогне на вашия бизнес днес?"
+                }
+            },
+            "da": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej! Jeg er Harper fra ElevenLabs. Hvordan kunne ElevenLabs Conversational AI hjælpe din virksomhed i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hej! Jeg er Harper fra ElevenLabs. Hvordan kunne ElevenLabs Conversational AI hjælpe din virksomhed i dag?"
+                }
+            },
+            "ms": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hai! Saya Harper dari ElevenLabs. Bagaimana ElevenLabs Conversational AI boleh membantu perniagaan anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hai! Saya Harper dari ElevenLabs. Bagaimana ElevenLabs Conversational AI boleh membantu perniagaan anda hari ini?"
+                }
+            },
+            "vi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Xin chào! Tôi là Harper từ ElevenLabs. Làm thế nào AI Đàm thoại của ElevenLabs có thể giúp doanh nghiệp của bạn hôm nay?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Xin chào! Tôi là Harper từ ElevenLabs. Làm thế nào AI Đàm thoại của ElevenLabs có thể giúp doanh nghiệp của bạn hôm nay?"
+                }
+            },
+            "pt": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Sou Harper da ElevenLabs. Como a IA Conversacional da ElevenLabs poderia ajudar o seu negócio hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Olá! Sou Harper da ElevenLabs. Como a IA Conversacional da ElevenLabs poderia ajudar o seu negócio hoje?"
+                }
+            },
+            "de": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo! Ich bin Harper von ElevenLabs. Wie könnte die Conversational AI von ElevenLabs Ihrem Unternehmen heute helfen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Hallo! Ich bin Harper von ElevenLabs. Wie könnte die Conversational AI von ElevenLabs Ihrem Unternehmen heute helfen?"
+                }
+            },
+            "cs": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Jsem Harper z ElevenLabs. Jak by vám dnes mohla ElevenLabs Konverzační AI pomoci s vaším podnikáním?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Jsem Harper z ElevenLabs. Jak by vám dnes mohla ElevenLabs Konverzační AI pomoci s vaším podnikáním?"
+                }
+            },
+            "sk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Som Harper z ElevenLabs. Ako by mohla ElevenLabs Konverzačná AI pomôcť vášmu podnikaniu dnes?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Som Harper z ElevenLabs. Ako by mohla ElevenLabs Konverzačná AI pomôcť vášmu podnikaniu dnes?"
+                }
+            },
+            "fr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Salut ! Je suis Harper de ElevenLabs. Comment l'IA conversationnelle de ElevenLabs pourrait-elle aider votre entreprise aujourd'hui ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Salut ! Je suis Harper de ElevenLabs. Comment l'IA conversationnelle de ElevenLabs pourrait-elle aider votre entreprise aujourd'hui ?"
+                }
+            },
+            "pl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Cześć! Jestem Harper z ElevenLabs. W jaki sposób ElevenLabs Conversational AI może pomóc Twojej firmie dzisiaj?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hi there! I'm Harper from ElevenLabs. How could ElevenLabs Conversational AI help your business today?\",\"language\":\"en\"}",
+                    "text": "Cześć! Jestem Harper z ElevenLabs. W jaki sposób ElevenLabs Conversational AI może pomóc Twojej firmie dzisiaj?"
+                }
+            }
+        },
+        "agent": {
+            "first_message": "Hi, this is Elias calling from{car dealership} ,  you reached out about a vehicle recently, and I wanted to connect to see what’s most important to you in your next one.",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "prompt": {
+                "prompt": "You are Elias, a confident and upbeat appointment setter for Peoria Kia. You are personable and efficient, focusing on scheduling appointments rather than discussing specific pricing details over the phone. You are persistent but polite, and skilled at redirecting questions about out-the-door (OTD) pricing.\n\n# Environment\n\nYou are calling potential customers who have expressed interest in a Vehicle. You are speaking over the phone and your goal is to schedule an in-person appointment at the dealership. You have access to available appointment slots and can send confirmation texts. You do not have the ability to provide OTD pricing over the phone.\n\n# Tone\n\nYour tone is upbeat, confident, and concise. You speak clearly and enthusiastically, creating a sense of urgency without being pushy. You are friendly and professional, building rapport quickly. Your responses are brief and to the point, aiming to keep the call under 90 seconds.",
+                "llm": "gpt-5",
+                "temperature": 0.25,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "end_call": {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    "skip_turn": {
+                        "type": "system",
+                        "name": "skip_turn",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "skip_turn"
+                        }
+                    },
+                    "play_keypad_touch_tone": {
+                        "type": "system",
+                        "name": "play_keypad_touch_tone",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "play_keypad_touch_tone"
+                        }
+                    }
+                },
+                "mcp_server_ids": [
+                    "VIk3YOHclbKAIZHrLnss"
+                ],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [
+                    {
+                        "type": "text",
+                        "name": "AutoML Integration",
+                        "id": "MpPXxHN2oibNo674zjZY",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "file",
+                        "name": "Download car_sales_appointment_120speed_batch1.txt",
+                        "id": "ybJYL9bhYqBshcAY9WPx",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Elias _cardealership-data",
+                        "id": "8Pqq7KPcG8xbiHUyNOju",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Auto_sales-pyschology",
+                        "id": "Gx9M5DCpYIoErx9NDZnX",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Psychology  of car sales",
+                        "id": "IbzdqPtzbAZWR9IVq9FV",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Cannabis data",
+                        "id": "Roa1GmJgIgPBPF8jLOD6",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "The Elias Crowe Big Contract Playbook designed for multi-million-dollar automation and workforce replacement deals.",
+                        "id": "qHxwxlHiSvuth1XPUdbq",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "The Elias Crowe Sales Playbook",
+                        "id": "Z2hi43sIFGO1IgqojW1S",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "timezone": "UTC",
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "skip_turn",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "skip_turn"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "play_keypad_touch_tone",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "play_keypad_touch_tone"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#d426ef",
+                "color2": "#8ddff6"
+            },
+            "feedback_mode": "during",
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": true,
+            "disable_banner": false,
+            "mic_muting_enabled": true,
+            "transcript_enabled": true,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": true,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "tts": {
+                    "voice_id": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": true,
+                    "language": true,
+                    "prompt": {
+                        "prompt": true,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "test_ids": []
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": []
+}

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowe-Lang - Revolutionary Programming Language</title>
+    <meta name="description" content="Crowe-Lang: The future of programming. Type-safe, fast compilation, and multi-target deployment. Built by Michael Benjamin Crowe.">
+    <meta name="keywords" content="programming language, compiler, typescript, python, rust, crowe, crowe-lang">
+    <meta name="author" content="Michael Benjamin Crowe">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Crowe-Lang - Revolutionary Programming Language">
+    <meta property="og:description" content="The future of programming. Type-safe, fast compilation, and multi-target deployment.">
+    <meta property="og:image" content="https://lang.crowetrade.com/assets/og-image.png">
+    <meta property="og:url" content="https://lang.crowetrade.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Crowe-Lang - Revolutionary Programming Language">
+    <meta name="twitter:description" content="The future of programming. Type-safe, fast compilation, and multi-target deployment.">
+    <meta name="twitter:image" content="https://lang.crowetrade.com/assets/twitter-card.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="assets/logo.svg" alt="Crowe-Lang" class="logo">
+                <span class="brand-text">Crowe-Lang</span>
+                <span class="beta-badge">BETA</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#docs" class="nav-link">Docs</a>
+                <a href="#examples" class="nav-link">Examples</a>
+                <a href="https://github.com/michaelcrowe/crowe-lang" class="nav-link" target="_blank">GitHub</a>
+                <button class="cta-button primary" onclick="openModal('signup')">Get Started</button>
+            </div>
+            
+            <div class="nav-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    🚀 Now with cryptocurrency payments support
+                </div>
+                
+                <h1 class="hero-title">
+                    The <span class="gradient-text">Future</span> of<br>
+                    Programming is Here
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Crowe-Lang combines the best of modern language design with blazing-fast compilation,
+                    type safety, and seamless multi-target deployment. Built for developers who demand excellence.
+                </p>
+                
+                <div class="hero-actions">
+                    <button class="cta-button primary large" onclick="openModal('signup')">
+                        Start Building Today
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/>
+                        </svg>
+                    </button>
+                    
+                    <button class="cta-button secondary large" onclick="scrollToSection('examples')">
+                        View Examples
+                    </button>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10x</div>
+                        <div class="stat-label">Faster Compilation</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Target Languages</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Type Safe</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="code-title">hello.crowe</div>
+                    </div>
+                    <pre class="code-content"><code class="language-rust">// Crowe-Lang - Simple yet powerful
+function greet(name: string): string {
+    return `Hello, ${name}! Welcome to Crowe-Lang.`;
+}
+
+class WebServer {
+    private port: number;
+    
+    constructor(port: number = 8080) {
+        this.port = port;
+    }
+    
+    async start(): Promise&lt;void&gt; {
+        console.log(`Server running on port ${this.port}`);
+        // Compile to any target: Python, TypeScript, Rust, Go
+    }
+}
+
+const server = new WebServer(3000);
+await server.start();</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-background">
+            <div class="grid-pattern"></div>
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Crowe-Lang?</h2>
+                <p class="section-subtitle">
+                    Built from the ground up to solve modern development challenges
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Blazing Fast Compilation</h3>
+                    <p>Compile to multiple targets in seconds, not minutes. Our advanced compiler optimizes code for performance and size.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Type Safety</h3>
+                    <p>Catch errors at compile time with our advanced type system. Zero runtime type errors guaranteed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-Target Deploy</h3>
+                    <p>Write once, deploy everywhere. Compile to Python, TypeScript, Rust, Go, and more from a single codebase.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>AI-Powered</h3>
+                    <p>Integrated AI assistance for code generation, optimization suggestions, and intelligent debugging.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Developer Experience</h3>
+                    <p>Rich tooling, VS Code extension, intelligent autocomplete, and comprehensive debugging support.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Production Ready</h3>
+                    <p>Battle-tested in production environments. Trusted by companies worldwide for critical applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section id="examples" class="examples">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">See Crowe-Lang in Action</h2>
+                <p class="section-subtitle">
+                    Simple syntax, powerful capabilities
+                </p>
+            </div>
+            
+            <div class="examples-tabs">
+                <button class="tab-button active" onclick="switchExample('web-server')">Web Server</button>
+                <button class="tab-button" onclick="switchExample('data-processing')">Data Processing</button>
+                <button class="tab-button" onclick="switchExample('machine-learning')">Machine Learning</button>
+            </div>
+            
+            <div class="examples-content">
+                <div id="web-server" class="example-content active">
+                    <div class="example-code">
+                        <pre><code class="language-rust">// Web API with automatic validation and serialization
+@route("/api/users")
+class UserController {
+    @get("/:id")
+    async getUser(id: UUID): Promise&lt;User&gt; {
+        return await Database.users.findById(id);
+    }
+    
+    @post("/")
+    async createUser(@body user: CreateUserRequest): Promise&lt;User&gt; {
+        // Automatic validation and type checking
+        return await Database.users.create(user);
+    }
+}
+
+// Compile targets:
+// crowelang build --target python  → FastAPI
+// crowelang build --target typescript → Express.js
+// crowelang build --target rust → Axum
+// crowelang build --target go → Gin</code></pre>
+                    </div>
+                    
+                    <div class="example-output">
+                        <h4>Multi-Target Output:</h4>
+                        <div class="target-tabs">
+                            <span class="target-tab active">Python (FastAPI)</span>
+                            <span class="target-tab">TypeScript (Express)</span>
+                            <span class="target-tab">Rust (Axum)</span>
+                        </div>
+                        <div class="output-preview">
+                            High-performance web APIs generated for your target platform with automatic validation, serialization, and OpenAPI documentation.
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="data-processing" class="example-content">
+                    <div class="example-code">
+                        <pre><code class="language-rust">// Parallel data processing with type safety
+pipeline DataProcessor&lt;T&gt; {
+    @parallel(workers: 8)
+    transform(data: T[]): ProcessedData[] {
+        return data.map(item =&gt; {
+            return this.processItem(item);
+        });
+    }
+    
+    @memoize
+    processItem(item: T): ProcessedData {
+        // Expensive computation with automatic caching
+        return { 
+            id: item.id,
+            result: complexCalculation(item)
+        };
+    }
+}
+
+// Automatic optimization for target platform
+const processor = new DataProcessor&lt;RawData&gt;();
+const results = await processor.transform(largeDataset);</code></pre>
+                    </div>
+                </div>
+                
+                <div id="machine-learning" class="example-content">
+                    <div class="example-code">
+                        <pre><code class="language-rust">// ML pipelines with automatic GPU acceleration
+@gpu_accelerated
+class NeuralNetwork {
+    layers: Layer[];
+    
+    constructor(architecture: number[]) {
+        this.layers = architecture.map((size, i) =&gt; 
+            new DenseLayer(size, i &gt; 0 ? architecture[i-1] : size)
+        );
+    }
+    
+    @tensor
+    forward(input: Matrix): Matrix {
+        return this.layers.reduce((data, layer) =&gt; 
+            layer.forward(data), input
+        );
+    }
+    
+    @optimize("adam")
+    train(dataset: TrainingData[], epochs: number): void {
+        // Automatic differentiation and optimization
+        for (let epoch = 0; epoch &lt; epochs; epoch++) {
+            this.trainEpoch(dataset);
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Simple, Transparent Pricing</h2>
+                <p class="section-subtitle">
+                    Choose the plan that fits your needs. All plans include crypto payment options.
+                </p>
+            </div>
+            
+            <div class="pricing-toggle">
+                <span class="toggle-label">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="pricing-toggle" onchange="togglePricing()">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Annual <span class="discount-badge">Save 20%</span></span>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p>Perfect for learning and small projects</p>
+                    </div>
+                    
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✅ Basic compilation</li>
+                            <li>✅ 2 target languages</li>
+                            <li>✅ 100 compilations/month</li>
+                            <li>✅ Community support</li>
+                            <li>❌ Commercial use</li>
+                            <li>❌ Advanced features</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="pricing-button secondary" onclick="openModal('signup')">
+                        Get Started Free
+                    </button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Personal</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount monthly">9</span>
+                            <span class="amount annual" style="display: none">8</span>
+                            <span class="period monthly">/month</span>
+                            <span class="period annual" style="display: none">/month</span>
+                        </div>
+                        <p class="annual-note" style="display: none">Billed annually ($99/year)</p>
+                        <p>For individual developers and freelancers</p>
+                    </div>
+                    
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✅ Unlimited compilations</li>
+                            <li>✅ All target languages</li>
+                            <li>✅ Commercial use</li>
+                            <li>✅ Email support</li>
+                            <li>✅ VS Code extension</li>
+                            <li>✅ Basic AI assistance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="payment-options">
+                        <button class="pricing-button primary" onclick="openPaymentModal('personal', 'stripe')">
+                            💳 Pay with Card
+                        </button>
+                        <button class="pricing-button crypto" onclick="openPaymentModal('personal', 'crypto')">
+                            ₿ Pay with Crypto
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount monthly">49</span>
+                            <span class="amount annual" style="display: none">42</span>
+                            <span class="period monthly">/month</span>
+                            <span class="period annual" style="display: none">/month</span>
+                        </div>
+                        <p class="annual-note" style="display: none">Billed annually ($499/year)</p>
+                        <p>For professional developers and agencies</p>
+                    </div>
+                    
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✅ Everything in Personal</li>
+                            <li>✅ API access</li>
+                            <li>✅ Priority support</li>
+                            <li>✅ Advanced AI features</li>
+                            <li>✅ Custom optimization</li>
+                            <li>✅ Performance analytics</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="payment-options">
+                        <button class="pricing-button primary" onclick="openPaymentModal('professional', 'stripe')">
+                            💳 Pay with Card
+                        </button>
+                        <button class="pricing-button crypto" onclick="openPaymentModal('professional', 'crypto')">
+                            ₿ Pay with Crypto
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Team</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount monthly">199</span>
+                            <span class="amount annual" style="display: none">166</span>
+                            <span class="period monthly">/month</span>
+                            <span class="period annual" style="display: none">/month</span>
+                        </div>
+                        <p class="annual-note" style="display: none">Billed annually ($1,999/year)</p>
+                        <p>For teams and organizations</p>
+                    </div>
+                    
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✅ Everything in Professional</li>
+                            <li>✅ 5 user seats</li>
+                            <li>✅ Team collaboration</li>
+                            <li>✅ Private repositories</li>
+                            <li>✅ CI/CD integration</li>
+                            <li>✅ SLA support</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="payment-options">
+                        <button class="pricing-button primary" onclick="openPaymentModal('team', 'stripe')">
+                            💳 Pay with Card
+                        </button>
+                        <button class="pricing-button crypto" onclick="openPaymentModal('team', 'crypto')">
+                            ₿ Pay with Crypto
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="enterprise-cta">
+                <h3>Enterprise Solutions</h3>
+                <p>Need custom features, on-premise deployment, or volume licensing?</p>
+                <button class="cta-button secondary" onclick="openModal('contact')">
+                    Contact Sales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creator Section -->
+    <section class="creator">
+        <div class="container">
+            <div class="creator-content">
+                <div class="creator-info">
+                    <div class="creator-avatar">
+                        <img src="assets/michael-crowe.jpg" alt="Michael Benjamin Crowe">
+                    </div>
+                    <div class="creator-text">
+                        <h3>Built by Michael Benjamin Crowe</h3>
+                        <p>
+                            Software architect and language designer with 15+ years of experience building 
+                            compilers and developer tools. Previously at Google, Microsoft, and various startups.
+                        </p>
+                        <div class="creator-links">
+                            <a href="https://github.com/michaelcrowe" target="_blank">GitHub</a>
+                            <a href="https://twitter.com/michaelcrowe" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com/in/michaelcrowe" target="_blank">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="assets/logo.svg" alt="CroweLang" class="footer-logo">
+                        <span class="brand-text">CroweLang</span>
+                    </div>
+                    <p>The future of programming, today.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                        <a href="#" aria-label="GitHub"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+                        <a href="#" aria-label="Discord"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#examples">Examples</a></li>
+                        <li><a href="#api">API Reference</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#community">Community</a></li>
+                        <li><a href="#status">Status</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Michael Benjamin Crowe. All rights reserved.</p>
+                <p>Hosted temporarily at <strong>lang.crowetrade.com</strong> • Moving to crowe-lang.com soon</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('signup')">&times;</span>
+            <h2>Get Started with Crowe-Lang</h2>
+            <form id="signup-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
+                <input type="text" placeholder="Company (Optional)">
+                <button type="submit" class="cta-button primary">Create Free Account</button>
+            </form>
+            <p>Already have an account? <a href="#" onclick="openModal('login')">Sign in</a></p>
+        </div>
+    </div>
+    
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('payment')">&times;</span>
+            <div id="payment-content">
+                <!-- Payment content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="script.js"></script>
+</body>
+</html>

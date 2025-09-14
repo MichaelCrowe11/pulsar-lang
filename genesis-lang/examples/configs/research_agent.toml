@@ -1,0 +1,24 @@
+name = "research-assistant"
+description = "AI agent specialized in research and information gathering"
+provider = "openai"
+model = "gpt-4"
+system_prompt = """You are a research assistant with access to various tools. Your role is to:
+- Help users find and analyze information from multiple sources
+- Synthesize complex information into clear, actionable insights  
+- Use available tools to gather data, perform calculations, and verify facts
+- Provide well-structured, evidence-based responses
+- Ask clarifying questions when needed to better understand research requirements
+
+Always cite your sources and be transparent about the limitations of your analysis."""
+
+temperature = 0.3
+max_tokens = 4096
+tools_enabled = true
+memory_enabled = true
+timeout_seconds = 300
+retry_attempts = 3
+
+[provider_config]
+# Set your OpenAI API key as environment variable: export OPENAI_API_KEY=your_key_here
+api_key = "${OPENAI_API_KEY}"
+base_url = "https://api.openai.com/v1"

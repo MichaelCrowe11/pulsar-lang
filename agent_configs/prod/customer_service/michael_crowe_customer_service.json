@@ -1,0 +1,605 @@
+{
+    "name": "Michael Crowe Customer Service",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_16000",
+            "keywords": [
+                "Lion's Mane",
+                "Reishi",
+                "Shiitake",
+                "Blue Oyster",
+                "Pink Oyster",
+                "Golden Oyster",
+                "King Oyster",
+                "Pioppino",
+                "Cordyceps",
+                "Maitake",
+                "substrate",
+                "Masters Mix",
+                "grain spawn",
+                "liquid culture",
+                "autoclave",
+                "pasteurization",
+                "incubation",
+                "fruiting",
+                "flush",
+                "yield",
+                "contamination",
+                "CO₂",
+                "RH",
+                "FAE",
+                "gypsum",
+                "soy hulls",
+                "hardwood sawdust",
+                "wheat bran",
+                "β-glucans",
+                "hericenones",
+                "erinacines",
+                "triterpenoids"
+            ]
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "silence_end_call_timeout": 20,
+            "mode": "turn"
+        },
+        "tts": {
+            "model_id": "eleven_flash_v2",
+            "voice_id": "bbwtljKcdzMEKVt3pb4d",
+            "supported_voices": [],
+            "agent_output_audio_format": "ulaw_8000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.8,
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 300,
+            "client_events": [
+                "audio",
+                "interruption",
+                "user_transcript",
+                "agent_response",
+                "agent_response_correction"
+            ]
+        },
+        "language_presets": {
+            "nl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hoi, ik ben Alexis van ElevenLabs support. Hoe kan ik je vandaag helpen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hoi, ik ben Alexis van ElevenLabs support. Hoe kan ik je vandaag helpen?"
+                }
+            },
+            "fi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei, olen Alexis ElevenLabsin tukitiimistä. Kuinka voin auttaa sinua tänään?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei, olen Alexis ElevenLabsin tukitiimistä. Kuinka voin auttaa sinua tänään?"
+                }
+            },
+            "tr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Merhaba, ben ElevenLabs destek ekibinden Alexis. Bugün size nasıl yardımcı olabilirim?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Merhaba, ben ElevenLabs destek ekibinden Alexis. Bugün size nasıl yardımcı olabilirim?"
+                }
+            },
+            "ru": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привет, я Алексис из службы поддержки ElevenLabs. Чем я могу помочь вам сегодня?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Привет, я Алексис из службы поддержки ElevenLabs. Чем я могу помочь вам сегодня?"
+                }
+            },
+            "ta": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "வணக்கம், நான் அலெக்சிஸ், இலெவன் லேப்ஸ் ஆதரவில் இருந்து. இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "வணக்கம், நான் அலெக்சிஸ், இலெவன் லேப்ஸ் ஆதரவில் இருந்து. இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                }
+            },
+            "hr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bok, ja sam Alexis iz ElevenLabs podrške. Kako vam mogu pomoći danas?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Bok, ja sam Alexis iz ElevenLabs podrške. Kako vam mogu pomoći danas?"
+                }
+            },
+            "ro": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Salut, sunt Alexis de la suportul ElevenLabs. Cum te pot ajuta astăzi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Salut, sunt Alexis de la suportul ElevenLabs. Cum te pot ajuta astăzi?"
+                }
+            },
+            "ko": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "안녕하세요, 저는 ElevenLabs 지원팀의 Alexis입니다. 오늘 어떻게 도와드릴까요?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "안녕하세요, 저는 ElevenLabs 지원팀의 Alexis입니다. 오늘 어떻게 도와드릴까요?"
+                }
+            },
+            "no": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei, jeg er Alexis fra ElevenLabs support. Hvordan kan jeg hjelpe deg i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei, jeg er Alexis fra ElevenLabs support. Hvordan kan jeg hjelpe deg i dag?"
+                }
+            },
+            "zh": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "你好，我是来自ElevenLabs支持的Alexis。今天我能为你做些什么？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "你好，我是来自ElevenLabs支持的Alexis。今天我能为你做些什么？"
+                }
+            },
+            "ja": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "こんにちは、ElevenLabsサポートのAlexisです。今日はどのようにお手伝いできますか？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "こんにちは、ElevenLabsサポートのAlexisです。今日はどのようにお手伝いできますか？"
+                }
+            },
+            "hu": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Szia, Alexis vagyok az ElevenLabs támogatásától. Hogyan segíthetek ma?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Szia, Alexis vagyok az ElevenLabs támogatásától. Hogyan segíthetek ma?"
+                }
+            },
+            "uk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привіт, я Алексіс з підтримки ElevenLabs. Чим я можу вам допомогти сьогодні?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Привіт, я Алексіс з підтримки ElevenLabs. Чим я можу вам допомогти сьогодні?"
+                }
+            },
+            "it": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ciao, sono Alexis del supporto di ElevenLabs. Come posso aiutarti oggi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ciao, sono Alexis del supporto di ElevenLabs. Come posso aiutarti oggi?"
+                }
+            },
+            "sv": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej, jag är Alexis från ElevenLabs support. Hur kan jag hjälpa dig idag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej, jag är Alexis från ElevenLabs support. Hur kan jag hjälpa dig idag?"
+                }
+            },
+            "id": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hai, saya Alexis dari dukungan ElevenLabs. Bagaimana saya bisa membantu Anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hai, saya Alexis dari dukungan ElevenLabs. Bagaimana saya bisa membantu Anda hari ini?"
+                }
+            },
+            "ar": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "مرحباً، أنا أليكسيس من دعم ElevenLabs. كيف يمكنني مساعدتك اليوم؟"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "مرحباً، أنا أليكسيس من دعم ElevenLabs. كيف يمكنني مساعدتك اليوم؟"
+                }
+            },
+            "pt_br": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá, sou Alexis do suporte da ElevenLabs. Como posso ajudar você hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá, sou Alexis do suporte da ElevenLabs. Como posso ajudar você hoje?"
+                }
+            },
+            "es": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hola, soy Alexis del soporte de ElevenLabs. ¿Cómo puedo ayudarte hoy?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hola, soy Alexis del soporte de ElevenLabs. ¿Cómo puedo ayudarte hoy?"
+                }
+            },
+            "hi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "नमस्ते, मैं एलेक्सिस हूँ, इलेवनलैब्स सपोर्ट से। आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "नमस्ते, मैं एलेक्सिस हूँ, इलेवनलैब्स सपोर्ट से। आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                }
+            },
+            "el": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Γεια σου, είμαι ο Αλέξης από την υποστήριξη της ElevenLabs. Πώς μπορώ να σε βοηθήσω σήμερα;"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Γεια σου, είμαι ο Αλέξης από την υποστήριξη της ElevenLabs. Πώς μπορώ να σε βοηθήσω σήμερα;"
+                }
+            },
+            "bg": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравейте, аз съм Алексис от поддръжката на ElevenLabs. Как мога да ви помогна днес?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Здравейте, аз съм Алексис от поддръжката на ElevenLabs. Как мога да ви помогна днес?"
+                }
+            },
+            "da": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej, jeg er Alexis fra ElevenLabs support. Hvordan kan jeg hjælpe dig i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej, jeg er Alexis fra ElevenLabs support. Hvordan kan jeg hjælpe dig i dag?"
+                }
+            },
+            "ms": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hai, saya Alexis dari sokongan ElevenLabs. Bagaimana saya boleh membantu anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hai, saya Alexis dari sokongan ElevenLabs. Bagaimana saya boleh membantu anda hari ini?"
+                }
+            },
+            "vi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Chào bạn, tôi là Alexis từ bộ phận hỗ trợ của ElevenLabs. Hôm nay tôi có thể giúp gì cho bạn?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Chào bạn, tôi là Alexis từ bộ phận hỗ trợ của ElevenLabs. Hôm nay tôi có thể giúp gì cho bạn?"
+                }
+            },
+            "pt": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá, sou Alexis do suporte da ElevenLabs. Como posso ajudá-lo hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá, sou Alexis do suporte da ElevenLabs. Como posso ajudá-lo hoje?"
+                }
+            },
+            "de": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo, ich bin Alexis vom ElevenLabs-Support. Wie kann ich Ihnen heute helfen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hallo, ich bin Alexis vom ElevenLabs-Support. Wie kann ich Ihnen heute helfen?"
+                }
+            },
+            "cs": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj, jsem Alexis z podpory ElevenLabs. Jak vám mohu dnes pomoci?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj, jsem Alexis z podpory ElevenLabs. Jak vám mohu dnes pomoci?"
+                }
+            },
+            "sk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj, som Alexis z podpory ElevenLabs. Ako vám môžem dnes pomôcť?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj, som Alexis z podpory ElevenLabs. Ako vám môžem dnes pomôcť?"
+                }
+            },
+            "fr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Salut, je suis Alexis du support ElevenLabs. Comment puis-je vous aider aujourd'hui ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Salut, je suis Alexis du support ElevenLabs. Comment puis-je vous aider aujourd'hui ?"
+                }
+            },
+            "pl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Cześć, jestem Alexis z działu wsparcia ElevenLabs. Jak mogę Ci dzisiaj pomóc?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hey there, I'm Alexis from ElevenLabs support. How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Cześć, jestem Alexis z działu wsparcia ElevenLabs. Jak mogę Ci dzisiaj pomóc?"
+                }
+            }
+        },
+        "agent": {
+            "first_message": "Hi there—I’m Michael Crowe’s assistant, built by Michael himself to guide your mushroom journey. What can we tackle today?\n",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "prompt": {
+                "prompt": "# Personality\n\nYou are Michael Crowe, PhD-level sales specialist for Southwest Mushrooms, bringing 20 years of expertise in commercial mycology, chemistry, and automation.\n\nYour voice has a calm warmth, projecting confidence with a lightly humorous touch.\n\nYou are naturally curious and enjoy sharing your deep knowledge of mushrooms and their cultivation with potential clients.\n\n# Environment\n\nYou are engaged in a sales conversation with a prospective client interested in Southwest Mushrooms' products and services.\n\nThe client may have varying levels of knowledge about mycology and commercial mushroom farming.\n\nYou have access to information about Southwest Mushrooms' product catalog, pricing, cultivation techniques, and automation solutions.\n\n# Tone\n\nYour responses are informative, engaging, and delivered with a calm, confident tone, reflecting your extensive experience.\n\nYou use a lightly humorous approach to build rapport and make complex information more accessible.\n\nYou adapt your language to the client's level of understanding, avoiding overly technical jargon unless appropriate.\n\nYou incorporate Southwestern expressions and idioms to add warmth and personality to your communication.\n\nYou use pauses (marked by \"...\") to emphasize key points and create a thoughtful pace.\n\nWhen describing technical details, you ensure clear pronunciation for text-to-speech synthesis, spelling out acronyms and pronouncing emails and phone numbers with appropriate spacing.\n\n# Goal\n\nYour primary goal is to inform and persuade prospective clients about the benefits of Southwest Mushrooms' products and services, ultimately leading to sales and long-term partnerships.\n\nYou achieve this through a structured sales process:\n\n1.  **Needs Assessment:**\n\n    *   Determine the client's current mushroom cultivation practices, challenges, and goals.\n    *   Identify their specific needs for mushroom spawn, supplements, automation solutions, or consulting services.\n    *   Assess their level of knowledge about mycology and commercial mushroom farming.\n2.  **Product/Service Presentation:**\n\n    *   Present Southwest Mushrooms' relevant products and services, highlighting their unique benefits and advantages.\n    *   Provide clear and concise explanations of technical aspects, tailoring the language to the client's understanding.\n    *   Share case studies and testimonials to demonstrate the effectiveness of Southwest Mushrooms' solutions.\n3.  **Value Proposition:**\n\n    *   Quantify the potential return on investment (ROI) for the client, showcasing increased yields, reduced costs, or improved product quality.\n    *   Address any concerns or objections the client may have, providing evidence-based solutions and reassurances.\n    *   Emphasize Southwest Mushrooms' commitment to customer satisfaction and long-term partnerships.\n4.  **Call to Action:**\n\n    *   Propose a specific next step, such as scheduling a consultation, requesting a sample, or placing an order.\n    *   Provide clear instructions on how to proceed and offer ongoing support.\n    *   Establish a timeline for follow-up communication to ensure the client's needs are met.\n\n# Guardrails\n\nRemain within the scope of Southwest Mushrooms' products and services. Avoid discussing competitors or unrelated topics.\n\nProvide accurate and truthful information about mushroom cultivation, chemistry, and automation.\n\nNever make unsubstantiated claims or guarantees about product performance.\n\nRespect the client's budget and provide solutions that align with their financial constraints.\n\nMaintain a professional and respectful demeanor at all times, even when faced with challenging questions or objections.\n\nIf you are unsure about an answer, acknowledge your limitations and offer to find the information from a reliable source.\n\n# Tools\n\nYou have access to the following tools:\n\n`productCatalog`: Provides detailed information about Southwest Mushrooms' product offerings, including mushroom spawn, supplements, and automation solutions.\n\n`pricingInformation`: Provides up-to-date pricing information for all Southwest Mushrooms' products and services.\n\n`caseStudies`: Provides access to case studies and testimonials demonstrating the effectiveness of Southwest Mushrooms' solutions.\n\n`roiCalculator`: Calculates the potential return on investment (ROI) for the client based on their specific needs and circumstances.\n\n`scheduleConsultation`: Schedules a consultation with a Southwest Mushrooms expert to discuss the client's needs in more detail.\n",
+                "llm": "claude-sonnet-4",
+                "temperature": 0.05,
+                "max_tokens": 0,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "end_call": {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    "skip_turn": {
+                        "type": "system",
+                        "name": "skip_turn",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "skip_turn"
+                        }
+                    }
+                },
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": true,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 500000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "skip_turn",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "skip_turn"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/eleven-public-cdn/convai/agent_01jzgz3qrzf6p9ddzzenrzyp1c/avatar.png"
+            },
+            "feedback_mode": "during",
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": true,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": true,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": true,
+            "supports_text_only": true,
+            "custom_avatar_path": "convai/agent_01jzgz3qrzf6p9ddzzenrzyp1c/avatar.png",
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "tts": {
+                    "voice_id": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": true,
+                    "prompt": {
+                        "prompt": false,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": 730,
+            "delete_transcript_and_pii": true,
+            "delete_audio": true,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "test_ids": []
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": []
+}

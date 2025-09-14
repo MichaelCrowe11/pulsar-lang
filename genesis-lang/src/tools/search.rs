@@ -1,0 +1,1 @@
+// Search tools - placeholder for future expansion

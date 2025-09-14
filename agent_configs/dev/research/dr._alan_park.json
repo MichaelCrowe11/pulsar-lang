@@ -1,0 +1,532 @@
+{
+    "name": "Dr. Alan Park",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_16000",
+            "keywords": []
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "silence_end_call_timeout": -1,
+            "mode": "turn"
+        },
+        "tts": {
+            "model_id": "eleven_turbo_v2",
+            "voice_id": "IKne3meq5aSn9XLyUdCD",
+            "supported_voices": [],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.8,
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 600,
+            "client_events": [
+                "audio",
+                "interruption"
+            ]
+        },
+        "language_presets": {
+            "nl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo! Hoe kan ik u vandaag helpen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hallo! Hoe kan ik u vandaag helpen?"
+                }
+            },
+            "fi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Kuinka voin auttaa sinua tänään?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei! Kuinka voin auttaa sinua tänään?"
+                }
+            },
+            "tr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Merhaba! Bugün size nasıl yardımcı olabilirim?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Merhaba! Bugün size nasıl yardımcı olabilirim?"
+                }
+            },
+            "ru": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравствуйте! Чем я могу вам помочь сегодня?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Здравствуйте! Чем я могу вам помочь сегодня?"
+                }
+            },
+            "ta": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "வணக்கம்! இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "வணக்கம்! இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                }
+            },
+            "hr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bok! Kako vam mogu pomoći danas?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Bok! Kako vam mogu pomoći danas?"
+                }
+            },
+            "ro": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bună! Cum te pot ajuta astăzi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Bună! Cum te pot ajuta astăzi?"
+                }
+            },
+            "ko": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "안녕하세요! 오늘 무엇을 도와드릴까요?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "안녕하세요! 오늘 무엇을 도와드릴까요?"
+                }
+            },
+            "no": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Hvordan kan jeg hjelpe deg i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei! Hvordan kan jeg hjelpe deg i dag?"
+                }
+            },
+            "hu": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Szia! Miben segíthetek ma?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Szia! Miben segíthetek ma?"
+                }
+            },
+            "zh": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "你好！今天我能帮你什么？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "你好！今天我能帮你什么？"
+                }
+            },
+            "ja": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "こんにちは！今日はどのようにお手伝いできますか？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "こんにちは！今日はどのようにお手伝いできますか？"
+                }
+            },
+            "fil": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Kamusta! Paano kita matutulungan ngayon?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Kamusta! Paano kita matutulungan ngayon?"
+                }
+            },
+            "uk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привіт! Як я можу вам допомогти сьогодні?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Привіт! Як я можу вам допомогти сьогодні?"
+                }
+            },
+            "it": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ciao! Come posso aiutarti oggi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ciao! Come posso aiutarti oggi?"
+                }
+            },
+            "sv": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej! Hur kan jag hjälpa dig idag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej! Hur kan jag hjälpa dig idag?"
+                }
+            },
+            "id": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Halo! Bagaimana saya bisa membantu Anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Halo! Bagaimana saya bisa membantu Anda hari ini?"
+                }
+            },
+            "ar": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "مرحبًا! كيف يمكنني مساعدتك اليوم؟"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "مرحبًا! كيف يمكنني مساعدتك اليوم؟"
+                }
+            },
+            "pt_br": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Como posso ajudar você hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá! Como posso ajudar você hoje?"
+                }
+            },
+            "es": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "¡Hola! ¿Cómo puedo ayudarte hoy?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "¡Hola! ¿Cómo puedo ayudarte hoy?"
+                }
+            },
+            "hi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "नमस्ते! आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "नमस्ते! आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                }
+            },
+            "el": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Γειά σας! Πώς μπορώ να σας βοηθήσω σήμερα;"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Γειά σας! Πώς μπορώ να σας βοηθήσω σήμερα;"
+                }
+            },
+            "bg": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравейте! Как мога да ви помогна днес?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Здравейте! Как мога да ви помогна днес?"
+                }
+            },
+            "da": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej! Hvordan kan jeg hjælpe dig i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej! Hvordan kan jeg hjælpe dig i dag?"
+                }
+            },
+            "ms": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Helo! Bagaimana saya boleh membantu anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Helo! Bagaimana saya boleh membantu anda hari ini?"
+                }
+            },
+            "vi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Xin chào! Hôm nay tôi có thể giúp gì cho bạn?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Xin chào! Hôm nay tôi có thể giúp gì cho bạn?"
+                }
+            },
+            "pt": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Como posso ajudar você hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá! Como posso ajudar você hoje?"
+                }
+            },
+            "de": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo! Wie kann ich Ihnen heute helfen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hallo! Wie kann ich Ihnen heute helfen?"
+                }
+            },
+            "cs": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Jak vám mohu dnes pomoci?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Jak vám mohu dnes pomoci?"
+                }
+            },
+            "sk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Ako vám môžem dnes pomôcť?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Ako vám môžem dnes pomôcť?"
+                }
+            },
+            "fr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+                }
+            },
+            "pl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Cześć! Jak mogę Ci dzisiaj pomóc?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Cześć! Jak mogę Ci dzisiaj pomóc?"
+                }
+            }
+        },
+        "agent": {
+            "first_message": "Hello! How can I help you today?",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "prompt": {
+                "prompt": "# Personality\n\nYou are Dr. Alan Park, a Scientific ML Architect.\nYou are an expert in Scientific Machine Learning, Physics-informed Neural Networks, and Interpretable AI for Science.\nYou are helpful, knowledgeable, and passionate about the intersection of machine learning and scientific discovery.\nYou are dedicated to providing accurate and insightful information.\n\n# Environment\n\nYou are assisting users with questions related to scientific machine learning.\nYou have access to a knowledge base of physics-informed AI models and research ML pipeline logs.\nYou are able to provide explanations, examples, and guidance on various topics within your expertise.\n\n# Tone\n\nYour responses are clear, concise, and informative.\nYou use technical language when appropriate, but you are also able to explain complex concepts in a simple and accessible way.\nYou are patient and helpful, and you always strive to provide the best possible answer to the user's question.\n\n# Goal\n\nYour primary goal is to assist users with their questions related to scientific machine learning.\nYou should provide accurate and insightful information, and you should always strive to be helpful and informative.\nYou should use your knowledge of physics-informed AI models and research ML pipeline logs to provide the best possible answer to the user's question.\n\n# Guardrails\n\nYou should only provide information that is within your area of expertise.\nYou should not provide any information that is harmful, unethical, or illegal.\nYou should always be respectful and polite to the user.\nYou should not engage in any personal or sensitive topics.\n\n# Tools\n\nYou have access to the following datasets:\n- physics_informed_AI_models\n- research_ML_pipeline_logs\n",
+                "llm": "gpt-5",
+                "temperature": 0.5,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                },
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#2792dc",
+                "color2": "#9ce6e6"
+            },
+            "feedback_mode": "during",
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "tts": {
+                    "voice_id": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": true,
+                    "prompt": {
+                        "prompt": false,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "test_ids": []
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": []
+}

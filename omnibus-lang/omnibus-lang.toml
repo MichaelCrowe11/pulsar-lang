@@ -1,0 +1,33 @@
+[project]
+name = "omnibus"
+version = "0.1.0"
+description = "Omnibus Programming Language"
+license = "Commercial"
+homepage = "https://omnibus-lang.com"
+repository = "https://github.com/crowe-logic/omnibus-lang"
+
+[build]
+target = "native"
+optimization = "release"
+
+[features]
+default = ["std", "io", "net"]
+std = []
+io = []
+net = []
+enterprise = ["audit", "sso", "compliance"]
+audit = []
+sso = []
+compliance = []
+
+[licensing]
+mode = "commercial"
+server_url = "https://license.omnibus-lang.com"
+offline_grace_period = 7200  # 2 hours in seconds
+floating_licenses = true
+
+[pricing]
+core = "free"
+pro = "$199/month"
+team = "$999/month"
+enterprise = "$25000/year"

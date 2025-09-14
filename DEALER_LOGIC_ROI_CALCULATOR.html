@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Logic ROI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .calculator-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .input-section, .results-section {
+            padding: 20px;
+        }
+        
+        .input-section {
+            border-right: 2px solid #e5e7eb;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .input-group small {
+            color: #9ca3af;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .slider-group {
+            margin-bottom: 25px;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .slider-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .results-box {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            color: #6b7280;
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .result-value.positive {
+            color: #10b981;
+        }
+        
+        .result-value.negative {
+            color: #ef4444;
+        }
+        
+        .roi-summary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .roi-percentage {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .roi-label {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .pricing-tier {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tier-name {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .tier-price {
+            font-size: 1.5em;
+            color: #1f2937;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-body {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 2px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="header">
+            <h1>Dealer Logic ROI Calculator</h1>
+            <p>Calculate your dealership's potential return on investment</p>
+        </div>
+        
+        <div class="calculator-body">
+            <div class="input-section">
+                <h2 class="section-title">Dealership Metrics</h2>
+                
+                <div class="input-group">
+                    <label for="monthly-calls">Monthly Inbound Calls</label>
+                    <input type="number" id="monthly-calls" value="3000" min="100" max="50000">
+                    <small>Average number of calls per month</small>
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <label for="answer-rate">Current Answer Rate</label>
+                        <span class="slider-value" id="answer-rate-value">75%</span>
+                    </div>
+                    <input type="range" id="answer-rate" min="50" max="100" value="75">
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <label for="sales-intent">Sales Intent Share</label>
+                        <span class="slider-value" id="sales-intent-value">35%</span>
+                    </div>
+                    <input type="range" id="sales-intent" min="10" max="60" value="35">
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <label for="service-intent">Service Intent Share</label>
+                        <span class="slider-value" id="service-intent-value">55%</span>
+                    </div>
+                    <input type="range" id="service-intent" min="20" max="80" value="55">
+                </div>
+                
+                <div class="input-group">
+                    <label for="avg-gross">Average Vehicle Gross Profit</label>
+                    <input type="number" id="avg-gross" value="2500" min="500" max="10000">
+                    <small>Front + back gross per vehicle</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="avg-ro">Average RO Value</label>
+                    <input type="number" id="avg-ro" value="145" min="50" max="500">
+                    <small>Average repair order value</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="pricing-tier">Select Pricing Tier</label>
+                    <select id="pricing-tier">
+                        <option value="2495">Tier 1: Small (< 2,000 calls) - $2,495/mo</option>
+                        <option value="4495" selected>Tier 2: Medium (2,000-5,000 calls) - $4,495/mo</option>
+                        <option value="7995">Tier 3: Large (5,000-10,000 calls) - $7,995/mo</option>
+                        <option value="12995">Enterprise (10,000+ calls) - $12,995/mo</option>
+                    </select>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateROI()">Calculate ROI</button>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title">ROI Analysis</h2>
+                
+                <div class="results-box">
+                    <h3 style="margin-bottom: 15px; color: #4b5563;">Monthly Impact</h3>
+                    <div class="result-item">
+                        <span class="result-label">Recovered Calls</span>
+                        <span class="result-value" id="recovered-calls">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Additional Sales</span>
+                        <span class="result-value" id="additional-sales">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Additional Service ROs</span>
+                        <span class="result-value" id="additional-ros">0</span>
+                    </div>
+                </div>
+                
+                <div class="results-box">
+                    <h3 style="margin-bottom: 15px; color: #4b5563;">Revenue Impact</h3>
+                    <div class="result-item">
+                        <span class="result-label">Sales Revenue</span>
+                        <span class="result-value positive" id="sales-revenue">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Service Revenue</span>
+                        <span class="result-value positive" id="service-revenue">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Revenue Increase</span>
+                        <span class="result-value positive" id="total-revenue">$0</span>
+                    </div>
+                </div>
+                
+                <div class="results-box">
+                    <h3 style="margin-bottom: 15px; color: #4b5563;">Investment & Return</h3>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Platform Fee</span>
+                        <span class="result-value negative" id="platform-fee">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Net Monthly ROI</span>
+                        <span class="result-value positive" id="net-roi">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Payback Period</span>
+                        <span class="result-value" id="payback-period">0 days</span>
+                    </div>
+                </div>
+                
+                <div class="roi-summary">
+                    <div class="roi-percentage" id="roi-percentage">0%</div>
+                    <div class="roi-label">Return on Investment</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Update slider values
+        document.getElementById('answer-rate').addEventListener('input', function(e) {
+            document.getElementById('answer-rate-value').textContent = e.target.value + '%';
+        });
+        
+        document.getElementById('sales-intent').addEventListener('input', function(e) {
+            document.getElementById('sales-intent-value').textContent = e.target.value + '%';
+        });
+        
+        document.getElementById('service-intent').addEventListener('input', function(e) {
+            document.getElementById('service-intent-value').textContent = e.target.value + '%';
+        });
+        
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+        
+        function calculateROI() {
+            // Get input values
+            const monthlyCalls = parseFloat(document.getElementById('monthly-calls').value);
+            const currentAnswerRate = parseFloat(document.getElementById('answer-rate').value) / 100;
+            const salesIntent = parseFloat(document.getElementById('sales-intent').value) / 100;
+            const serviceIntent = parseFloat(document.getElementById('service-intent').value) / 100;
+            const avgGross = parseFloat(document.getElementById('avg-gross').value);
+            const avgRO = parseFloat(document.getElementById('avg-ro').value);
+            const platformFee = parseFloat(document.getElementById('pricing-tier').value);
+            
+            // Constants
+            const targetAnswerRate = 0.98;
+            const leadQualRate = 0.70;
+            const salesCloseRate = 0.12;
+            const serviceBookingRate = 0.45;
+            
+            // Calculate recovered opportunities
+            const missedCalls = monthlyCalls * (1 - currentAnswerRate);
+            const recoveredCalls = monthlyCalls * (targetAnswerRate - currentAnswerRate);
+            
+            // Calculate sales impact
+            const salesOpportunities = recoveredCalls * salesIntent;
+            const qualifiedLeads = salesOpportunities * leadQualRate;
+            const additionalSales = qualifiedLeads * salesCloseRate;
+            const salesRevenue = additionalSales * avgGross;
+            
+            // Calculate service impact
+            const serviceOpportunities = recoveredCalls * serviceIntent;
+            const additionalROs = serviceOpportunities * serviceBookingRate;
+            const serviceRevenue = additionalROs * avgRO;
+            
+            // Calculate totals
+            const totalRevenue = salesRevenue + serviceRevenue;
+            const netROI = totalRevenue - platformFee;
+            const roiPercentage = (netROI / platformFee) * 100;
+            const paybackDays = platformFee / (totalRevenue / 30);
+            
+            // Update display
+            document.getElementById('recovered-calls').textContent = Math.round(recoveredCalls).toLocaleString();
+            document.getElementById('additional-sales').textContent = Math.round(additionalSales);
+            document.getElementById('additional-ros').textContent = Math.round(additionalROs);
+            document.getElementById('sales-revenue').textContent = formatCurrency(salesRevenue);
+            document.getElementById('service-revenue').textContent = formatCurrency(serviceRevenue);
+            document.getElementById('total-revenue').textContent = formatCurrency(totalRevenue);
+            document.getElementById('platform-fee').textContent = formatCurrency(platformFee);
+            document.getElementById('net-roi').textContent = formatCurrency(netROI);
+            document.getElementById('payback-period').textContent = Math.round(paybackDays) + ' days';
+            document.getElementById('roi-percentage').textContent = Math.round(roiPercentage) + '%';
+            
+            // Color coding
+            document.getElementById('net-roi').className = netROI > 0 ? 'result-value positive' : 'result-value negative';
+        }
+        
+        // Calculate on load
+        calculateROI();
+    </script>
+</body>
+</html>

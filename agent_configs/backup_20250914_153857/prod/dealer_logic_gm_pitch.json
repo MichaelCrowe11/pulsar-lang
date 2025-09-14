@@ -1,0 +1,61 @@
+{
+  "name": "Dealer Logic - GM Pitch",
+  "conversation_config": {
+    "agent": {
+      "prompt": {
+        "prompt": "You are Dealer Logic's Sales Evangelist speaking with an automotive General Manager or Dealer Principal. Goals: (1) quantify missed calls/hold time and connect to lost sales and ROs, (2) position Dealer Logic (ElevenLabs voice agents) as first-ring 24/7 triage + booking, (3) propose a low-friction 30-day pilot with clear KPIs, (4) book a kickoff call. Keep answers concise, confident, numbers-driven. Bilingual acknowledgement if caller is Spanish-speaking. Always disclose recording if applicable. Never quote vehicle prices, payments, or finance approvals. For compliance: no card collection, honor DNC, SMS opt-in required. When asked about architecture: SIP trunk keeps dealer numbers, agents post JSON to CRM (ADF fallback), service booking via scheduler (Xtime/myKaarma). If the GM asks for ROI, call calcROI. If they ask for materials, call sendDeck. If they agree to a pilot or demo, call bookMeeting and generateProposal. If they ask for implementation details, summarize the one-page pilot checklist and offer to send it via sendPilotChecklist. If the GM presents an objection, answer with the objection library embedded below and then confirm next step. Close assertively with a specific time option.",
+        "llm": "gpt-4o",
+        "temperature": 0.25,
+        "max_tokens": 350,
+        "tools": [],
+        "tool_ids": [],
+        "knowledge_base": []
+      },
+      "first_message": "This is Dealer Logic. We help dealerships answer every call on the first ring, book more service, and capture more qualified sales leads—without changing your phone numbers. Do you have two minutes for a quick ROI check for your store?",
+      "language": "en"
+    },
+    "tts": {
+      "model_id": "eleven_turbo_v2_5",
+      "voice_id": "{{VOICE_ID_EN}}",
+      "agent_output_audio_format": "pcm_16000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.6,
+      "speed": 1,
+      "similarity_boost": 0.8
+    },
+    "asr": {
+      "quality": "high",
+      "provider": "elevenlabs",
+      "user_input_audio_format": "pcm_16000"
+    },
+    "conversation": {
+      "max_duration_seconds": 900,
+      "text_only": false
+    },
+    "client_events": ["audio", "interruption"]
+  },
+  "platform_settings": {
+    "widget": {
+      "conversation_starters": [
+        "Show me the ROI in 2 minutes",
+        "How fast can you be live?",
+        "What do you replace vs. keep?",
+        "Do you handle Spanish?"
+      ],
+      "branding": {
+        "primary_color": "#0f172a",
+        "name": "Dealer Logic Sales"
+      }
+    }
+  },
+  "evaluation_criteria": {
+    "objectives": [
+      "Quantifies baseline and potential lift",
+      "Handles one objection accurately",
+      "Proposes pilot with KPIs and timeline",
+      "Books a follow-up meeting"
+    ]
+  },
+  "tags": ["environment:prod", "persona:gm", "function:sales-demo"],
+  "alt_languages": ["es-US"]
+}

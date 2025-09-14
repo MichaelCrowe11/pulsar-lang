@@ -1,0 +1,1 @@
+// HTTP tool implementations - placeholder for future expansion

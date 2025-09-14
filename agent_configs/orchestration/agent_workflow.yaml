@@ -1,0 +1,230 @@
+# Eleven Labs Multi-Agent Orchestration Configuration
+# Defines workflows and handoff rules between specialized agents
+
+workflows:
+  # Dealer Logic Sales Workflow
+  automotive_sales_pipeline:
+    name: "Complete Automotive Sales Journey"
+    description: "End-to-end vehicle sales process with specialized agent handoffs"
+
+    stages:
+      - stage_id: "initial_contact"
+        agent: "dealer_logic_reception_v2"
+        triggers:
+          - type: "incoming_call"
+          - type: "web_chat_initiation"
+        actions:
+          - collect_customer_info
+          - identify_intent
+        next_stage_rules:
+          - if: "intent == 'purchase_vehicle'"
+            goto: "sales_qualification"
+          - if: "intent == 'service_appointment'"
+            goto: "service_scheduling"
+          - if: "intent == 'trade_in_inquiry'"
+            goto: "trade_evaluation"
+
+      - stage_id: "sales_qualification"
+        agent: "dealer_logic_sales_v2"
+        actions:
+          - determine_vehicle_preferences
+          - check_inventory
+          - pre_qualify_budget
+        tools_required:
+          - inventory_lookup
+          - calculate_financing
+        next_stage_rules:
+          - if: "needs_financing == true"
+            goto: "finance_consultation"
+          - if: "has_trade_in == true"
+            goto: "trade_evaluation"
+          - if: "ready_to_test_drive == true"
+            goto: "appointment_scheduling"
+
+      - stage_id: "finance_consultation"
+        agent: "dealer_logic_finance_v2"
+        actions:
+          - review_credit_options
+          - calculate_monthly_payments
+          - present_warranty_options
+        tools_required:
+          - calculate_financing
+          - check_credit_programs
+        next_stage_rules:
+          - if: "financing_approved == true"
+            goto: "appointment_scheduling"
+          - if: "needs_cosigner == true"
+            goto: "additional_qualification"
+
+      - stage_id: "trade_evaluation"
+        agent: "dealer_logic_tradein_v2"
+        actions:
+          - collect_vehicle_details
+          - provide_initial_estimate
+          - schedule_appraisal
+        tools_required:
+          - check_trade_in_value
+        next_stage_rules:
+          - if: "trade_value_accepted == true"
+            goto: "sales_qualification"
+
+      - stage_id: "appointment_scheduling"
+        agent: "dealer_logic_service_scheduler_v2"
+        actions:
+          - check_availability
+          - book_appointment
+          - send_confirmation
+        tools_required:
+          - schedule_test_drive
+          - open_calendar
+        completion_actions:
+          - update_crm
+          - send_follow_up_email
+
+  # Research Collaboration Workflow
+  research_collaboration:
+    name: "Scientific Research Assistance"
+    description: "Multi-domain research with specialist handoffs"
+
+    stages:
+      - stage_id: "research_triage"
+        agent: "dr._michael_b._crowe"
+        triggers:
+          - type: "research_query"
+        actions:
+          - analyze_research_domain
+          - identify_specialist_needed
+        next_stage_rules:
+          - if: "domain == 'mycology'"
+            goto: "mycology_specialist"
+          - if: "domain == 'chemistry'"
+            goto: "chemistry_specialist"
+          - if: "domain == 'data_analysis'"
+            goto: "data_specialist"
+
+      - stage_id: "mycology_specialist"
+        agent: "dr._michael_b._crowe_phd"
+        actions:
+          - deep_mycology_analysis
+          - reference_knowledge_base
+          - generate_research_summary
+        tools_required:
+          - mcp_server_access
+          - knowledge_base_search
+
+      - stage_id: "chemistry_specialist"
+        agent: "dr._kenji_tanaka"
+        actions:
+          - chemical_analysis
+          - molecular_modeling
+          - safety_assessment
+        tools_required:
+          - chemical_database_api
+          - molecular_visualization
+
+# Agent Handoff Rules
+handoff_rules:
+  - rule_id: "escalation_to_human"
+    description: "Escalate to human when confidence is low"
+    conditions:
+      - confidence_score: "< 0.6"
+      - customer_sentiment: "negative"
+      - failed_attempts: "> 2"
+    action: "transfer_to_human"
+
+  - rule_id: "specialist_routing"
+    description: "Route to specialist based on keywords"
+    keyword_mappings:
+      financing: "dealer_logic_finance_v2"
+      trade-in: "dealer_logic_tradein_v2"
+      service: "dealer_logic_service_scheduler_v2"
+      parts: "dealer_logic_parts_v2"
+      research: "dr._michael_b._crowe"
+
+  - rule_id: "after_hours_handling"
+    description: "Route to after-hours agent outside business hours"
+    conditions:
+      - time: "outside_business_hours"
+    action: "transfer_to_agent:dealer_logic_after_hours_v2"
+
+# Conversation State Management
+state_management:
+  storage: "redis"  # or "dynamodb", "postgresql"
+  ttl_seconds: 3600
+
+  shared_context_fields:
+    - customer_id
+    - customer_name
+    - customer_email
+    - customer_phone
+    - interaction_history
+    - preferences
+    - current_vehicle_interest
+    - financing_pre_qualification
+    - trade_in_details
+    - appointment_scheduled
+
+  state_sync_events:
+    - agent_transfer
+    - tool_execution
+    - customer_data_update
+    - appointment_booking
+
+# Integration Points
+integrations:
+  crm:
+    type: "salesforce"
+    sync_frequency: "real_time"
+    fields_to_sync:
+      - lead_status
+      - interaction_notes
+      - vehicle_preferences
+      - financing_status
+
+  inventory_management:
+    type: "dealer_socket"
+    api_endpoint: "https://api.dealersocket.com/v2"
+    refresh_interval: 300
+
+  calendar:
+    type: "google_calendar"
+    integration_method: "oauth2"
+
+  analytics:
+    type: "mixpanel"
+    events_to_track:
+      - conversation_started
+      - agent_transferred
+      - tool_executed
+      - appointment_scheduled
+      - lead_qualified
+      - sale_completed
+
+# Performance Monitoring
+monitoring:
+  metrics:
+    - avg_handling_time
+    - transfer_rate
+    - resolution_rate
+    - customer_satisfaction
+    - tool_usage_frequency
+    - conversion_rate
+
+  alerts:
+    - metric: "error_rate"
+      threshold: 0.05
+      action: "notify_admin"
+
+    - metric: "avg_response_time"
+      threshold: 2000  # ms
+      action: "scale_resources"
+
+# Security & Compliance
+security:
+  data_encryption: "AES-256"
+  pii_handling: "tokenization"
+  audit_logging: true
+  compliance:
+    - "CCPA"
+    - "GDPR"
+    - "SOC2"

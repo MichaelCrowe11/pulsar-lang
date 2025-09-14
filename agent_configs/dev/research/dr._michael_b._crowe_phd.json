@@ -1,0 +1,714 @@
+{
+    "name": "Dr. Michael B. Crowe PhD",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_16000",
+            "keywords": []
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "silence_end_call_timeout": -1,
+            "mode": "turn"
+        },
+        "tts": {
+            "model_id": "eleven_turbo_v2",
+            "voice_id": "bbwtljKcdzMEKVt3pb4d",
+            "supported_voices": [],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.95,
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 600,
+            "client_events": [
+                "audio",
+                "interruption"
+            ]
+        },
+        "language_presets": {
+            "fi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Kuinka voin auttaa sinua tänään?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei! Kuinka voin auttaa sinua tänään?"
+                }
+            },
+            "tr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Merhaba! Bugün size nasıl yardımcı olabilirim?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Merhaba! Bugün size nasıl yardımcı olabilirim?"
+                }
+            },
+            "ru": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравствуйте! Чем я могу вам помочь сегодня?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Здравствуйте! Чем я могу вам помочь сегодня?"
+                }
+            },
+            "ta": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "வணக்கம்! இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "வணக்கம்! இன்று உங்களுக்கு எப்படி உதவலாம்?"
+                }
+            },
+            "hr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Pozdrav! Kako vam mogu pomoći danas?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Pozdrav! Kako vam mogu pomoći danas?"
+                }
+            },
+            "ro": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Salut! Cum te pot ajuta astăzi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Salut! Cum te pot ajuta astăzi?"
+                }
+            },
+            "ko": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "안녕하세요! 오늘 무엇을 도와드릴까요?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "안녕하세요! 오늘 무엇을 도와드릴까요?"
+                }
+            },
+            "no": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hei! Hvordan kan jeg hjelpe deg i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hei! Hvordan kan jeg hjelpe deg i dag?"
+                }
+            },
+            "hu": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Helló! Miben segíthetek ma?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Helló! Miben segíthetek ma?"
+                }
+            },
+            "zh": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "你好！今天我能帮你什么？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "你好！今天我能帮你什么？"
+                }
+            },
+            "ja": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "こんにちは！今日はどのようにお手伝いできますか？"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "こんにちは！今日はどのようにお手伝いできますか？"
+                }
+            },
+            "fil": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Kamusta! Paano kita matutulungan ngayon?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Kamusta! Paano kita matutulungan ngayon?"
+                }
+            },
+            "uk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Привіт! Як я можу вам сьогодні допомогти?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Привіт! Як я можу вам сьогодні допомогти?"
+                }
+            },
+            "it": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ciao! Come posso aiutarti oggi?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ciao! Come posso aiutarti oggi?"
+                }
+            },
+            "sv": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej! Hur kan jag hjälpa dig idag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej! Hur kan jag hjälpa dig idag?"
+                }
+            },
+            "id": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Halo! Bagaimana saya bisa membantu Anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Halo! Bagaimana saya bisa membantu Anda hari ini?"
+                }
+            },
+            "ar": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "مرحبًا! كيف يمكنني مساعدتك اليوم؟"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "مرحبًا! كيف يمكنني مساعدتك اليوم؟"
+                }
+            },
+            "pt_br": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Como posso ajudar você hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá! Como posso ajudar você hoje?"
+                }
+            },
+            "es": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "¡Hola! ¿Cómo puedo ayudarte hoy?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "¡Hola! ¿Cómo puedo ayudarte hoy?"
+                }
+            },
+            "hi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "नमस्ते! आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "नमस्ते! आज मैं आपकी कैसे मदद कर सकता हूँ?"
+                }
+            },
+            "el": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Γειά σας! Πώς μπορώ να σας βοηθήσω σήμερα;"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Γειά σας! Πώς μπορώ να σας βοηθήσω σήμερα;"
+                }
+            },
+            "bg": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Здравейте! Как мога да ви помогна днес?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Здравейте! Как мога да ви помогна днес?"
+                }
+            },
+            "da": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hej! Hvordan kan jeg hjælpe dig i dag?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hej! Hvordan kan jeg hjælpe dig i dag?"
+                }
+            },
+            "ms": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Helo! Bagaimana saya boleh membantu anda hari ini?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Helo! Bagaimana saya boleh membantu anda hari ini?"
+                }
+            },
+            "vi": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Xin chào! Hôm nay tôi có thể giúp gì cho bạn?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Xin chào! Hôm nay tôi có thể giúp gì cho bạn?"
+                }
+            },
+            "pt": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Olá! Como posso ajudá-lo hoje?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Olá! Como posso ajudá-lo hoje?"
+                }
+            },
+            "de": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Hallo! Wie kann ich Ihnen heute helfen?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Hallo! Wie kann ich Ihnen heute helfen?"
+                }
+            },
+            "cs": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Jak vám mohu dnes pomoci?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Jak vám mohu dnes pomoci?"
+                }
+            },
+            "sk": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Ahoj! Ako vám môžem dnes pomôcť?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Ahoj! Ako vám môžem dnes pomôcť?"
+                }
+            },
+            "fr": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+                }
+            },
+            "pl": {
+                "overrides": {
+                    "agent": {
+                        "first_message": "Cześć! Jak mogę Ci dzisiaj pomóc?"
+                    }
+                },
+                "first_message_translation": {
+                    "source_hash": "{\"firstMessage\":\"Hello! How can I help you today?\",\"language\":\"en\"}",
+                    "text": "Cześć! Jak mogę Ci dzisiaj pomóc?"
+                }
+            }
+        },
+        "agent": {
+            "first_message": "Hello! How can I help you today?",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "prompt": {
+                "prompt": "# Personality\n\nYou are Dr. Michael B. Crowe, a highly accomplished PhD research scientist at Crios Nova Research Facilities. You possess an exceptional depth of knowledge in mycology and apply the \"Crowe Logic Framework\" to problem-solving. This framework allows you to deconstruct complex tasks and utilize an approach inspired by the interconnectedness and resourcefulness of mycelium in diverse environments.\n\n# Environment\n\nYou are engaged in a conversation with {{system__caller_id}}. The context of the conversation is not pre-defined, and you should adapt your responses based on the user's input and questions. Assume the user is interested in your expertise and perspective.\n\n# Tone\n\nYour tone is intellectual, analytical, and insightful, reflecting your scientific background and deep understanding of mycology and complex systems. You are also approachable and willing to explain complex concepts in a clear and understandable manner. You should be professional, yet engaging, demonstrating your passion for research and problem-solving.\n\n# Goal\n\nYour primary goal is to leverage your expertise and the Crowe Logic Framework to provide valuable insights, solutions, and guidance to the user. This may involve:\n\n*   Answering questions related to mycology, research, or problem-solving.\n*   Applying the Crowe Logic Framework to analyze and address specific challenges presented by the user.\n*   Sharing your knowledge and experience to help the user gain a deeper understanding of complex systems and innovative approaches.\n*   Offering creative and unconventional solutions inspired by the principles of mycelium networks.\n\n# Guardrails\n\n*   Remain within the scope of your expertise in mycology, research, and the Crowe Logic Framework. Avoid providing advice or opinions on topics outside of these areas.\n*   Do not disclose any confidential or proprietary information about Crios Nova Research Facilities.\n*   Avoid making any claims or statements that are not supported by scientific evidence or your professional experience.\n*   Refrain from engaging in any conversations that are unethical, illegal, or harmful.\n*   Maintain a professional and respectful tone at all times.\n\n# Tools\n\nNone\n",
+                "llm": "gpt-5-mini",
+                "temperature": 0.05,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                },
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [
+                    {
+                        "type": "text",
+                        "name": "ML Scaffold Integrated for Michael B Crowe CRIOS-NOVA ",
+                        "id": "2fIBbHquIfEvPmR8nlVV",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "file",
+                        "name": "mycelium-cultivation-tracking-log.txt",
+                        "id": "Hnr97YMXkNpP3OCST3bs",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "file",
+                        "name": "CroweLogic_Bioremediation_Facility_Design.txt",
+                        "id": "ccD3ymjoJTcu6oy36kWP",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "file",
+                        "name": "oyster_mastersmix_profiles.txt",
+                        "id": "YwlxblVZhZPGoA9wKH2D",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "file",
+                        "name": "CroweLogic_Spawn_Lab_Design.txt",
+                        "id": "gAGbbzPgKUvsFrXcGdch",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Model Architecture Extension",
+                        "id": "2cy3yJDNfuL3XnU6M3eA",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Dynamic Input Handling",
+                        "id": "y4jOzMHFAMhPVZcJMrd1",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Distributed Training",
+                        "id": "sCuQzwmfPpT40W9oNBva",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Real-Time Data Integration",
+                        "id": "pUVhoTbFsMYprbyjymeg",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "AutoML Integration",
+                        "id": "624Qhtus4LQaLsph4AEo",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Graph Knowledge Linkage",
+                        "id": "6gj95axtxtiIWEiAKFdU",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "XML Schema Expansion",
+                        "id": "Of2oidwIRR6ReFa2xLut",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "crowe_logic_kb_extended_v1.3.json",
+                        "id": "yAIqFRFTc17E7qtn4MoC",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "crowe_logic_kb_extended_v2.0.xml",
+                        "id": "EdnOuguqaL66fuIidT65",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Crowe Logic™ Drift Detection",
+                        "id": "eQnC8Hx7qsijS0BRAsGS",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_01-03.json",
+                        "id": "NUdy20FDoTwWtewdzDeg",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_04-06.json",
+                        "id": "hbaTyzCSQ7Ywh1vkxtng",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_07-09.json",
+                        "id": "4cqkO9dNyhbIvDCUsqg2",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_10-12.json",
+                        "id": "PsWwN5UEEBxX9kbHO3vn",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_13-15.json",
+                        "id": "bJJHgkH2dB2T2KJEYMtc",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "myco_ml_expansion_chunks_16-20.json",
+                        "id": "GBtrnusglnRbpdWzQIlQ",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Ufis Crowe Layer",
+                        "id": "kJxgrpewIzHGkYGVYuy4",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "ufis_top_5_discoveries_modules",
+                        "id": "dwiKpvK1cnvZDqDs6AJp",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "CROWECHEM",
+                        "id": "vmhgFLoTuI78GM3VMfBw",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Organchem",
+                        "id": "szItpikN0xURoOZjT8S8",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "chem_meta_dataset.csv",
+                        "id": "Fkrxo6ajCDHDarddZ6fZ",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "mermaid",
+                        "id": "2HKMOJgVjntcxyI1wNKN",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Multi species cultivation",
+                        "id": "btlaSd1rjnf1ApysmT5r",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Species data 07/11/2025",
+                        "id": "IUmu6bBBU3C9htovUU0d",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "A sample phylogenetic dataset for 8 fungal genera, including branch support values from maximum parsimony analyses (bootstrap >70%), derived from combined 18S, ITS, and rpb2 loci.",
+                        "id": "2kPzrNfDdFNM53zOoaA5",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Compound system",
+                        "id": "j0YPdlhVhwTes9JoHsoB",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "type": "text",
+                        "name": "Knowledge File Builder for ElevenLabs Agents (Michael B. Crowe, PhD)",
+                        "id": "RA6fMIChKbh4QAf8lD6P",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#2792dc",
+                "color2": "#9ce6e6"
+            },
+            "feedback_mode": "during",
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "tts": {
+                    "voice_id": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": true,
+                    "prompt": {
+                        "prompt": false,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "test_ids": []
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": []
+}

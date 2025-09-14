@@ -1,0 +1,193 @@
+{
+  "Hypothesis Block": {
+    "prefix": "hypothesis",
+    "body": [
+      "hypothesis ${1:name}:",
+      "    ${2:premise}: ${3:condition}",
+      "    ${4:test}: ${5:validation}",
+      "    ${6:conclude}: ${7:result}"
+    ],
+    "description": "Create a hypothesis testing block"
+  },
+  "Experiment Block": {
+    "prefix": "experiment",
+    "body": [
+      "experiment ${1:name}:",
+      "    setup:",
+      "        ${2:# Setup code}",
+      "    run:",
+      "        ${3:# Experiment code}",
+      "    analyze:",
+      "        ${4:# Analysis code}"
+    ],
+    "description": "Create an experiment block"
+  },
+  "Parallel Execution": {
+    "prefix": "parallel",
+    "body": [
+      "parallel ${1:name}:",
+      "    branch ${2:branch1}:",
+      "        ${3:# Branch 1 code}",
+      "    branch ${4:branch2}:",
+      "        ${5:# Branch 2 code}",
+      "    merge with ${6:strategy}"
+    ],
+    "description": "Create parallel execution branches"
+  },
+  "Quantum Circuit": {
+    "prefix": "quantum",
+    "body": [
+      "quantum circuit ${1:name}:",
+      "    qubits: ${2:2}",
+      "    ${3:# Quantum gates}",
+      "    h ${4:0}",
+      "    cx ${5:0}, ${6:1}",
+      "    measure all"
+    ],
+    "description": "Create a quantum circuit"
+  },
+  "Uncertain Value": {
+    "prefix": "uncertain",
+    "body": [
+      "uncertain ${1:variable} = ${2:value} ± ${3:uncertainty}"
+    ],
+    "description": "Create an uncertain value"
+  },
+  "Pipeline": {
+    "prefix": "pipeline",
+    "body": [
+      "pipeline ${1:name}:",
+      "    stage ${2:stage1}:",
+      "        ${3:# Stage 1 code}",
+      "    stage ${4:stage2}:",
+      "        ${5:# Stage 2 code}"
+    ],
+    "description": "Create a processing pipeline"
+  },
+  "Reason Chain": {
+    "prefix": "reason",
+    "body": [
+      "reason chain ${1:name}:",
+      "    premise ${2:P1}: ${3:\"Statement\"}",
+      "    derive ${4:D1}: ${5:\"Derivation\"}",
+      "    conclude: ${6:result}"
+    ],
+    "description": "Create a reasoning chain"
+  },
+  "Basic Function": {
+    "prefix": "def",
+    "body": [
+      "def ${1:function_name}(${2:parameters}):",
+      "    \"\"\"${3:Function description}\"\"\"",
+      "    ${4:# Function body}",
+      "    return ${5:result}"
+    ],
+    "description": "Create a function definition"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:iterable}:",
+      "    ${3:# Loop body}"
+    ],
+    "description": "Create a for loop"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition}:",
+      "    ${2:# Loop body}"
+    ],
+    "description": "Create a while loop"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}:",
+      "    ${2:# If body}"
+    ],
+    "description": "Create an if statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "if ${1:condition}:",
+      "    ${2:# If body}",
+      "else:",
+      "    ${3:# Else body}"
+    ],
+    "description": "Create an if-else statement"
+  },
+  "Try-Except": {
+    "prefix": "try",
+    "body": [
+      "try:",
+      "    ${1:# Try code}",
+      "except ${2:Exception} as ${3:e}:",
+      "    ${4:# Exception handling}"
+    ],
+    "description": "Create a try-except block"
+  },
+  "Class Definition": {
+    "prefix": "class",
+    "body": [
+      "class ${1:ClassName}:",
+      "    \"\"\"${2:Class description}\"\"\"",
+      "    ",
+      "    def __init__(self${3:, args}):",
+      "        ${4:# Constructor}",
+      "        pass"
+    ],
+    "description": "Create a class definition"
+  },
+  "Import Statement": {
+    "prefix": "import",
+    "body": [
+      "import ${1:module}${2: as ${3:alias}}"
+    ],
+    "description": "Import a module"
+  },
+  "From Import": {
+    "prefix": "from",
+    "body": [
+      "from ${1:module} import ${2:name}${3: as ${4:alias}}"
+    ],
+    "description": "Import from a module"
+  },
+  "Print Statement": {
+    "prefix": "print",
+    "body": [
+      "print(${1:\"Hello, World!\"})"
+    ],
+    "description": "Print statement"
+  },
+  "Main Guard": {
+    "prefix": "main",
+    "body": [
+      "if __name__ == \"__main__\":",
+      "    ${1:main()}"
+    ],
+    "description": "Main execution guard"
+  },
+  "Monte Carlo Simulation": {
+    "prefix": "montecarlo",
+    "body": [
+      "uncertain ${1:parameter} = ${2:mean} ± ${3:std}",
+      "propagate uncertainty:",
+      "    method = \"monte_carlo\"",
+      "    samples = ${4:10000}",
+      "    ${5:# Analysis code}"
+    ],
+    "description": "Monte Carlo uncertainty propagation"
+  },
+  "Symbolic Expression": {
+    "prefix": "symbolic",
+    "body": [
+      "symbolic ${1:expression}:",
+      "    let ${2:x} = symbol(\"${2:x}\")",
+      "    equation = ${3:expression}",
+      "    solve(equation, ${2:x})"
+    ],
+    "description": "Symbolic mathematics"
+  }
+}

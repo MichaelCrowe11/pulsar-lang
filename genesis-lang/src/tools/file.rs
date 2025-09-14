@@ -1,0 +1,1 @@
+// File operation tools - placeholder for future expansion

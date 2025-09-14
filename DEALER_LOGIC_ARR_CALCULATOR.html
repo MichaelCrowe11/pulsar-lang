@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Logic - Enterprise Valuation Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e293b;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #334155;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            font-size: 0.9em;
+            color: #64748b;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            color: #1e293b;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .metric {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .metric-label {
+            font-size: 0.85em;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .metric-value.green {
+            color: #10b981;
+        }
+        
+        .metric-value.blue {
+            color: #3b82f6;
+        }
+        
+        .valuation-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .valuation-item {
+            text-align: center;
+            padding: 20px 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .valuation-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .valuation-item.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        
+        .valuation-multiple {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        
+        .valuation-amount {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        .growth-scenarios {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .scenario-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-tab {
+            padding: 10px 20px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .scenario-tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .projection-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .projection-table th {
+            background: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .projection-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .projection-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            height: 400px;
+        }
+        
+        .slider-container {
+            margin: 20px 0;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .slider-value {
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .summary-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+        
+        .summary-value {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .summary-subtitle {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .valuation-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dealer Logic - Enterprise Valuation Calculator</h1>
+            <p>Real-time ARR projections and company valuation based on customer mix</p>
+        </div>
+        
+        <div class="dashboard">
+            <!-- Customer Input Card -->
+            <div class="card">
+                <h2 class="card-title">Customer Mix</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Classic ($25k/mo)</label>
+                        <input type="number" id="classic-count" value="10" min="0" max="100" onchange="calculate()">
+                    </div>
+                    <div class="input-group">
+                        <label>Max ($40k/mo)</label>
+                        <input type="number" id="max-count" value="8" min="0" max="100" onchange="calculate()">
+                    </div>
+                    <div class="input-group">
+                        <label>Unlimited ($75k/mo)</label>
+                        <input type="number" id="unlimited-count" value="2" min="0" max="100" onchange="calculate()">
+                    </div>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>YoY Growth Rate</span>
+                        <span class="slider-value" id="growth-value">125%</span>
+                    </div>
+                    <input type="range" id="growth-rate" min="25" max="200" value="125" onchange="updateGrowth()">
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Gross Margin</span>
+                        <span class="slider-value" id="margin-value">72%</span>
+                    </div>
+                    <input type="range" id="gross-margin" min="50" max="85" value="72" onchange="updateMargin()">
+                </div>
+            </div>
+            
+            <!-- Key Metrics Card -->
+            <div class="card">
+                <h2 class="card-title">Key Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-label">Monthly Recurring Revenue</div>
+                        <div class="metric-value blue" id="mrr">$0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Annual Recurring Revenue</div>
+                        <div class="metric-value green" id="arr">$0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Total Customers</div>
+                        <div class="metric-value" id="total-customers">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Avg Contract Value</div>
+                        <div class="metric-value" id="acv">$0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Valuation Card -->
+            <div class="card">
+                <h2 class="card-title">Enterprise Valuation</h2>
+                <div class="valuation-grid">
+                    <div class="valuation-item">
+                        <div class="valuation-multiple">3× ARR</div>
+                        <div class="valuation-amount" id="val-3x">$0</div>
+                    </div>
+                    <div class="valuation-item">
+                        <div class="valuation-multiple">5× ARR</div>
+                        <div class="valuation-amount" id="val-5x">$0</div>
+                    </div>
+                    <div class="valuation-item primary">
+                        <div class="valuation-multiple">8× ARR</div>
+                        <div class="valuation-amount" id="val-8x">$0</div>
+                    </div>
+                    <div class="valuation-item">
+                        <div class="valuation-multiple">10× ARR</div>
+                        <div class="valuation-amount" id="val-10x">$0</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center; color: #64748b; font-size: 0.9em;">
+                    Recommended multiple based on growth & margins: <strong id="recommended-multiple">8×</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Growth Projections -->
+        <div class="growth-scenarios">
+            <h2 class="card-title">Growth Projections</h2>
+            <div class="scenario-tabs">
+                <button class="scenario-tab active" onclick="showScenario('conservative')">Conservative</button>
+                <button class="scenario-tab" onclick="showScenario('moderate')">Moderate</button>
+                <button class="scenario-tab" onclick="showScenario('aggressive')">Aggressive</button>
+            </div>
+            
+            <table class="projection-table">
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>Classic</th>
+                        <th>Max</th>
+                        <th>Unlimited</th>
+                        <th>Total Customers</th>
+                        <th>ARR</th>
+                        <th>Valuation (8×)</th>
+                    </tr>
+                </thead>
+                <tbody id="projection-tbody">
+                    <!-- Dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Summary Card -->
+        <div class="summary-card">
+            <div class="summary-title">Recommended Valuation Range</div>
+            <div class="summary-value" id="valuation-range">$0 - $0</div>
+            <div class="summary-subtitle" id="valuation-description">
+                Based on current metrics and growth trajectory
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function formatCurrency(amount, decimals = 0) {
+            if (amount >= 1000000000) {
+                return '$' + (amount / 1000000000).toFixed(1) + 'B';
+            } else if (amount >= 1000000) {
+                return '$' + (amount / 1000000).toFixed(1) + 'M';
+            } else if (amount >= 1000) {
+                return '$' + (amount / 1000).toFixed(0) + 'K';
+            }
+            return '$' + amount.toFixed(decimals);
+        }
+        
+        function updateGrowth() {
+            const growth = document.getElementById('growth-rate').value;
+            document.getElementById('growth-value').textContent = growth + '%';
+            calculate();
+        }
+        
+        function updateMargin() {
+            const margin = document.getElementById('gross-margin').value;
+            document.getElementById('margin-value').textContent = margin + '%';
+            calculate();
+        }
+        
+        function calculate() {
+            // Get customer counts
+            const classic = parseInt(document.getElementById('classic-count').value) || 0;
+            const max = parseInt(document.getElementById('max-count').value) || 0;
+            const unlimited = parseInt(document.getElementById('unlimited-count').value) || 0;
+            
+            // Get parameters
+            const growthRate = parseInt(document.getElementById('growth-rate').value);
+            const grossMargin = parseInt(document.getElementById('gross-margin').value);
+            
+            // Calculate MRR and ARR
+            const mrrClassic = classic * 25000;
+            const mrrMax = max * 40000;
+            const mrrUnlimited = unlimited * 75000;
+            const totalMRR = mrrClassic + mrrMax + mrrUnlimited;
+            const totalARR = totalMRR * 12;
+            const totalCustomers = classic + max + unlimited;
+            const acv = totalCustomers > 0 ? totalARR / totalCustomers : 0;
+            
+            // Update metrics
+            document.getElementById('mrr').textContent = formatCurrency(totalMRR);
+            document.getElementById('arr').textContent = formatCurrency(totalARR);
+            document.getElementById('total-customers').textContent = totalCustomers;
+            document.getElementById('acv').textContent = formatCurrency(acv);
+            
+            // Calculate valuations
+            document.getElementById('val-3x').textContent = formatCurrency(totalARR * 3);
+            document.getElementById('val-5x').textContent = formatCurrency(totalARR * 5);
+            document.getElementById('val-8x').textContent = formatCurrency(totalARR * 8);
+            document.getElementById('val-10x').textContent = formatCurrency(totalARR * 10);
+            
+            // Determine recommended multiple based on growth and margin
+            let recommendedMultiple = 5;
+            if (growthRate >= 150 && grossMargin >= 70) {
+                recommendedMultiple = 10;
+            } else if (growthRate >= 100 && grossMargin >= 65) {
+                recommendedMultiple = 8;
+            } else if (growthRate >= 50 && grossMargin >= 60) {
+                recommendedMultiple = 6;
+            }
+            
+            document.getElementById('recommended-multiple').textContent = recommendedMultiple + '×';
+            
+            // Update valuation range
+            const lowValuation = totalARR * (recommendedMultiple - 1);
+            const highValuation = totalARR * (recommendedMultiple + 1);
+            document.getElementById('valuation-range').textContent = 
+                formatCurrency(lowValuation) + ' - ' + formatCurrency(highValuation);
+            
+            // Update projections
+            updateProjections('conservative');
+        }
+        
+        function showScenario(scenario) {
+            // Update active tab
+            document.querySelectorAll('.scenario-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update projections
+            updateProjections(scenario);
+        }
+        
+        function updateProjections(scenario) {
+            const classic = parseInt(document.getElementById('classic-count').value) || 0;
+            const max = parseInt(document.getElementById('max-count').value) || 0;
+            const unlimited = parseInt(document.getElementById('unlimited-count').value) || 0;
+            
+            let growthFactors = {
+                conservative: [1, 1.5, 2.2, 3.0, 4.0],
+                moderate: [1, 2.0, 3.5, 5.5, 8.0],
+                aggressive: [1, 2.5, 5.0, 9.0, 15.0]
+            };
+            
+            const tbody = document.getElementById('projection-tbody');
+            tbody.innerHTML = '';
+            
+            const periods = ['Current', '6 Months', '12 Months', '18 Months', '24 Months'];
+            const factor = growthFactors[scenario];
+            
+            periods.forEach((period, index) => {
+                const row = tbody.insertRow();
+                
+                const projClassic = Math.round(classic * factor[index]);
+                const projMax = Math.round(max * factor[index]);
+                const projUnlimited = Math.round(unlimited * factor[index]);
+                const projTotal = projClassic + projMax + projUnlimited;
+                const projARR = (projClassic * 25000 + projMax * 40000 + projUnlimited * 75000) * 12;
+                const projValuation = projARR * 8;
+                
+                row.insertCell(0).textContent = period;
+                row.insertCell(1).textContent = projClassic;
+                row.insertCell(2).textContent = projMax;
+                row.insertCell(3).textContent = projUnlimited;
+                row.insertCell(4).textContent = projTotal;
+                row.insertCell(5).textContent = formatCurrency(projARR);
+                row.insertCell(6).textContent = formatCurrency(projValuation);
+            });
+        }
+        
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "name": "Autonomous Crypto Trading Loop",
+  "description": "24/7 self-optimizing trading system with AI decision engine",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "market_scanner",
+      "schedule": "* * * * *",
+      "code": "// Scans market every 60 seconds for opportunities\nconst indicators = await calculateIndicators();\nconst patterns = await detectPatterns();\nconst score = await generateAIScore(indicators, patterns);\nreturn { signal: score > 0.7 ? 'TRADE' : 'WAIT', data: { indicators, patterns, score } };",
+      "apps": ["postgresql", "redis"]
+    },
+    {
+      "name": "ai_signal_generator",
+      "trigger": "market_scanner",
+      "code": "// AI-powered trading signal generation\nconst strategies = await runMultipleStrategies($.event.data);\nconst aiDecision = await getAIDecision(strategies);\nconst validation = await validateSignal(aiDecision);\nreturn { action: aiDecision.action, confidence: aiDecision.confidence, size: aiDecision.size };",
+      "apps": ["openai", "anthropic"]
+    },
+    {
+      "name": "risk_validator",
+      "trigger": "ai_signal_generator",
+      "code": "// Risk management and position sizing\nconst portfolio = await getPortfolio();\nconst var95 = calculateVaR(portfolio, $.event);\nconst kellySize = calculateKellyPosition($.event.confidence);\nconst approved = var95 < portfolio.value * 0.1;\nreturn { approved, size: Math.min(kellySize, portfolio.value * 0.02), stopLoss: $.event.price * 0.98, takeProfit: $.event.price * 1.05 };",
+      "apps": ["postgresql"]
+    },
+    {
+      "name": "smart_order_router",
+      "trigger": "risk_validator",
+      "code": "// Executes orders across multiple exchanges\nif (!$.event.approved) return { status: 'REJECTED' };\nconst venues = await selectBestVenues($.event.symbol);\nconst orders = await executeSmartOrder($.event, venues);\nreturn { status: 'EXECUTED', orders, avgPrice: calculateAvgPrice(orders) };",
+      "apps": ["coinbase", "binance", "kraken"]
+    },
+    {
+      "name": "position_manager",
+      "schedule": "*/5 * * * *",
+      "code": "// Manages open positions every 5 minutes\nconst positions = await getActivePositions();\nfor (const pos of positions) {\n  const pnl = calculatePnL(pos);\n  if (shouldExit(pos, pnl)) await closePosition(pos);\n  if (shouldAdjustStop(pos, pnl)) await updateTrailingStop(pos);\n}\nreturn { managed: positions.length, closed: closedCount };",
+      "apps": ["postgresql", "coinbase", "binance"]
+    },
+    {
+      "name": "performance_optimizer",
+      "schedule": "0 * * * *",
+      "code": "// Hourly performance analysis and optimization\nconst metrics = await calculatePerformanceMetrics();\nconst recommendations = await getAIOptimizations(metrics);\nif (metrics.sharpe < 1.0) await adjustRiskParameters();\nawait applyHighConfidenceOptimizations(recommendations);\nreturn { sharpe: metrics.sharpe, optimizations: recommendations };",
+      "apps": ["postgresql", "openai"]
+    },
+    {
+      "name": "circuit_breaker",
+      "schedule": "* * * * *",
+      "code": "// Emergency monitoring and kill switch\nconst health = await checkSystemHealth();\nconst drawdown = await checkDrawdown();\nif (drawdown > 0.2 || health.critical) {\n  await emergencyStopAllTrading();\n  await sendAlert('CIRCUIT BREAKER TRIGGERED');\n  return { status: 'EMERGENCY_STOP' };\n}\nreturn { status: 'HEALTHY', drawdown };",
+      "apps": ["postgresql", "slack"]
+    }
+  ],
+  "environment": {
+    "MAX_POSITION_SIZE": "100",
+    "MAX_DAILY_LOSS": "50",
+    "MAX_DRAWDOWN_PERCENT": "10",
+    "TARGET_SHARPE_RATIO": "2.0",
+    "ENABLE_LIVE_TRADING": "false",
+    "AI_CONFIDENCE_THRESHOLD": "0.7"
+  },
+  "dependencies": {
+    "apps": [
+      "coinbase",
+      "binance",
+      "kraken",
+      "postgresql",
+      "redis",
+      "openai",
+      "anthropic",
+      "slack"
+    ],
+    "npm": [
+      "technicalindicators",
+      "mathjs",
+      "simple-statistics"
+    ]
+  },
+  "deployment": {
+    "auto_start": false,
+    "test_duration_hours": 48,
+    "initial_capital": 100,
+    "scaling_plan": {
+      "week_1": 100,
+      "week_2": 500,
+      "week_4": 1000,
+      "month_2": 5000,
+      "month_3": 10000
+    }
+  },
+  "monitoring": {
+    "metrics_endpoint": "/api/metrics",
+    "health_endpoint": "/api/health",
+    "dashboard_url": "https://crowetrade.com/dashboard",
+    "alert_channels": ["slack", "email", "sms"]
+  }
+}

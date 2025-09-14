@@ -1,0 +1,69 @@
+id = "research-workflow-001"
+name = "Comprehensive Research Workflow"
+description = "Multi-step research workflow that gathers, analyzes, and synthesizes information"
+version = "1.0.0"
+timeout_seconds = 1800
+
+# Input variable: research_topic
+[variables]
+research_topic = "AI trends 2024"
+max_sources = 5
+output_format = "markdown"
+
+# Step 1: Initial research and data gathering
+[[steps]]
+id = "web_search"
+name = "Gather Initial Information"
+condition = "$research_topic"
+
+[steps.step_type.Tool]
+tool_name = "http_request"
+parameters = { url = "https://httpbin.org/json", method = "GET" }
+input_mapping = { query = "research_topic" }
+output_mapping = { results = "search_results" }
+
+# Step 2: Analyze and filter results
+[[steps]]
+id = "analyze_results"
+name = "Analyze Search Results"
+
+[steps.step_type.Agent]
+agent_id = "research_agent"
+prompt = "Analyze the following search results for '{research_topic}' and identify the most relevant and credible sources: {search_results}"
+input_mapping = { research_topic = "research_topic", search_results = "search_results" }
+output_mapping = { response = "analysis" }
+
+# Step 3: Deep dive research on key findings
+[[steps]]
+id = "deep_research"
+name = "Detailed Research"
+
+[steps.step_type.Agent]
+agent_id = "research_agent"
+prompt = "Based on the analysis: {analysis}, conduct deeper research on the key trends and findings related to '{research_topic}'. Provide detailed insights and supporting evidence."
+input_mapping = { analysis = "analysis", research_topic = "research_topic" }
+output_mapping = { response = "detailed_research" }
+
+# Step 4: Generate final report
+[[steps]]
+id = "generate_report"
+name = "Generate Research Report"
+
+[steps.step_type.Agent]
+agent_id = "creative_writer"
+prompt = "Create a comprehensive research report on '{research_topic}' using this research: {detailed_research}. Format as {output_format} with clear sections, key findings, and actionable insights."
+input_mapping = { research_topic = "research_topic", detailed_research = "detailed_research", output_format = "output_format" }
+output_mapping = { response = "final_report" }
+
+# Define workflow dependencies
+[[dependencies]]
+from_step = "web_search"
+to_step = "analyze_results"
+
+[[dependencies]]
+from_step = "analyze_results"  
+to_step = "deep_research"
+
+[[dependencies]]
+from_step = "deep_research"
+to_step = "generate_report"

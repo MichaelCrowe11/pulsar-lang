@@ -1,0 +1,19 @@
+# FastAPI and server dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# Google Cloud dependencies
+google-cloud-storage==2.10.0
+google-cloud-logging==3.8.0
+
+# Video processing
+ffmpeg-python==0.2.0
+
+# Utilities
+requests==2.31.0
+python-multipart==0.0.6
+aiofiles==23.2.1
+
+# Monitoring and logging
+structlog==23.2.0

@@ -1,0 +1,194 @@
+{
+  "name": "synapse-lang",
+  "displayName": "Synapse Language",
+  "description": "Syntax highlighting, snippets, and IntelliSense for Synapse Language - the revolutionary scientific computing language",
+  "version": "1.0.0",
+  "publisher": "synapse-lang",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelCrowe11/vscode-synapse-lang"
+  },
+  "homepage": "https://synapse-lang.com",
+  "bugs": {
+    "url": "https://github.com/MichaelCrowe11/vscode-synapse-lang/issues"
+  },
+  "keywords": [
+    "synapse",
+    "quantum",
+    "scientific",
+    "parallel",
+    "uncertainty",
+    "language"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Themes",
+    "Debuggers"
+  ],
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "activationEvents": [
+    "onLanguage:synapse"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "synapse",
+        "aliases": ["Synapse", "synapse"],
+        "extensions": [".syn", ".synapse"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/file-icon.svg",
+          "dark": "./images/file-icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "synapse",
+        "scopeName": "source.synapse",
+        "path": "./syntaxes/synapse.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "synapse",
+        "path": "./snippets/synapse.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Synapse Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/synapse-dark.json"
+      },
+      {
+        "label": "Synapse Light",
+        "uiTheme": "vs",
+        "path": "./themes/synapse-light.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "synapse.runFile",
+        "title": "Run Synapse File",
+        "category": "Synapse"
+      },
+      {
+        "command": "synapse.runSelection",
+        "title": "Run Synapse Selection",
+        "category": "Synapse"
+      },
+      {
+        "command": "synapse.showDocs",
+        "title": "Show Documentation",
+        "category": "Synapse"
+      },
+      {
+        "command": "synapse.newProject",
+        "title": "New Synapse Project",
+        "category": "Synapse"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .syn || resourceExtname == .synapse",
+          "command": "synapse.runSelection",
+          "group": "synapse"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceExtname == .syn || resourceExtname == .synapse",
+          "command": "synapse.runFile",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "synapse.runFile",
+        "key": "ctrl+f5",
+        "when": "resourceExtname == .syn || resourceExtname == .synapse"
+      },
+      {
+        "command": "synapse.runSelection",
+        "key": "f5",
+        "when": "resourceExtname == .syn || resourceExtname == .synapse"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Synapse Language",
+      "properties": {
+        "synapse.interpreter.path": {
+          "type": "string",
+          "default": "synapse",
+          "description": "Path to the Synapse interpreter"
+        },
+        "synapse.linting.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Synapse linting"
+        },
+        "synapse.formatting.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Synapse code formatting"
+        },
+        "synapse.intellisense.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable IntelliSense for Synapse"
+        }
+      }
+    },
+    "problemMatchers": [
+      {
+        "name": "synapse",
+        "owner": "synapse",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "synapse",
+        "required": ["file"],
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The Synapse file to run"
+          },
+          "args": {
+            "type": "array",
+            "description": "Additional arguments"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "16.x",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,112 @@
+[package]
+name = "cypher-lang"
+version = "0.1.0"
+edition = "2021"
+authors = ["CYPHERLANG Security Team <security@cypherlang.org>"]
+license = "Apache-2.0"
+description = "CYPHERLANG: The Security-First Language - Cryptography and formal verification built-in"
+homepage = "https://cypherlang.org"
+repository = "https://github.com/cypher-lang/cypher"
+documentation = "https://docs.cypherlang.org"
+keywords = ["programming-language", "cryptography", "security", "zero-knowledge", "formal-verification"]
+categories = ["compilers", "development-tools", "cryptography"]
+
+[workspace]
+members = [
+    "compiler",
+    "runtime",
+    "crypto",
+    "zkp",
+    "verification",
+    "side-channel",
+    "tools/cli",
+    "tools/analyzer",
+    "tools/prover"
+]
+
+[dependencies]
+# Core dependencies
+clap = { version = "4.0", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Cryptographic primitives
+ring = "0.16"
+aes-gcm = "0.10"
+chacha20poly1305 = "0.10"
+ed25519-dalek = "2.0"
+x25519-dalek = "2.0"
+blake3 = "1.4"
+argon2 = "0.5"
+
+# Post-quantum cryptography
+kyber = { version = "0.3", optional = true }
+dilithium = { version = "0.3", optional = true }
+sphincsplus = { version = "0.6", optional = true }
+
+# Zero-knowledge proofs
+ark-bls12-381 = { version = "0.4", optional = true }
+ark-groth16 = { version = "0.4", optional = true }
+ark-poly = { version = "0.4", optional = true }
+bellman = { version = "0.14", optional = true }
+bulletproofs = { version = "4.0", optional = true }
+
+# Homomorphic encryption
+tfhe = { version = "0.4", optional = true }
+concrete = { version = "0.4", optional = true }
+
+# Language components
+cypher-compiler = { path = "compiler" }
+cypher-runtime = { path = "runtime" }
+cypher-crypto = { path = "crypto" }
+
+[dev-dependencies]
+tempdir = "0.3"
+assert_cmd = "2.0"
+predicates = "3.0"
+proptest = "1.0"
+
+[features]
+default = ["basic-crypto", "verification"]
+full = ["basic-crypto", "post-quantum", "zkp", "homomorphic", "verification", "side-channel-analysis"]
+basic-crypto = []
+post-quantum = ["kyber", "dilithium", "sphincsplus"]
+zkp = ["ark-bls12-381", "ark-groth16", "ark-poly", "bellman", "bulletproofs"]
+homomorphic = ["tfhe", "concrete"]
+verification = ["cypher-verification/formal-methods"]
+side-channel-analysis = ["cypher-verification/side-channel"]
+
+[[bin]]
+name = "cypher"
+path = "src/main.rs"
+
+[[bin]]
+name = "cypher-verify"
+path = "src/verify.rs"
+
+[[bin]]
+name = "cypher-analyze"
+path = "src/analyze.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+# Security-hardened release profile
+opt-level = "s"  # Optimize for size to reduce attack surface
+
+[profile.dev]
+debug = true
+opt-level = 0
+
+# Security audit profile
+[profile.audit]
+inherits = "release"
+debug = true  # Keep debug info for security analysis
+strip = false

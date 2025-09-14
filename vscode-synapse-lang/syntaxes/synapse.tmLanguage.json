@@ -1,0 +1,200 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Synapse",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#quantum-gates"
+    },
+    {
+      "include": "#uncertainty"
+    },
+    {
+      "include": "#functions"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.synapse",
+          "match": "\\b(hypothesis|experiment|parallel|branch|stream|reason|chain|premise|derive|conclude|pipeline|stage|fork|path|merge|explore|try|fallback|accept|reject|if|else|elif|while|for|in|return|break|continue|pass)\\b"
+        },
+        {
+          "name": "keyword.other.synapse",
+          "match": "\\b(uncertain|observe|propagate|constrain|evolve|symbolic|let|solve|prove|using|from|into|through|where|when|until|value|map|predict|validate|synthesize|assume|setup|auto|cost|optimizer|uncertainty)\\b"
+        },
+        {
+          "name": "keyword.quantum.synapse",
+          "match": "\\b(quantum|circuit|measure|backend|algorithm|run|with|shots|noise_model|seed|ideal|depolarizing|p1q|p2q|readout|parameters|ansatz|cost_function|optimize)\\b"
+        },
+        {
+          "name": "storage.type.synapse",
+          "match": "\\b(def|class|import|as|global|nonlocal)\\b"
+        },
+        {
+          "name": "constant.language.synapse",
+          "match": "\\b(True|False|None|Inf|NaN)\\b"
+        }
+      ]
+    },
+    "quantum-gates": {
+      "patterns": [
+        {
+          "name": "support.function.quantum.synapse",
+          "match": "\\b(h|x|y|z|s|sdg|t|tdg|rx|ry|rz|u|cx|cnot|cz|swap|iswap|ccx|toffoli|cswap)\\b"
+        }
+      ]
+    },
+    "uncertainty": {
+      "patterns": [
+        {
+          "name": "keyword.operator.uncertainty.synapse",
+          "match": "±|\\+/-"
+        },
+        {
+          "name": "support.type.uncertainty.synapse",
+          "match": "\\b\\d+(\\.\\d+)?\\s*±\\s*\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.synapse",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.synapse",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.synapse",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.synapse",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.triple.synapse",
+          "begin": "\"\"\"",
+          "end": "\"\"\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.synapse",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.synapse",
+          "begin": "#",
+          "end": "\\n"
+        },
+        {
+          "name": "comment.block.synapse",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.synapse",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.synapse",
+          "match": "\\b\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.complex.synapse",
+          "match": "\\b\\d+(\\.\\d+)?[jJ]\\b"
+        },
+        {
+          "name": "constant.numeric.hex.synapse",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.synapse",
+          "match": "\\b0[bB][01]+\\b"
+        },
+        {
+          "name": "constant.numeric.octal.synapse",
+          "match": "\\b0[oO][0-7]+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.synapse",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arithmetic.synapse",
+          "match": "\\+|\\-|\\*|\\/|\\^|\\%"
+        },
+        {
+          "name": "keyword.operator.comparison.synapse",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.synapse",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arrow.synapse",
+          "match": "=>|->|<-"
+        },
+        {
+          "name": "keyword.operator.dot.synapse",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.operator.special.synapse",
+          "match": "~|\\?|±"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.synapse",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*\\()"
+        },
+        {
+          "name": "support.function.builtin.synapse",
+          "match": "\\b(print|len|range|enumerate|zip|map|filter|sum|max|min|abs|round|int|float|str|bool|list|dict|set|tuple|type|isinstance|hasattr|getattr|setattr)\\b"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.synapse"
+}

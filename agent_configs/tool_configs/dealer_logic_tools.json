@@ -1,0 +1,270 @@
+{
+  "tools": [
+    {
+      "type": "webhook",
+      "name": "inventory_lookup",
+      "description": "Search dealership inventory for available vehicles",
+      "url": "https://api.dealership.com/inventory/search",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "make": {
+            "type": "string",
+            "description": "Vehicle manufacturer"
+          },
+          "model": {
+            "type": "string",
+            "description": "Vehicle model"
+          },
+          "year": {
+            "type": "integer",
+            "description": "Model year"
+          },
+          "max_price": {
+            "type": "number",
+            "description": "Maximum price"
+          },
+          "min_price": {
+            "type": "number",
+            "description": "Minimum price"
+          },
+          "body_style": {
+            "type": "string",
+            "enum": ["sedan", "suv", "truck", "coupe", "convertible", "van", "wagon"]
+          },
+          "fuel_type": {
+            "type": "string",
+            "enum": ["gas", "hybrid", "electric", "diesel"]
+          }
+        },
+        "required": ["make"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "schedule_test_drive",
+      "description": "Schedule a test drive appointment",
+      "url": "https://api.dealership.com/appointments/schedule",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string",
+            "description": "Customer full name"
+          },
+          "customer_phone": {
+            "type": "string",
+            "description": "Customer phone number"
+          },
+          "customer_email": {
+            "type": "string",
+            "description": "Customer email address"
+          },
+          "vehicle_vin": {
+            "type": "string",
+            "description": "VIN of vehicle to test drive"
+          },
+          "preferred_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Preferred appointment date"
+          },
+          "preferred_time": {
+            "type": "string",
+            "description": "Preferred appointment time"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes"
+          }
+        },
+        "required": ["customer_name", "customer_phone", "vehicle_vin", "preferred_date"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "calculate_financing",
+      "description": "Calculate monthly payment and financing options",
+      "url": "https://api.dealership.com/finance/calculate",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_price": {
+            "type": "number",
+            "description": "Vehicle price"
+          },
+          "down_payment": {
+            "type": "number",
+            "description": "Down payment amount"
+          },
+          "trade_in_value": {
+            "type": "number",
+            "description": "Trade-in value"
+          },
+          "loan_term_months": {
+            "type": "integer",
+            "enum": [36, 48, 60, 72, 84],
+            "description": "Loan term in months"
+          },
+          "credit_score": {
+            "type": "string",
+            "enum": ["excellent", "good", "fair", "poor"],
+            "description": "Credit score range"
+          },
+          "include_warranty": {
+            "type": "boolean",
+            "description": "Include extended warranty"
+          }
+        },
+        "required": ["vehicle_price", "loan_term_months"]
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "webhook",
+      "name": "check_trade_in_value",
+      "description": "Get estimated trade-in value for a vehicle",
+      "url": "https://api.dealership.com/tradein/evaluate",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "make": {
+            "type": "string",
+            "description": "Vehicle manufacturer"
+          },
+          "model": {
+            "type": "string",
+            "description": "Vehicle model"
+          },
+          "year": {
+            "type": "integer",
+            "description": "Model year"
+          },
+          "mileage": {
+            "type": "integer",
+            "description": "Current mileage"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["excellent", "good", "fair", "poor"],
+            "description": "Vehicle condition"
+          },
+          "vin": {
+            "type": "string",
+            "description": "Vehicle VIN (optional)"
+          }
+        },
+        "required": ["make", "model", "year", "mileage", "condition"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "client",
+      "name": "display_vehicle_gallery",
+      "description": "Display vehicle images and features in chat",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_data": {
+            "type": "object",
+            "properties": {
+              "vin": {
+                "type": "string"
+              },
+              "make": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "price": {
+                "type": "number"
+              },
+              "images": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mpg_city": {
+                "type": "integer"
+              },
+              "mpg_highway": {
+                "type": "integer"
+              }
+            },
+            "required": ["vin", "make", "model", "images"]
+          }
+        }
+      }
+    },
+    {
+      "type": "client",
+      "name": "open_calendar",
+      "description": "Open calendar widget for appointment scheduling",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "appointment_type": {
+            "type": "string",
+            "enum": ["test_drive", "service", "finance_consultation", "trade_in_appraisal"]
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "default": 60
+          },
+          "available_slots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "times": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": ["appointment_type"]
+      }
+    }
+  ]
+}

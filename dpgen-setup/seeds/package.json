@@ -1,0 +1,21 @@
+{
+  "name": "dpgen-firestore-seeds",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Firestore seeding for Digital Production Generator channels",
+  "main": "seed_channels.js",
+  "scripts": {
+    "seed": "node seed_channels.js",
+    "validate": "node validate_seeds.js"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "keywords": ["firestore", "google-cloud", "content-generation", "ai"],
+  "author": "Digital Production Generator",
+  "license": "MIT"
+}

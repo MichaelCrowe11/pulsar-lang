@@ -1,0 +1,136 @@
+{
+  "tools": [
+    {
+      "name": "calcROI",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{SERVER_BASE_URL}}/tools/calc-roi",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_AUTH}}"
+        },
+        "timeout_ms": 12000
+      },
+      "description": "Calculate ROI for dealership based on call metrics and conversion rates",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "inboundCallsPerMonth": {"type": "integer"},
+          "currentAnswerRate": {"type": "number", "minimum": 0, "maximum": 1},
+          "salesIntentShare": {"type": "number", "minimum": 0, "maximum": 1},
+          "serviceIntentShare": {"type": "number", "minimum": 0, "maximum": 1},
+          "aiCaptureRate": {"type": "number", "minimum": 0, "maximum": 1},
+          "leadQualRate": {"type": "number", "minimum": 0, "maximum": 1},
+          "salesCloseRate": {"type": "number", "minimum": 0, "maximum": 1},
+          "avgFrontBackGross": {"type": "number"},
+          "serviceSchedConv": {"type": "number", "minimum": 0, "maximum": 1},
+          "avgROGross": {"type": "number"},
+          "pilotCost": {"type": "number"},
+          "answeringSvcSpend": {"type": "number"},
+          "ivrSpend": {"type": "number"}
+        },
+        "required": [
+          "inboundCallsPerMonth", "currentAnswerRate", "salesIntentShare", "serviceIntentShare",
+          "aiCaptureRate", "leadQualRate", "salesCloseRate", "avgFrontBackGross",
+          "serviceSchedConv", "avgROGross", "pilotCost"
+        ]
+      }
+    },
+    {
+      "name": "bookMeeting",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{SERVER_BASE_URL}}/tools/book-meeting",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_AUTH}}"
+        },
+        "timeout_ms": 12000
+      },
+      "description": "Book a kickoff meeting with the dealership",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "attendeeName": {"type": "string"},
+          "attendeeEmail": {"type": "string"},
+          "attendeePhone": {"type": "string"},
+          "slotISO": {"type": "string"},
+          "durationMin": {"type": "integer", "default": 30},
+          "location": {"type": "string", "enum": ["video", "phone", "on-site"]}
+        },
+        "required": ["attendeeName", "slotISO"]
+      }
+    },
+    {
+      "name": "sendDeck",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{SERVER_BASE_URL}}/tools/send-deck",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_AUTH}}"
+        }
+      },
+      "description": "Send sales deck and materials to prospect",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "toEmail": {"type": "string"},
+          "toPhone": {"type": "string"},
+          "deckId": {"type": "string", "default": "dealer-logic-onepager"},
+          "appendPilotChecklist": {"type": "boolean", "default": true}
+        },
+        "required": ["toEmail"]
+      }
+    },
+    {
+      "name": "generateProposal",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{SERVER_BASE_URL}}/tools/generate-proposal",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_AUTH}}"
+        },
+        "timeout_ms": 20000
+      },
+      "description": "Generate customized pilot proposal for dealership",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "dealerName": {"type": "string"},
+          "pilotStartISO": {"type": "string"},
+          "pilotKPIs": {"type": "array", "items": {"type": "string"}},
+          "pricingPlan": {"type": "string", "enum": ["per-store-flat", "per-minute", "hybrid"]},
+          "notes": {"type": "string"}
+        },
+        "required": ["dealerName", "pilotStartISO", "pilotKPIs", "pricingPlan"]
+      }
+    },
+    {
+      "name": "sendPilotChecklist",
+      "type": "webhook",
+      "endpoint": {
+        "method": "POST",
+        "url": "{{SERVER_BASE_URL}}/tools/send-pilot-checklist",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer {{API_AUTH}}"
+        }
+      },
+      "description": "Send pilot implementation checklist",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "toEmail": {"type": "string"},
+          "toPhone": {"type": "string"}
+        },
+        "required": ["toEmail"]
+      }
+    }
+  ]
+}

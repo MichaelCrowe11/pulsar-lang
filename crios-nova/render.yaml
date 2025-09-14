@@ -1,0 +1,28 @@
+# Render.com deployment configuration
+services:
+  - type: web
+    name: crios-nova
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: LOG_LEVEL
+        value: info
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 60000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+    healthCheckPath: /health
+    numInstances: 1
+    plan: free
+    region: oregon
+    buildFilter:
+      paths:
+        - "**"
+      ignoredPaths:
+        - "*.md"
+        - ".git/**"
