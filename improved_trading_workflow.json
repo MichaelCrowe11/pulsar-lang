@@ -1,0 +1,273 @@
+{
+  "org_id": "o_mpI4dDy",
+  "project_id": "proj_rKsKr1v",
+  "env_vars": {
+    "COINBASE_PRIVATE_KEY": "{{ $.env.COINBASE_PRIVATE_KEY }}",
+    "PORTFOLIO_BASE_VALUE": "10000",
+    "MAX_POSITION_SIZE": "1000",
+    "DAILY_TRADE_LIMIT": "50",
+    "MAX_DRAWDOWN_PERCENT": "10",
+    "DAILY_LOSS_LIMIT": "5000",
+    "ENABLE_LIVE_TRADING": "false"
+  },
+  "steps": [
+    {
+      "namespace": "validate_input",
+      "props": {
+        "validations": {
+          "symbol": "{{ /^[A-Z]+-[A-Z]+$/.test(steps.trigger.event.body.symbol) }}",
+          "side": "{{ ['BUY', 'SELL'].includes(steps.trigger.event.body.side.toUpperCase()) }}",
+          "quantity": "{{ parseFloat(steps.trigger.event.body.quantity) > 0 }}",
+          "price": "{{ parseFloat(steps.trigger.event.body.price) > 0 }}"
+        },
+        "errorHandling": {
+          "onValidationFailure": "abort",
+          "notificationChannel": "errors"
+        }
+      }
+    },
+    {
+      "namespace": "risk_management",
+      "props": {
+        "postgresql": {
+          "authProvisionId": "apn_Xeh7m0j"
+        },
+        "symbol": "{{ steps.trigger.event.body.symbol }}",
+        "side": "{{ steps.trigger.event.body.side }}",
+        "quantity": "{{ steps.trigger.event.body.quantity }}",
+        "price": "{{ steps.trigger.event.body.price }}",
+        "maxPositionSize": "{{ parseInt($.env.MAX_POSITION_SIZE) }}",
+        "dailyTradeLimit": "{{ parseInt($.env.DAILY_TRADE_LIMIT) }}",
+        "maxDrawdownPercent": "{{ parseFloat($.env.MAX_DRAWDOWN_PERCENT) }}",
+        "dailyLossLimit": "{{ parseFloat($.env.DAILY_LOSS_LIMIT) }}",
+        "circuitBreakerEnabled": true,
+        "portfolioBaseValue": "{{ parseFloat($.env.PORTFOLIO_BASE_VALUE) }}",
+        "riskChecks": {
+          "checkPositionConcentration": true,
+          "checkCorrelation": true,
+          "checkVolatility": true,
+          "checkLiquidity": true
+        }
+      }
+    },
+    {
+      "namespace": "fetch_market_data",
+      "props": {
+        "coinbase": {
+          "authProvisionId": "apn_4vhybjW"
+        },
+        "productId": "{{ steps.risk_management.$return_value.tradeSignal.symbol }}",
+        "dataPoints": ["price", "volume", "spread", "depth", "volatility"],
+        "timeRange": "24h",
+        "includeOrderBook": true
+      }
+    },
+    {
+      "namespace": "calculate_order_params",
+      "props": {
+        "orderType": "{{ steps.risk_management.$return_value.recommendedOrderType || 'limit' }}",
+        "priceOptimization": {
+          "useMidPoint": true,
+          "slippageTolerance": "0.1",
+          "urgency": "{{ steps.trigger.event.body.urgency || 'normal' }}"
+        },
+        "sizeAdjustment": {
+          "basedOnLiquidity": true,
+          "basedOnVolatility": true,
+          "minSize": "0.001",
+          "maxSize": "{{ steps.risk_management.$return_value.validation.maxAllowedSize }}"
+        }
+      }
+    },
+    {
+      "namespace": "execute_trade",
+      "props": {
+        "coinbase": {
+          "authProvisionId": "apn_4vhybjW"
+        },
+        "accountId": "{{ $.env.COINBASE_ACCOUNT_ID }}",
+        "orderType": "{{ steps.calculate_order_params.$return_value.orderType }}",
+        "productId": "{{ steps.risk_management.$return_value.tradeSignal.symbol }}",
+        "orderSize": "{{ steps.calculate_order_params.$return_value.finalSize }}",
+        "orderPrice": "{{ steps.calculate_order_params.$return_value.finalPrice }}",
+        "riskValidationPassed": "{{ steps.risk_management.$return_value.validation.isValid }}",
+        "enableMockMode": "{{ $.env.ENABLE_LIVE_TRADING !== 'true' }}",
+        "stopLoss": {
+          "enabled": true,
+          "percentage": "2",
+          "trailingStop": false
+        },
+        "takeProfit": {
+          "enabled": true,
+          "percentage": "5",
+          "partialTakeProfit": true
+        },
+        "retryPolicy": {
+          "maxAttempts": 3,
+          "backoffMultiplier": 2,
+          "initialDelay": 1000
+        }
+      }
+    },
+    {
+      "namespace": "update_portfolio_metrics",
+      "props": {
+        "postgresql": {
+          "authProvisionId": "apn_Xeh7m0j"
+        },
+        "tradeData": "{{ steps.execute_trade.$return_value }}",
+        "marketData": "{{ steps.fetch_market_data.$return_value }}",
+        "calculateMetrics": {
+          "sharpeRatio": true,
+          "maxDrawdown": true,
+          "winRate": true,
+          "profitFactor": true,
+          "averageReturn": true
+        }
+      }
+    },
+    {
+      "namespace": "slack_notifications",
+      "props": {
+        "slack": {
+          "authProvisionId": "apn_7rh1MGv"
+        },
+        "conversation": {
+          "__lv": {
+            "label": "Public channel: all-crowe-logic",
+            "value": "C09B2JBBZP0"
+          }
+        },
+        "urgencyLevel": "{{ steps.execute_trade.$return_value.execution_result.status === 'failed' ? 'high' : 'normal' }}",
+        "includeMetrics": true,
+        "formatType": "detailed",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "{{ steps.execute_trade.$return_value.execution_result.status === 'success' ? '✅' : '❌' }} Trade {{ steps.execute_trade.$return_value.execution_result.status }}"
+            }
+          },
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "*Symbol:* {{ steps.execute_trade.$return_value.order_details.product_id }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Side:* {{ steps.execute_trade.$return_value.order_details.type }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Size:* {{ steps.execute_trade.$return_value.execution_result.executed_size }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Price:* ${{ steps.execute_trade.$return_value.execution_result.executed_price }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*P&L:* {{ steps.update_portfolio_metrics.$return_value.currentPnL }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Win Rate:* {{ steps.update_portfolio_metrics.$return_value.winRate }}%"
+              }
+            ]
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "Order ID: {{ steps.execute_trade.$return_value.execution_result.order_id }} | {{ new Date().toISOString() }}"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "namespace": "log_trading_activity",
+      "props": {
+        "googleSheets": {
+          "authProvisionId": "apn_7rh10Wm"
+        },
+        "drive": "My Drive",
+        "sheetId": {
+          "__lv": {
+            "label": "Crypto Crowe",
+            "value": "1LFyW47_0Ae1qzzgQti9__ozY8XCoK3iOoOBiDJ_Jp9I"
+          }
+        },
+        "worksheetId": {
+          "__lv": {
+            "label": "Sheet1",
+            "value": "0"
+          }
+        },
+        "hasHeaders": true,
+        "columns": {
+          "date": "{{ new Date(steps.execute_trade.$return_value.timestamp).toLocaleDateString() }}",
+          "time": "{{ new Date(steps.execute_trade.$return_value.timestamp).toLocaleTimeString() }}",
+          "symbol": "{{ steps.execute_trade.$return_value.order_details.product_id }}",
+          "side": "{{ steps.execute_trade.$return_value.order_details.type.toUpperCase() }}",
+          "quantity": "{{ steps.execute_trade.$return_value.execution_result.executed_size }}",
+          "price": "{{ steps.execute_trade.$return_value.execution_result.executed_price }}",
+          "value": "{{ steps.execute_trade.$return_value.execution_result.executed_value }}",
+          "pnl": "{{ steps.update_portfolio_metrics.$return_value.tradePnL }}",
+          "totalPnL": "{{ steps.update_portfolio_metrics.$return_value.totalPnL }}",
+          "winRate": "{{ steps.update_portfolio_metrics.$return_value.winRate }}",
+          "sharpeRatio": "{{ steps.update_portfolio_metrics.$return_value.sharpeRatio }}",
+          "exchange": "Coinbase {{ $.env.ENABLE_LIVE_TRADING !== 'true' ? '(Mock)' : '' }}",
+          "orderId": "{{ steps.execute_trade.$return_value.execution_result.order_id }}",
+          "notes": "{{ steps.risk_management.$return_value.validation.warnings.join(', ') }}"
+        }
+      }
+    },
+    {
+      "namespace": "error_handler",
+      "condition": "{{ steps.execute_trade.$return_value.execution_result.status === 'failed' }}",
+      "props": {
+        "alertChannels": ["slack", "email"],
+        "retryFailed": true,
+        "logToDatabase": true,
+        "circuitBreakerAction": "pause_trading"
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "props": {
+        "emitShape": "ERGONOMIC",
+        "responseType": "dynamicResponse",
+        "authorization": "bearerToken",
+        "bearerToken": "{{ $.env.API_BEARER_TOKEN }}",
+        "discardAutomatedRequests": true,
+        "rateLimiting": {
+          "enabled": true,
+          "maxRequests": 100,
+          "windowMs": 60000
+        },
+        "validation": {
+          "requireSymbol": true,
+          "requireSide": true,
+          "requireQuantity": true
+        }
+      }
+    }
+  ],
+  "settings": {
+    "name": "Auto Crypto Trading Platform - Enhanced",
+    "auto_deploy": false,
+    "error_notifications": true,
+    "monitoring": {
+      "metrics": true,
+      "logging": "verbose",
+      "alerting": true
+    }
+  }
+}

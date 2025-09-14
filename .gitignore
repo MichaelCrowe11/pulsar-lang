@@ -1,0 +1,131 @@
+.vercel
+
+# Environment and config files
+.env
+.env.*
+*.env
+.env.local
+.env.docker
+.env.example*
+
+# API keys and secrets
+.pypirc
+.boto
+cookies.txt
+
+# System files
+NTUSER.DAT*
+ntuser.*
+*.log*
+*.LOG*
+$null
+nul
+~$*
+
+# Directories to ignore
+.ssh/
+.azure/
+.conda/
+.anaconda/
+.config/
+.docker/
+.kube/
+.local/
+.cache/
+.vs-kubernetes/
+.vscode/
+.cursor/
+.matplotlib/
+.streamlit/
+.aitk/
+.codex/
+.continuum/
+.dotnet/
+.fly/
+.minikube/
+.ollama/
+.pack/
+.claude/
+.claude.json*
+AppData/
+anaconda3/
+bin/
+node_modules/
+Downloads/
+Documents/
+Music/
+Videos/
+Favorites/
+Links/
+Contacts/
+Searches/
+OneDrive/
+Saved Games/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# Node
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Installer files
+*.msi
+*.exe
+*.zip
+*.tar.gz
+OllamaSetup.exe
+stripe.exe
+AzureCLI.msi
+
+# Lock files
+convai.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Personal project folders to ignore
+CroweHub/
+CroweQuantumMyceliumNexus/
+MyceliumEI-Production/
+dealer-logic-pilot-clone/
+chronos-aging-moonshot/
+aicl-aix/
+aix-runtime/
+Crowe Logic AI/
+CroweTrade-1/
+
+# Miscellaneous
+PyPI recovery codes.txt
+claude-desktop-config.json
+agents.json
+tools.json
+*.jsonl
+.bash*
+.condarc
+.gitconfig
+.lesshst
+.vapi-cli.yaml
+Tuple[Dict
+Usersmichacrowe-logic-platform.env.local
