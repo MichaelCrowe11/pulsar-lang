@@ -1,0 +1,32 @@
+{
+  "name": "autonomous-trading-system",
+  "version": "1.0.0",
+  "description": "24/7 AI-powered autonomous cryptocurrency trading system",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node tests/run-tests.js",
+    "mock": "node src/mock-trading.js",
+    "deploy": "node scripts/deploy-to-pipedream.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "ccxt": "^4.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mathjs": "^12.0.0",
+    "openai": "^4.20.0",
+    "redis": "^4.6.0",
+    "simple-statistics": "^7.8.0",
+    "technicalindicators": "^3.1.0",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
