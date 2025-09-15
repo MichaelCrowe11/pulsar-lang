@@ -1,0 +1,222 @@
+{
+  "name": "Dealer Logic Sales - Enhanced (Staging)",
+  "conversation_config": {
+    "asr": {
+      "quality": "high",
+      "provider": "elevenlabs",
+      "user_input_audio_format": "pcm_16000",
+      "keywords": []
+    },
+    "turn": {
+      "turn_timeout": 7,
+      "silence_end_call_timeout": -1,
+      "mode": "turn"
+    },
+    "tts": {
+      "model_id": "eleven_turbo_v2",
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "supported_voices": [],
+      "agent_output_audio_format": "pcm_16000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.5,
+      "speed": 1,
+      "similarity_boost": 0.8,
+      "pronunciation_dictionary_locators": []
+    },
+    "conversation": {
+      "text_only": false,
+      "max_duration_seconds": 900,
+      "client_events": [
+        "audio",
+        "interruption"
+      ]
+    },
+    "language_presets": {},
+    "agent": {
+      "first_message": "Thanks for calling our sales department. I can help you find your next vehicle. What type of vehicle are you interested in today?",
+      "language": "en",
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "prompt": {
+        "prompt": "You are a professional automotive sales specialist. Use inventory_search to find available vehicles matching customer criteria. Get detailed information with get_vehicle_details for specific vehicles. For trade-ins, use get_trade_in_estimate to provide value estimates. Create leads in the CRM with create_lead for all qualified prospects. Schedule test drives when customers show interest using schedule_test_drive. Use payment_calculator for rough estimates but direct detailed financing to finance department. Never provide final pricing without using tools to check current availability and market pricing. Focus on building rapport, understanding needs, and qualifying timeline and budget. Always confirm customer contact information and buying timeline.",
+        "llm": "gemini-2.0-flash",
+        "temperature": 0.3,
+        "max_tokens": 1200,
+        "tools": [
+          {
+            "type": "webhook",
+            "name": "inventory_search",
+            "description": "Search dealership inventory for available vehicles",
+            "url": "https://api.dealership.com/v2/inventory/search",
+            "method": "POST",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}",
+              "Content-Type": "application/json"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "make": {
+                  "type": "string",
+                  "description": "Vehicle manufacturer"
+                },
+                "model": {
+                  "type": "string",
+                  "description": "Vehicle model"
+                },
+                "year": {
+                  "type": "integer",
+                  "description": "Model year",
+                  "minimum": 2020,
+                  "maximum": 2025
+                },
+                "max_price": {
+                  "type": "number",
+                  "description": "Maximum price budget"
+                },
+                "body_style": {
+                  "type": "string",
+                  "enum": ["sedan", "suv", "truck", "coupe", "convertible", "van", "wagon"],
+                  "description": "Vehicle body style"
+                },
+                "fuel_type": {
+                  "type": "string",
+                  "enum": ["gas", "hybrid", "electric", "diesel"],
+                  "description": "Fuel type preference"
+                }
+              },
+              "required": ["make"]
+            },
+            "timeout_ms": 5000
+          },
+          {
+            "type": "webhook",
+            "name": "schedule_test_drive",
+            "description": "Schedule a test drive appointment",
+            "url": "https://api.dealership.com/v2/appointments/test-drive",
+            "method": "POST",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}",
+              "Content-Type": "application/json"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "customer_name": {
+                  "type": "string",
+                  "description": "Customer full name"
+                },
+                "customer_phone": {
+                  "type": "string",
+                  "description": "Customer phone number"
+                },
+                "vehicle_vin": {
+                  "type": "string",
+                  "description": "VIN of vehicle to test drive"
+                },
+                "preferred_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Preferred appointment date (YYYY-MM-DD)"
+                },
+                "preferred_time": {
+                  "type": "string",
+                  "description": "Preferred appointment time (HH:MM)"
+                }
+              },
+              "required": ["customer_name", "customer_phone", "vehicle_vin", "preferred_date"]
+            },
+            "timeout_ms": 5000
+          },
+          {
+            "type": "webhook",
+            "name": "create_lead",
+            "description": "Create a sales lead in CRM system",
+            "url": "https://api.dealership.com/v2/leads/create",
+            "method": "POST",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}",
+              "Content-Type": "application/json"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "customer_info": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "phone": {"type": "string"},
+                    "email": {"type": "string"},
+                    "zip_code": {"type": "string"}
+                  },
+                  "required": ["name", "phone"]
+                },
+                "vehicle_interest": {
+                  "type": "object",
+                  "properties": {
+                    "make": {"type": "string"},
+                    "model": {"type": "string"},
+                    "year": {"type": "integer"},
+                    "budget_range": {"type": "string"}
+                  }
+                },
+                "timeline": {
+                  "type": "string",
+                  "enum": ["immediate", "within_week", "within_month", "just_looking"]
+                }
+              },
+              "required": ["customer_info"]
+            },
+            "timeout_ms": 5000
+          },
+          {
+            "type": "client",
+            "name": "payment_calculator",
+            "description": "Calculate estimated monthly payments",
+            "parameters": {
+              "vehicle_price": {"type": "number"},
+              "down_payment": {"type": "number"},
+              "loan_term_months": {"type": "integer"},
+              "interest_rate": {"type": "number"}
+            }
+          }
+        ],
+        "tool_ids": [],
+        "mcp_server_ids": [],
+        "native_mcp_server_ids": [],
+        "knowledge_base": [],
+        "ignore_default_personality": false,
+        "rag": {
+          "enabled": true,
+          "embedding_model": "e5_mistral_7b_instruct",
+          "max_vector_distance": 0.4,
+          "max_documents_length": 100000,
+          "max_retrieved_rag_chunks_count": 25
+        },
+        "custom_llm": null
+      }
+    }
+  },
+  "platform_settings": {
+    "auth": {
+      "enable_auth": false,
+      "allowlist": [],
+      "shareable_token": null
+    },
+    "evaluation": {
+      "criteria": []
+    },
+    "widget": {
+      "variant": "full",
+      "placement": "bottom-right",
+      "expandable": "never",
+      "avatar": {
+        "type": "orb",
+        "color_1": "#2792dc",
+        "color_2": "#9ce6e6"
+      },
+      "feedback_mode": "none"
+    }
+  }
+}

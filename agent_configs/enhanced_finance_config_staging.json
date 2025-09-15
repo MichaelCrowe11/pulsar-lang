@@ -1,0 +1,190 @@
+{
+  "name": "Dealer Logic Finance - Enhanced (Staging)",
+  "conversation_config": {
+    "asr": {
+      "quality": "high",
+      "provider": "elevenlabs",
+      "user_input_audio_format": "pcm_16000",
+      "keywords": []
+    },
+    "turn": {
+      "turn_timeout": 7,
+      "silence_end_call_timeout": -1,
+      "mode": "turn"
+    },
+    "tts": {
+      "model_id": "eleven_turbo_v2",
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "supported_voices": [],
+      "agent_output_audio_format": "pcm_16000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.5,
+      "speed": 1,
+      "similarity_boost": 0.8,
+      "pronunciation_dictionary_locators": []
+    },
+    "conversation": {
+      "text_only": false,
+      "max_duration_seconds": 1200,
+      "client_events": [
+        "audio",
+        "interruption"
+      ]
+    },
+    "language_presets": {},
+    "agent": {
+      "first_message": "Hello! I'm here to help you with financing options for your vehicle. Let me find the best rates and terms that work for your situation.",
+      "language": "en",
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "prompt": {
+        "prompt": "You are a professional automotive finance specialist. Help customers understand their financing options and secure the best rates. Use calculate_financing to show accurate payment options based on their situation. Perform credit_prequalification with customer consent to determine their credit tier and available rates. Get current financing_programs to identify special offers and incentives. Present lease_options when appropriate. For qualified customers, use submit_credit_application to process their application. Explain protection_products and their benefits. Always be transparent about rates, terms, and fees. Focus on finding solutions that fit their budget. Collect all required information systematically and explain each step. Never pressure customers into decisions - provide education and options.",
+        "llm": "gemini-2.0-flash",
+        "temperature": 0.2,
+        "max_tokens": 1500,
+        "tools": [
+          {
+            "type": "webhook",
+            "name": "calculate_financing",
+            "description": "Calculate detailed financing options and monthly payments",
+            "url": "https://api.dealership.com/v2/finance/calculate",
+            "method": "POST",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}",
+              "Content-Type": "application/json"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "vehicle_price": {
+                  "type": "number",
+                  "description": "Total vehicle price including taxes and fees"
+                },
+                "down_payment": {
+                  "type": "number",
+                  "description": "Down payment amount"
+                },
+                "trade_in_value": {
+                  "type": "number",
+                  "description": "Trade-in vehicle value"
+                },
+                "loan_amount": {
+                  "type": "number",
+                  "description": "Amount to finance"
+                },
+                "loan_terms": {
+                  "type": "array",
+                  "items": {"type": "integer"},
+                  "description": "Loan term options in months (e.g., [36, 48, 60, 72])"
+                },
+                "credit_tier": {
+                  "type": "string",
+                  "enum": ["prime", "near_prime", "subprime", "deep_subprime"],
+                  "description": "Customer credit tier"
+                }
+              },
+              "required": ["vehicle_price", "loan_amount"]
+            },
+            "timeout_ms": 5000
+          },
+          {
+            "type": "webhook",
+            "name": "credit_prequalification",
+            "description": "Perform soft credit check for prequalification",
+            "url": "https://api.dealership.com/v2/finance/prequalify",
+            "method": "POST",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}",
+              "Content-Type": "application/json"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "customer_info": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {"type": "string"},
+                    "last_name": {"type": "string"},
+                    "ssn_last_4": {"type": "string"},
+                    "zip_code": {"type": "string"},
+                    "annual_income": {"type": "number"}
+                  },
+                  "required": ["first_name", "last_name", "ssn_last_4", "zip_code"]
+                },
+                "soft_pull_consent": {
+                  "type": "boolean",
+                  "description": "Customer consent for soft credit pull"
+                }
+              },
+              "required": ["customer_info", "soft_pull_consent"]
+            },
+            "timeout_ms": 8000
+          },
+          {
+            "type": "webhook",
+            "name": "get_protection_products",
+            "description": "Get available extended warranties and protection products",
+            "url": "https://api.dealership.com/v2/finance/protection-products",
+            "method": "GET",
+            "headers": {
+              "Authorization": "Bearer {{DEALER_API_KEY}}"
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "vehicle_vin": {"type": "string"},
+                "loan_amount": {"type": "number"}
+              }
+            },
+            "timeout_ms": 3000
+          },
+          {
+            "type": "client",
+            "name": "finance_calculator",
+            "description": "Interactive financing calculator widget",
+            "parameters": {
+              "vehicle_price": {"type": "number"},
+              "trade_value": {"type": "number"},
+              "available_terms": {"type": "array"}
+            }
+          }
+        ],
+        "tool_ids": [],
+        "mcp_server_ids": [],
+        "native_mcp_server_ids": [],
+        "knowledge_base": [],
+        "ignore_default_personality": false,
+        "rag": {
+          "enabled": true,
+          "embedding_model": "e5_mistral_7b_instruct",
+          "max_vector_distance": 0.4,
+          "max_documents_length": 100000,
+          "max_retrieved_rag_chunks_count": 20
+        },
+        "custom_llm": null
+      }
+    }
+  },
+  "platform_settings": {
+    "auth": {
+      "enable_auth": false,
+      "allowlist": [],
+      "shareable_token": null
+    },
+    "evaluation": {
+      "criteria": []
+    },
+    "widget": {
+      "variant": "full",
+      "placement": "bottom-right",
+      "expandable": "never",
+      "avatar": {
+        "type": "orb",
+        "color_1": "#2792dc",
+        "color_2": "#9ce6e6"
+      },
+      "feedback_mode": "none"
+    }
+  }
+}
