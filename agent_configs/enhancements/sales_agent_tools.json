@@ -1,0 +1,264 @@
+{
+  "enhanced_sales_tools": [
+    {
+      "type": "webhook",
+      "name": "inventory_search",
+      "description": "Search dealership inventory for available vehicles",
+      "url": "https://api.dealership.com/v2/inventory/search",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "make": {
+            "type": "string",
+            "description": "Vehicle manufacturer"
+          },
+          "model": {
+            "type": "string",
+            "description": "Vehicle model"
+          },
+          "year": {
+            "type": "integer",
+            "description": "Model year",
+            "minimum": 2020,
+            "maximum": 2025
+          },
+          "max_price": {
+            "type": "number",
+            "description": "Maximum price budget"
+          },
+          "min_price": {
+            "type": "number",
+            "description": "Minimum price budget"
+          },
+          "body_style": {
+            "type": "string",
+            "enum": ["sedan", "suv", "truck", "coupe", "convertible", "van", "wagon"],
+            "description": "Vehicle body style"
+          },
+          "fuel_type": {
+            "type": "string",
+            "enum": ["gas", "hybrid", "electric", "diesel"],
+            "description": "Fuel type preference"
+          },
+          "mileage_max": {
+            "type": "integer",
+            "description": "Maximum acceptable mileage"
+          }
+        },
+        "required": ["make"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "get_vehicle_details",
+      "description": "Get detailed information about a specific vehicle by VIN or stock number",
+      "url": "https://api.dealership.com/v2/vehicles/details",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string",
+            "description": "Vehicle VIN number"
+          },
+          "stock_number": {
+            "type": "string",
+            "description": "Dealership stock number"
+          }
+        }
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "webhook",
+      "name": "schedule_test_drive",
+      "description": "Schedule a test drive appointment",
+      "url": "https://api.dealership.com/v2/appointments/test-drive",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string",
+            "description": "Customer full name"
+          },
+          "customer_phone": {
+            "type": "string",
+            "description": "Customer phone number"
+          },
+          "customer_email": {
+            "type": "string",
+            "description": "Customer email address"
+          },
+          "vehicle_vin": {
+            "type": "string",
+            "description": "VIN of vehicle to test drive"
+          },
+          "preferred_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Preferred appointment date (YYYY-MM-DD)"
+          },
+          "preferred_time": {
+            "type": "string",
+            "description": "Preferred appointment time (HH:MM)"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "default": 30,
+            "description": "Expected test drive duration"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional appointment notes"
+          }
+        },
+        "required": ["customer_name", "customer_phone", "vehicle_vin", "preferred_date"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "create_lead",
+      "description": "Create a sales lead in CRM system",
+      "url": "https://api.dealership.com/v2/leads/create",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_info": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "phone": {"type": "string"},
+              "email": {"type": "string"},
+              "zip_code": {"type": "string"}
+            },
+            "required": ["name", "phone"]
+          },
+          "vehicle_interest": {
+            "type": "object",
+            "properties": {
+              "make": {"type": "string"},
+              "model": {"type": "string"},
+              "year": {"type": "integer"},
+              "vin": {"type": "string"},
+              "budget_range": {"type": "string"}
+            }
+          },
+          "trade_in_info": {
+            "type": "object",
+            "properties": {
+              "has_trade": {"type": "boolean"},
+              "trade_year": {"type": "integer"},
+              "trade_make": {"type": "string"},
+              "trade_model": {"type": "string"},
+              "trade_mileage": {"type": "integer"}
+            }
+          },
+          "timeline": {
+            "type": "string",
+            "enum": ["immediate", "within_week", "within_month", "just_looking"]
+          },
+          "source": {
+            "type": "string",
+            "default": "phone_agent"
+          }
+        },
+        "required": ["customer_info"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "get_trade_in_estimate",
+      "description": "Get preliminary trade-in value estimate",
+      "url": "https://api.dealership.com/v2/trade-in/estimate",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Vehicle year"
+          },
+          "make": {
+            "type": "string",
+            "description": "Vehicle make"
+          },
+          "model": {
+            "type": "string",
+            "description": "Vehicle model"
+          },
+          "trim": {
+            "type": "string",
+            "description": "Vehicle trim level"
+          },
+          "mileage": {
+            "type": "integer",
+            "description": "Current mileage"
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["excellent", "good", "fair", "poor"],
+            "description": "Overall vehicle condition"
+          }
+        },
+        "required": ["year", "make", "model", "mileage"]
+      },
+      "timeout_ms": 4000
+    },
+    {
+      "type": "client",
+      "name": "payment_calculator",
+      "description": "Calculate estimated monthly payments",
+      "parameters": {
+        "vehicle_price": {"type": "number"},
+        "down_payment": {"type": "number"},
+        "trade_value": {"type": "number"},
+        "loan_term_months": {"type": "integer"},
+        "interest_rate": {"type": "number"}
+      }
+    },
+    {
+      "type": "client",
+      "name": "vehicle_comparison",
+      "description": "Create side-by-side vehicle comparison",
+      "parameters": {
+        "vehicles": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  ],
+  "enhanced_prompt": "You are a professional automotive sales specialist. Your goal is to understand customer needs and help them find the perfect vehicle. Use inventory_search to find available vehicles matching their criteria. Get detailed information with get_vehicle_details for specific vehicles. For trade-ins, use get_trade_in_estimate to provide value estimates. Create leads in the CRM with create_lead for all qualified prospects. Schedule test drives when customers show interest. Use payment_calculator for rough estimates but direct detailed financing to finance department. Never provide final pricing - use tools to check current availability and market pricing. Focus on building rapport, understanding needs, and qualifying timeline and budget. Always confirm customer contact information and buying timeline.",
+  "rag_settings": {
+    "enabled": true,
+    "embedding_model": "e5_mistral_7b_instruct",
+    "max_vector_distance": 0.4,
+    "max_documents_length": 100000,
+    "max_retrieved_rag_chunks_count": 25
+  }
+}

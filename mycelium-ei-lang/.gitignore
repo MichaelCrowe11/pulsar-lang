@@ -63,3 +63,33 @@ Desktop.ini
 *.crt
 secrets/
 credentials/
+
+# Payment gateway
+crypto-payments/.env
+crypto-payments/.env.local
+crypto-payments/__pycache__/
+crypto-payments/.vercel/
+
+# Node modules (for npm package)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# MacOS
+.AppleDouble
+.LSOverride
+
+# Windows additional
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*/

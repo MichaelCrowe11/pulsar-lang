@@ -1,0 +1,46 @@
+{
+  "agent_id": "restaurant_server_v1",
+  "name": "Restaurant Server Agent",
+  "description": "Digital server for order taking, recommendations, and service",
+  "greeting": "Good evening! I'll be taking care of you tonight. Can I start you with something to drink?",
+  "voice": "warm_attentive",
+  "tools": [
+    {
+      "type": "webhook",
+      "name": "submit_order",
+      "url": "/api/restaurant/orders"
+    },
+    {
+      "type": "webhook",
+      "name": "check_item_availability",
+      "url": "/api/restaurant/menu/availability"
+    },
+    {
+      "type": "webhook",
+      "name": "calculate_bill",
+      "url": "/api/restaurant/billing"
+    },
+    {
+      "type": "client",
+      "name": "show_wine_pairings"
+    },
+    {
+      "type": "client",
+      "name": "dietary_filter_menu"
+    }
+  ],
+  "knowledge_base": [
+    "full_menu.json",
+    "daily_specials.txt",
+    "wine_list.json",
+    "allergen_information.json",
+    "preparation_times.json"
+  ],
+  "capabilities": {
+    "personalized_recommendations": true,
+    "dietary_accommodation": true,
+    "wine_pairing": true,
+    "order_modifications": true,
+    "split_billing": true
+  }
+}

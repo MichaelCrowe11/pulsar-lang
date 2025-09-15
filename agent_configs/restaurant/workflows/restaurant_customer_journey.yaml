@@ -1,0 +1,389 @@
+# Restaurant Customer Journey Workflows
+# Complete end-to-end customer experiences
+
+workflows:
+  # === RESERVATION TO DINING WORKFLOW ===
+  complete_dining_experience:
+    name: "Full Restaurant Experience"
+    description: "From reservation to feedback collection"
+
+    stages:
+      - stage_id: "initial_inquiry"
+        agent: "restaurant_host"
+        entry_points:
+          - phone_call
+          - web_chat
+          - mobile_app
+          - voice_assistant
+        actions:
+          - greet_customer
+          - identify_intent
+        next_stage_rules:
+          - if: "intent == 'reservation'"
+            goto: "reservation_booking"
+          - if: "intent == 'questions'"
+            goto: "information_service"
+          - if: "intent == 'takeout'"
+            goto: "takeout_ordering"
+
+      - stage_id: "reservation_booking"
+        agent: "restaurant_host"
+        actions:
+          - collect_party_details
+          - check_availability
+          - offer_alternatives_if_full
+          - handle_special_requests
+        tools:
+          - check_table_availability
+          - create_reservation
+          - waitlist_add
+        validations:
+          - party_size_limits
+          - advance_booking_rules
+          - deposit_requirements
+        next_stage_rules:
+          - if: "reservation_confirmed"
+            goto: "pre_arrival_prep"
+          - if: "added_to_waitlist"
+            goto: "waitlist_management"
+
+      - stage_id: "pre_arrival_prep"
+        agent: "restaurant_host"
+        scheduled_actions:
+          - time: "-24 hours"
+            action: "send_confirmation_reminder"
+          - time: "-4 hours"
+            action: "check_special_requests"
+          - time: "-2 hours"
+            action: "send_directions_parking"
+        next_stage: "arrival_greeting"
+
+      - stage_id: "arrival_greeting"
+        agent: "restaurant_host"
+        triggers:
+          - customer_arrives
+          - check_in_via_app
+        actions:
+          - verify_reservation
+          - update_table_status
+          - notify_server
+          - escort_to_table
+        handoff: "restaurant_server"
+
+      - stage_id: "dining_service"
+        agent: "restaurant_server"
+        actions:
+          - welcome_at_table
+          - present_menu_specials
+          - take_drink_orders
+          - answer_menu_questions
+          - take_food_orders
+          - coordinate_courses
+        parallel_agents:
+          - if: "wine_requested"
+            consult: "restaurant_sommelier"
+          - if: "dietary_restrictions"
+            consult: "restaurant_chef_consultant"
+        tools:
+          - menu_search
+          - place_order
+          - check_ingredient_availability
+          - allergen_checker
+        next_stage: "payment_processing"
+
+      - stage_id: "payment_processing"
+        agent: "restaurant_server"
+        actions:
+          - present_bill
+          - apply_discounts
+          - process_loyalty_points
+          - handle_payment
+          - provide_receipt
+        tools:
+          - calculate_bill
+          - process_payment
+          - loyalty_points_check
+        next_stage: "post_dining_engagement"
+
+      - stage_id: "post_dining_engagement"
+        agent: "restaurant_feedback_analyst"
+        timing: "+30 minutes"
+        actions:
+          - send_thank_you
+          - request_feedback
+          - offer_return_incentive
+        tools:
+          - collect_feedback
+          - send_promotion
+        completion_actions:
+          - update_customer_profile
+          - calculate_lifetime_value
+          - trigger_remarketing
+
+  # === ONLINE ORDERING WORKFLOW ===
+  digital_ordering_flow:
+    name: "Online/App Ordering Experience"
+    description: "Takeout and delivery ordering process"
+
+    stages:
+      - stage_id: "order_initiation"
+        agent: "restaurant_delivery_coordinator"
+        entry_points:
+          - website
+          - mobile_app
+          - third_party_platform
+        actions:
+          - detect_customer_location
+          - check_service_availability
+          - present_menu
+        tools:
+          - menu_search
+          - check_ingredient_availability
+
+      - stage_id: "order_customization"
+        agent: "restaurant_server"
+        actions:
+          - handle_modifications
+          - suggest_add_ons
+          - calculate_totals
+          - apply_promotions
+        validations:
+          - minimum_order_amount
+          - delivery_radius
+          - item_availability
+
+      - stage_id: "order_confirmation"
+        agent: "restaurant_delivery_coordinator"
+        actions:
+          - confirm_order_details
+          - provide_time_estimate
+          - process_payment
+          - send_to_kitchen
+        tools:
+          - place_order
+          - estimate_delivery_time
+          - process_payment
+        next_stage: "order_preparation"
+
+      - stage_id: "order_preparation"
+        agent: "restaurant_chef_consultant"
+        actions:
+          - monitor_kitchen_queue
+          - update_prep_status
+          - handle_modifications
+        tools:
+          - kitchen_queue_status
+        real_time_updates:
+          - order_started
+          - order_ready
+          - out_for_delivery
+
+      - stage_id: "delivery_execution"
+        agent: "restaurant_delivery_coordinator"
+        actions:
+          - assign_driver
+          - track_delivery
+          - handle_issues
+          - confirm_delivery
+        tools:
+          - assign_driver
+          - track_delivery
+        customer_communication:
+          - driver_assigned
+          - order_picked_up
+          - arriving_soon
+          - delivered
+
+  # === CATERING & EVENTS WORKFLOW ===
+  catering_event_management:
+    name: "Private Events and Catering"
+    description: "Large party and catering order management"
+
+    stages:
+      - stage_id: "event_inquiry"
+        agent: "restaurant_event_planner"
+        actions:
+          - understand_event_type
+          - collect_requirements
+          - check_date_availability
+          - provide_initial_quote
+
+      - stage_id: "menu_planning"
+        agent: "restaurant_chef_consultant"
+        collaborative_agents:
+          - restaurant_sommelier
+          - restaurant_event_planner
+        actions:
+          - design_custom_menu
+          - accommodate_dietary_needs
+          - wine_pairing_selection
+          - calculate_quantities
+        tools:
+          - menu_search
+          - allergen_checker
+          - wine_pairing
+
+      - stage_id: "contract_finalization"
+        agent: "restaurant_event_planner"
+        actions:
+          - finalize_details
+          - process_deposit
+          - send_contract
+          - schedule_tastings
+
+      - stage_id: "event_execution"
+        agent: "restaurant_event_planner"
+        coordinated_agents:
+          - restaurant_server
+          - restaurant_chef_consultant
+          - restaurant_delivery_coordinator
+        actions:
+          - coordinate_setup
+          - manage_service
+          - handle_real_time_adjustments
+          - process_final_payment
+
+  # === LOYALTY & RETENTION WORKFLOW ===
+  customer_loyalty_journey:
+    name: "Loyalty Program Management"
+    description: "Build and maintain customer relationships"
+
+    stages:
+      - stage_id: "enrollment"
+        agent: "restaurant_loyalty_manager"
+        triggers:
+          - first_visit
+          - signup_request
+        actions:
+          - explain_benefits
+          - collect_information
+          - issue_welcome_bonus
+
+      - stage_id: "engagement"
+        agent: "restaurant_loyalty_manager"
+        recurring_actions:
+          - track_visits
+          - accumulate_points
+          - send_personalized_offers
+          - birthday_rewards
+        tools:
+          - loyalty_points_check
+          - send_promotion
+
+      - stage_id: "tier_advancement"
+        agent: "restaurant_loyalty_manager"
+        triggers:
+          - spending_threshold
+          - visit_frequency
+        actions:
+          - upgrade_tier
+          - unlock_benefits
+          - send_congratulations
+
+      - stage_id: "win_back"
+        agent: "restaurant_loyalty_manager"
+        triggers:
+          - no_visit_30_days
+          - no_visit_60_days
+        actions:
+          - send_we_miss_you
+          - offer_special_incentive
+          - request_feedback
+
+# === MULTI-LOCATION ORCHESTRATION ===
+multi_location_management:
+  name: "Chain Restaurant Coordination"
+  description: "Manage multiple restaurant locations"
+
+  coordination_rules:
+    - rule: "load_balancing"
+      description: "Distribute reservations across nearby locations"
+      conditions:
+        - location_at_capacity
+        - alternative_within_5_miles
+      action: "offer_alternative_location"
+
+    - rule: "inventory_sharing"
+      description: "Share ingredients between locations"
+      conditions:
+        - item_out_of_stock
+        - available_at_nearby_location
+      action: "coordinate_transfer"
+
+    - rule: "staff_floating"
+      description: "Move staff between locations as needed"
+      conditions:
+        - unexpected_rush
+        - staff_available_nearby
+      action: "request_temporary_transfer"
+
+    - rule: "unified_loyalty"
+      description: "Points work at all locations"
+      implementation:
+        - central_database
+        - real_time_sync
+        - cross_location_rewards
+
+# === INTEGRATION ORCHESTRATION ===
+third_party_platform_sync:
+  name: "Multi-Platform Management"
+  description: "Coordinate across delivery platforms"
+
+  platforms:
+    - name: "DoorDash"
+      sync_frequency: "real_time"
+      data_sync:
+        - menu_items
+        - availability
+        - pricing
+        - photos
+
+    - name: "Uber Eats"
+      sync_frequency: "real_time"
+      data_sync:
+        - menu_items
+        - hours
+        - promotions
+
+    - name: "GrubHub"
+      sync_frequency: "every_15_min"
+      data_sync:
+        - inventory
+        - wait_times
+
+  conflict_resolution:
+    - priority_order: ["direct", "doordash", "ubereats", "grubhub"]
+    - inventory_allocation: "first_come_first_served"
+    - pricing_strategy: "platform_specific_allowed"
+
+# === PERFORMANCE MONITORING ===
+kpi_tracking:
+  metrics:
+    - name: "table_turnover"
+      target: 90  # minutes
+      measure: "average_dining_duration"
+
+    - name: "order_accuracy"
+      target: 98  # percent
+      measure: "correct_orders / total_orders"
+
+    - name: "delivery_time"
+      target: 35  # minutes
+      measure: "average_delivery_duration"
+
+    - name: "customer_satisfaction"
+      target: 4.5  # out of 5
+      measure: "average_rating"
+
+    - name: "food_cost"
+      target: 30  # percent
+      measure: "ingredient_cost / revenue"
+
+  alerts:
+    - metric: "wait_time"
+      threshold: 45  # minutes
+      action: "notify_manager"
+
+    - metric: "negative_reviews"
+      threshold: 3  # per day
+      action: "escalate_to_owner"

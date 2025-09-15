@@ -1,0 +1,302 @@
+{
+  "restaurant_tools": {
+    "reservation_management": [
+      {
+        "type": "webhook",
+        "name": "check_table_availability",
+        "description": "Check available tables for a specific time",
+        "url": "https://api.restaurant.com/tables/availability",
+        "method": "POST",
+        "parameters": {
+          "date": "string",
+          "time": "string",
+          "party_size": "integer",
+          "duration_minutes": "integer",
+          "seating_preference": ["indoor", "outdoor", "bar", "private"]
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "create_reservation",
+        "description": "Book a table reservation",
+        "url": "https://api.restaurant.com/reservations/create",
+        "method": "POST",
+        "parameters": {
+          "customer_name": "string",
+          "phone": "string",
+          "email": "string",
+          "date": "string",
+          "time": "string",
+          "party_size": "integer",
+          "table_id": "string",
+          "special_requests": "string",
+          "occasion": ["birthday", "anniversary", "business", "date", "other"]
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "waitlist_add",
+        "description": "Add customer to waitlist",
+        "url": "https://api.restaurant.com/waitlist/add",
+        "method": "POST",
+        "parameters": {
+          "customer_name": "string",
+          "phone": "string",
+          "party_size": "integer",
+          "quoted_wait": "integer",
+          "preferences": "object"
+        }
+      }
+    ],
+    "ordering_system": [
+      {
+        "type": "webhook",
+        "name": "menu_search",
+        "description": "Search menu items with filters",
+        "url": "https://api.restaurant.com/menu/search",
+        "method": "POST",
+        "parameters": {
+          "category": ["appetizer", "entree", "dessert", "beverage"],
+          "dietary": ["vegan", "vegetarian", "gluten-free", "keto", "halal", "kosher"],
+          "allergens_exclude": ["nuts", "dairy", "eggs", "shellfish", "soy", "wheat"],
+          "price_range": "object",
+          "spice_level": ["mild", "medium", "hot", "extra-hot"],
+          "keywords": "array"
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "place_order",
+        "description": "Submit order to kitchen",
+        "url": "https://api.restaurant.com/orders/create",
+        "method": "POST",
+        "parameters": {
+          "table_number": "string",
+          "items": "array",
+          "modifications": "object",
+          "timing": ["asap", "together", "courses"],
+          "special_instructions": "string"
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "check_ingredient_availability",
+        "description": "Verify if ingredients are in stock",
+        "url": "https://api.restaurant.com/inventory/check",
+        "method": "POST",
+        "parameters": {
+          "menu_item_id": "string",
+          "ingredients": "array",
+          "quantity": "integer"
+        }
+      }
+    ],
+    "payment_processing": [
+      {
+        "type": "webhook",
+        "name": "calculate_bill",
+        "description": "Calculate total bill with tax and tip",
+        "url": "https://api.restaurant.com/billing/calculate",
+        "method": "POST",
+        "parameters": {
+          "order_id": "string",
+          "discounts": "array",
+          "loyalty_points": "integer",
+          "tip_percentage": "number",
+          "split_method": ["equal", "by_item", "custom"]
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "process_payment",
+        "description": "Process payment transaction",
+        "url": "https://api.restaurant.com/payment/process",
+        "method": "POST",
+        "parameters": {
+          "amount": "number",
+          "method": ["card", "cash", "mobile", "crypto"],
+          "split_payments": "array",
+          "loyalty_number": "string"
+        }
+      }
+    ],
+    "delivery_management": [
+      {
+        "type": "webhook",
+        "name": "estimate_delivery_time",
+        "description": "Calculate delivery time estimate",
+        "url": "https://api.restaurant.com/delivery/estimate",
+        "method": "POST",
+        "parameters": {
+          "address": "object",
+          "order_size": "string",
+          "current_queue": "integer",
+          "traffic_conditions": "string"
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "assign_driver",
+        "description": "Assign delivery driver to order",
+        "url": "https://api.restaurant.com/delivery/assign",
+        "method": "POST",
+        "parameters": {
+          "order_id": "string",
+          "delivery_address": "object",
+          "priority": ["normal", "rush", "scheduled"],
+          "driver_preferences": "object"
+        }
+      },
+      {
+        "type": "client",
+        "name": "track_delivery",
+        "description": "Real-time delivery tracking",
+        "parameters": {
+          "order_id": "string",
+          "show_map": "boolean",
+          "send_notifications": "boolean"
+        }
+      }
+    ],
+    "customer_engagement": [
+      {
+        "type": "webhook",
+        "name": "loyalty_points_check",
+        "description": "Check customer loyalty points",
+        "url": "https://api.restaurant.com/loyalty/balance",
+        "method": "GET",
+        "parameters": {
+          "customer_id": "string",
+          "phone": "string",
+          "email": "string"
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "send_promotion",
+        "description": "Send personalized promotion",
+        "url": "https://api.restaurant.com/marketing/promotion",
+        "method": "POST",
+        "parameters": {
+          "customer_id": "string",
+          "promotion_type": ["discount", "bogo", "points", "free_item"],
+          "valid_until": "datetime",
+          "conditions": "object"
+        }
+      },
+      {
+        "type": "client",
+        "name": "collect_feedback",
+        "description": "Interactive feedback collection",
+        "parameters": {
+          "order_id": "string",
+          "rating_scale": "integer",
+          "categories": "array",
+          "allow_photos": "boolean"
+        }
+      }
+    ],
+    "kitchen_operations": [
+      {
+        "type": "webhook",
+        "name": "kitchen_queue_status",
+        "description": "Check kitchen queue and prep times",
+        "url": "https://api.restaurant.com/kitchen/status",
+        "method": "GET",
+        "parameters": {
+          "station": ["grill", "saute", "cold", "dessert"],
+          "time_range": "object"
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "ingredient_alert",
+        "description": "Alert for low ingredients",
+        "url": "https://api.restaurant.com/kitchen/alerts",
+        "method": "POST",
+        "parameters": {
+          "ingredient": "string",
+          "current_level": "number",
+          "threshold": "number",
+          "urgency": ["low", "medium", "critical"]
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "prep_list_generate",
+        "description": "Generate prep list based on reservations",
+        "url": "https://api.restaurant.com/kitchen/prep",
+        "method": "POST",
+        "parameters": {
+          "date": "string",
+          "expected_covers": "integer",
+          "special_events": "array",
+          "historical_data": "boolean"
+        }
+      }
+    ],
+    "analytics_reporting": [
+      {
+        "type": "webhook",
+        "name": "sales_analytics",
+        "description": "Get sales performance data",
+        "url": "https://api.restaurant.com/analytics/sales",
+        "method": "GET",
+        "parameters": {
+          "date_range": "object",
+          "metrics": ["revenue", "covers", "average_check", "table_turnover"],
+          "group_by": ["hour", "day", "week", "month"]
+        }
+      },
+      {
+        "type": "webhook",
+        "name": "popular_items_report",
+        "description": "Analyze most popular menu items",
+        "url": "https://api.restaurant.com/analytics/menu",
+        "method": "GET",
+        "parameters": {
+          "time_period": "string",
+          "category": "string",
+          "include_trends": "boolean"
+        }
+      }
+    ],
+    "integration_apis": [
+      {
+        "type": "webhook",
+        "name": "opentable_sync",
+        "description": "Sync with OpenTable reservations",
+        "url": "https://api.opentable.com/sync",
+        "integration": "OpenTable"
+      },
+      {
+        "type": "webhook",
+        "name": "doordash_integration",
+        "description": "Manage DoorDash orders",
+        "url": "https://api.doordash.com/merchant",
+        "integration": "DoorDash"
+      },
+      {
+        "type": "webhook",
+        "name": "ubereats_menu_sync",
+        "description": "Sync menu with Uber Eats",
+        "url": "https://api.ubereats.com/menu",
+        "integration": "UberEats"
+      },
+      {
+        "type": "webhook",
+        "name": "toast_pos_connect",
+        "description": "Connect to Toast POS system",
+        "url": "https://api.toasttab.com/connect",
+        "integration": "Toast"
+      },
+      {
+        "type": "webhook",
+        "name": "square_payment",
+        "description": "Process Square payments",
+        "url": "https://api.squareup.com/payment",
+        "integration": "Square"
+      }
+    ]
+  }
+}

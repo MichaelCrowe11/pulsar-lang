@@ -1,0 +1,90 @@
+{
+  "enhanced_reception_tools": [
+    {
+      "type": "webhook",
+      "name": "lookup_customer_info",
+      "description": "Look up existing customer information by phone number or email",
+      "url": "https://api.dealership.com/v2/customers/lookup",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "description": "Customer phone number"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer email address"
+          }
+        }
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "webhook",
+      "name": "check_dealer_hours",
+      "description": "Check current dealership hours and department availability",
+      "url": "https://api.dealership.com/v2/hours/current",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}"
+      },
+      "timeout_ms": 2000
+    },
+    {
+      "type": "webhook",
+      "name": "route_call",
+      "description": "Route call to appropriate department with context",
+      "url": "https://api.dealership.com/v2/routing/transfer",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "department": {
+            "type": "string",
+            "enum": ["sales", "service", "parts", "finance"],
+            "description": "Target department"
+          },
+          "customer_context": {
+            "type": "object",
+            "description": "Customer information and conversation context"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["normal", "high", "urgent"],
+            "description": "Call priority level"
+          }
+        },
+        "required": ["department"]
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "client",
+      "name": "sentiment_monitor",
+      "description": "Monitor customer sentiment and escalate if needed",
+      "parameters": {
+        "negative_threshold": -0.6,
+        "escalation_keywords": ["angry", "frustrated", "manager", "complaint"],
+        "auto_escalate": true
+      }
+    }
+  ],
+  "enhanced_prompt": "You are Dealer Logic—professional, concise, friendly. Greet, disclose recording, then identify intent in ≤2 turns. Use lookup_customer_info tool to check for existing customers by phone number. Confirm callback number and ZIP. For service: collect VIN/plate/mileage/concern. For sales: vehicle of interest (VIN/stock if known), budget/timeline, trade-in basics. Use sentiment_monitor to track customer satisfaction throughout the call. Summarize collected information, then use route_call tool to transfer to appropriate department with full context. Offer Spanish if caller signals it. Never invent availability or prices—use tools only. If customer shows frustration or uses escalation keywords, escalate immediately using priority 'urgent'.",
+  "rag_settings": {
+    "enabled": true,
+    "embedding_model": "e5_mistral_7b_instruct",
+    "max_vector_distance": 0.4,
+    "max_documents_length": 100000,
+    "max_retrieved_rag_chunks_count": 30
+  }
+}

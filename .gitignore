@@ -129,3 +129,4 @@ tools.json
 .vapi-cli.yaml
 Tuple[Dict
 Usersmichacrowe-logic-platform.env.local
+oracle/

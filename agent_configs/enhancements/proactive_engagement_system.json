@@ -1,0 +1,523 @@
+{
+  "proactive_engagement_system": {
+    "trigger_engine": {
+      "type": "webhook",
+      "name": "engagement_trigger_processor",
+      "description": "Process events and trigger proactive agent outreach",
+      "url": "https://api.dealership.com/v2/engagement/triggers",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{ENGAGEMENT_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "event_types": {
+        "customer_behavior": {
+          "website_abandoned_session": {
+            "trigger_delay": "30_minutes",
+            "conditions": {
+              "pages_viewed": ">3",
+              "time_on_site": ">5_minutes",
+              "viewed_pricing": true,
+              "left_without_action": true
+            },
+            "engagement_action": "proactive_website_chat",
+            "message_template": "Hi! I noticed you were looking at our {{vehicle_model}}. I'm here to answer any questions or help you schedule a test drive. Would you like to chat?",
+            "agent_assignment": "dealer_logic_sales_v2"
+          },
+          "abandoned_cart": {
+            "trigger_delay": "2_hours",
+            "conditions": {
+              "items_in_cart": ">0",
+              "cart_value": ">$500",
+              "no_checkout_attempt": true
+            },
+            "engagement_action": "sms_outreach",
+            "message_template": "Hi {{customer_name}}, you left some items in your cart. Need help completing your order? Reply HELP for assistance or STOP to opt out.",
+            "agent_assignment": "dealer_logic_parts_v2"
+          },
+          "multiple_quote_requests": {
+            "trigger_delay": "24_hours",
+            "conditions": {
+              "quote_requests": ">=3",
+              "no_response": true,
+              "time_window": "7_days"
+            },
+            "engagement_action": "personalized_call",
+            "message_template": null,
+            "agent_assignment": "dealer_logic_sales_v2",
+            "priority": "high"
+          }
+        },
+        "lifecycle_events": {
+          "lease_expiring": {
+            "trigger_delay": "-90_days",
+            "conditions": {
+              "lease_end_date": "within_90_days",
+              "no_renewal_contact": true
+            },
+            "engagement_action": "multi_channel_campaign",
+            "channels": ["email", "sms", "direct_mail", "phone_call"],
+            "message_template": "Your lease on the {{vehicle_year}} {{vehicle_make}} {{vehicle_model}} expires soon. Let's explore your options - upgrade, purchase, or lease a new vehicle.",
+            "agent_assignment": "dealer_logic_sales_v2",
+            "campaign_sequence": [
+              {"delay": "0_days", "channel": "email", "content": "lease_expiration_notice"},
+              {"delay": "14_days", "channel": "sms", "content": "lease_reminder_sms"},
+              {"delay": "30_days", "channel": "phone_call", "content": "personal_consultation"},
+              {"delay": "60_days", "channel": "direct_mail", "content": "special_offers"}
+            ]
+          },
+          "service_due": {
+            "trigger_delay": "-14_days",
+            "conditions": {
+              "service_due_date": "within_14_days",
+              "mileage_based_service": true,
+              "no_appointment_scheduled": true
+            },
+            "engagement_action": "service_reminder_call",
+            "message_template": "Hi {{customer_name}}, your {{vehicle_year}} {{vehicle_make}} {{vehicle_model}} is due for service. Would you like me to schedule an appointment that works with your schedule?",
+            "agent_assignment": "dealer_logic_service_scheduler_v2",
+            "offer_incentives": true,
+            "incentive_types": ["discount", "loaner_car", "express_service"]
+          },
+          "warranty_expiring": {
+            "trigger_delay": "-60_days",
+            "conditions": {
+              "warranty_end_date": "within_60_days",
+              "no_extended_warranty": true,
+              "vehicle_age": "<5_years"
+            },
+            "engagement_action": "warranty_consultation_call",
+            "message_template": "Your vehicle warranty expires soon. I'd like to discuss extended warranty options to keep you protected. When's a good time to talk?",
+            "agent_assignment": "dealer_logic_finance_v2",
+            "urgency": "medium",
+            "offer_discount": true
+          },
+          "birthday_outreach": {
+            "trigger_delay": "0_days",
+            "conditions": {
+              "customer_birthday": "today",
+              "customer_relationship": "active"
+            },
+            "engagement_action": "birthday_greeting_with_offer",
+            "message_template": "Happy Birthday, {{customer_name}}! 🎉 To celebrate, we're offering you an exclusive {{discount_percentage}}% off service or parts this month. How can we help make your day special?",
+            "agent_assignment": "dealer_logic_reception_v2",
+            "special_offers": true,
+            "personalization": "high"
+          }
+        },
+        "market_conditions": {
+          "new_incentives_available": {
+            "trigger_delay": "immediate",
+            "conditions": {
+              "customer_showed_interest": "within_30_days",
+              "new_manufacturer_incentives": true,
+              "incentive_applies_to_interest": true
+            },
+            "engagement_action": "incentive_notification_call",
+            "message_template": "Great news! New incentives just came out for the {{vehicle_model}} you were interested in. You could save an additional ${{incentive_amount}}. Want to hear the details?",
+            "agent_assignment": "dealer_logic_sales_v2",
+            "urgency": "high",
+            "time_sensitive": true
+          },
+          "inventory_restock": {
+            "trigger_delay": "immediate",
+            "conditions": {
+              "customer_waiting_for_vehicle": true,
+              "specific_vehicle_arrived": true,
+              "configuration_matches": true
+            },
+            "engagement_action": "inventory_alert_call",
+            "message_template": "The {{vehicle_year}} {{vehicle_make}} {{vehicle_model}} in {{color}} that you wanted just arrived! Would you like to come see it today?",
+            "agent_assignment": "dealer_logic_sales_v2",
+            "priority": "urgent",
+            "immediate_action": true
+          },
+          "competitive_pricing": {
+            "trigger_delay": "immediate",
+            "conditions": {
+              "competitor_price_match_opportunity": true,
+              "customer_comparing_prices": true,
+              "can_beat_competitor": true
+            },
+            "engagement_action": "competitive_response_call",
+            "message_template": "I heard you're comparing prices on the {{vehicle_model}}. I'd love the chance to earn your business. Can we schedule a quick call to discuss how we can work with your budget?",
+            "agent_assignment": "dealer_logic_sales_manager_v2",
+            "escalation": true
+          }
+        },
+        "satisfaction_recovery": {
+          "low_survey_score": {
+            "trigger_delay": "2_hours",
+            "conditions": {
+              "survey_score": "<=3",
+              "survey_completed": "within_24_hours",
+              "issue_type": "service_experience"
+            },
+            "engagement_action": "service_recovery_call",
+            "message_template": null,
+            "agent_assignment": "dealer_logic_service_manager_v2",
+            "priority": "urgent",
+            "escalation_level": "manager",
+            "recovery_actions": ["personal_apology", "issue_resolution", "compensation_offer", "process_improvement"]
+          },
+          "complaint_filed": {
+            "trigger_delay": "immediate",
+            "conditions": {
+              "complaint_source": ["google_review", "yelp", "dealer_feedback", "manufacturer_survey"],
+              "complaint_severity": "medium_or_high"
+            },
+            "engagement_action": "immediate_response_call",
+            "agent_assignment": "dealer_logic_customer_service_manager_v2",
+            "priority": "critical",
+            "response_timeline": "within_2_hours"
+          }
+        },
+        "opportunity_identification": {
+          "household_expansion": {
+            "trigger_delay": "30_days",
+            "conditions": {
+              "life_event_detected": ["marriage", "new_baby", "job_promotion"],
+              "current_vehicle_count": "<household_size",
+              "credit_profile": "good_or_excellent"
+            },
+            "engagement_action": "family_expansion_consultation",
+            "message_template": "Congratulations on your {{life_event}}! As your family grows, your transportation needs might be changing too. Would you like to explore vehicles that could better fit your new situation?",
+            "agent_assignment": "dealer_logic_sales_v2",
+            "approach": "consultative",
+            "focus": "family_vehicles"
+          },
+          "upgrade_opportunity": {
+            "trigger_delay": "immediate",
+            "conditions": {
+              "vehicle_age": ">4_years",
+              "mileage": ">60000",
+              "recent_repair_costs": ">$1500",
+              "credit_improved": true
+            },
+            "engagement_action": "upgrade_consultation_call",
+            "message_template": "I noticed your {{vehicle_year}} {{vehicle_make}} has been in for some repairs lately. With your improved credit profile, you might qualify for better financing on a newer vehicle. Would you like to explore your options?",
+            "agent_assignment": "dealer_logic_sales_v2",
+            "value_proposition": "cost_savings",
+            "include_trade_estimate": true
+          }
+        }
+      }
+    },
+    "intelligent_timing": {
+      "type": "client",
+      "name": "optimal_contact_timing",
+      "description": "Determine the best time to contact each customer",
+      "parameters": {
+        "timing_intelligence": {
+          "historical_response_analysis": {
+            "track_response_rates_by": [
+              "time_of_day",
+              "day_of_week",
+              "communication_channel",
+              "message_type"
+            ],
+            "optimize_for": "highest_response_rate"
+          },
+          "customer_behavior_patterns": {
+            "active_hours_detection": true,
+            "communication_preferences": true,
+            "timezone_awareness": true,
+            "work_schedule_consideration": true
+          },
+          "external_factors": {
+            "avoid_holidays": true,
+            "consider_weather": true,
+            "respect_do_not_call_hours": true,
+            "account_for_local_events": true
+          }
+        },
+        "channel_optimization": {
+          "phone_call": {
+            "best_times": ["weekday_evenings", "saturday_morning", "sunday_afternoon"],
+            "avoid_times": ["monday_morning", "friday_evening", "dinner_time"],
+            "max_attempts": 3,
+            "retry_delay": "24_hours"
+          },
+          "sms": {
+            "best_times": ["business_hours", "early_evening"],
+            "avoid_times": ["very_early_morning", "late_night"],
+            "character_limit": 160,
+            "include_opt_out": true
+          },
+          "email": {
+            "best_times": ["tuesday_through_thursday", "mid_morning", "early_afternoon"],
+            "personalization_level": "high",
+            "subject_line_optimization": true
+          },
+          "chat": {
+            "immediate_response": true,
+            "business_hours_only": false,
+            "escalation_available": true
+          }
+        }
+      }
+    },
+    "personalized_messaging": {
+      "type": "client",
+      "name": "message_personalization_engine",
+      "description": "Create personalized messages based on customer profile and history",
+      "parameters": {
+        "personalization_factors": {
+          "customer_history": {
+            "purchase_history": true,
+            "service_history": true,
+            "interaction_history": true,
+            "preference_history": true
+          },
+          "demographic_data": {
+            "age_group": true,
+            "family_status": true,
+            "income_level": true,
+            "geographic_location": true
+          },
+          "behavioral_patterns": {
+            "communication_style": true,
+            "decision_making_speed": true,
+            "price_sensitivity": true,
+            "feature_priorities": true
+          }
+        },
+        "message_adaptation": {
+          "tone_adjustment": {
+            "professional": "formal_language, respectful_tone",
+            "friendly": "casual_language, warm_tone",
+            "direct": "concise_messaging, action_oriented",
+            "detailed": "comprehensive_information, explanatory_tone"
+          },
+          "content_customization": {
+            "product_recommendations": "based_on_preferences_and_history",
+            "pricing_presentation": "adapted_to_budget_and_sensitivity",
+            "timing_references": "personalized_to_customer_schedule",
+            "value_propositions": "aligned_with_customer_priorities"
+          }
+        }
+      }
+    },
+    "multi_channel_orchestration": {
+      "type": "webhook",
+      "name": "channel_orchestrator",
+      "description": "Coordinate messaging across multiple communication channels",
+      "url": "https://api.dealership.com/v2/engagement/orchestrate",
+      "method": "POST",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "campaign_id": {"type": "string"},
+          "customer_id": {"type": "string"},
+          "orchestration_strategy": {
+            "type": "object",
+            "properties": {
+              "primary_channel": {"type": "string"},
+              "fallback_channels": {"type": "array"},
+              "escalation_sequence": {"type": "array"},
+              "cross_channel_consistency": {"type": "boolean", "default": true}
+            }
+          },
+          "campaign_sequence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "step": {"type": "integer"},
+                "delay": {"type": "string"},
+                "channel": {"type": "string"},
+                "message_type": {"type": "string"},
+                "success_criteria": {"type": "string"},
+                "failure_action": {"type": "string"}
+              }
+            }
+          }
+        }
+      },
+      "timeout_ms": 5000
+    },
+    "response_handling": {
+      "automated_response_routing": {
+        "type": "client",
+        "name": "response_router",
+        "description": "Route customer responses to appropriate agents and actions",
+        "parameters": {
+          "response_classification": {
+            "positive_interest": {
+              "keywords": ["yes", "interested", "tell me more", "schedule", "when"],
+              "action": "route_to_appropriate_agent",
+              "priority": "high"
+            },
+            "negative_response": {
+              "keywords": ["no", "not interested", "stop", "remove"],
+              "action": "update_preferences_and_suppress",
+              "follow_up": "respect_customer_wishes"
+            },
+            "request_for_information": {
+              "keywords": ["how much", "what time", "more details", "explain"],
+              "action": "provide_information_and_route_if_needed",
+              "agent_assistance": true
+            },
+            "complaint_or_concern": {
+              "keywords": ["problem", "issue", "wrong", "mistake", "unhappy"],
+              "action": "immediate_escalation_to_service_recovery",
+              "priority": "urgent"
+            }
+          },
+          "auto_scheduling": {
+            "enabled": true,
+            "schedule_types": ["test_drive", "service_appointment", "consultation_call"],
+            "calendar_integration": true,
+            "confirmation_required": true
+          }
+        }
+      }
+    },
+    "performance_optimization": {
+      "engagement_analytics": {
+        "type": "webhook",
+        "name": "engagement_analytics",
+        "description": "Track and analyze proactive engagement performance",
+        "url": "https://api.dealership.com/v2/analytics/engagement",
+        "method": "POST",
+        "metrics_tracked": [
+          "response_rate_by_channel",
+          "conversion_rate_by_trigger_type",
+          "customer_satisfaction_with_proactive_contact",
+          "revenue_attribution_to_proactive_engagement",
+          "opt_out_rates_and_reasons",
+          "optimal_timing_effectiveness",
+          "message_personalization_impact"
+        ]
+      },
+      "continuous_optimization": {
+        "a_b_testing": {
+          "message_variants": true,
+          "timing_optimization": true,
+          "channel_preference_testing": true,
+          "frequency_optimization": true
+        },
+        "machine_learning": {
+          "predictive_response_modeling": true,
+          "optimal_timing_prediction": true,
+          "churn_prevention_scoring": true,
+          "lifetime_value_optimization": true
+        }
+      }
+    }
+  },
+  "implementation_examples": {
+    "high_value_customer_retention": {
+      "scenario": "Customer with high lifetime value shows signs of considering competitors",
+      "trigger_conditions": {
+        "customer_value": ">$50000_lifetime",
+        "recent_competitor_inquiry": true,
+        "lease_expiring": "within_6_months"
+      },
+      "engagement_sequence": [
+        {
+          "timing": "immediate",
+          "channel": "personal_call",
+          "agent": "dealer_logic_sales_manager_v2",
+          "message": "VIP customer retention call",
+          "offers": ["exclusive_pricing", "early_access_new_models", "premium_service_package"]
+        },
+        {
+          "timing": "if_no_response_3_days",
+          "channel": "personalized_email",
+          "message": "We value your business - special offer inside",
+          "include": "loyalty_appreciation_package"
+        },
+        {
+          "timing": "if_no_response_1_week",
+          "channel": "direct_mail",
+          "message": "Premium customer appreciation package",
+          "physical_materials": true
+        }
+      ]
+    },
+    "service_upsell_opportunity": {
+      "scenario": "Customer brings vehicle in for basic service, opportunity for additional services",
+      "trigger_conditions": {
+        "service_in_progress": true,
+        "vehicle_mileage": ">30000",
+        "last_major_service": ">1_year_ago"
+      },
+      "engagement_sequence": [
+        {
+          "timing": "during_service",
+          "channel": "sms",
+          "agent": "dealer_logic_service_advisor_v2",
+          "message": "While we have your {{vehicle_model}}, our technician noticed a few items that could use attention. Would you like me to call and explain the recommendations?"
+        },
+        {
+          "timing": "if_interested",
+          "channel": "phone_call",
+          "provide": "detailed_explanation_and_pricing",
+          "close": "schedule_additional_work"
+        }
+      ]
+    },
+    "first_time_buyer_nurturing": {
+      "scenario": "Young customer showed interest but seemed overwhelmed by the process",
+      "trigger_conditions": {
+        "age_group": "18-25",
+        "first_time_buyer": true,
+        "left_without_decision": true,
+        "engagement_time": ">45_minutes"
+      },
+      "engagement_sequence": [
+        {
+          "timing": "next_day",
+          "channel": "email",
+          "message": "First-time car buying guide",
+          "include": "educational_content",
+          "tone": "supportive_and_educational"
+        },
+        {
+          "timing": "3_days_later",
+          "channel": "sms",
+          "message": "Any questions about the car buying process? I'm here to help make it simple.",
+          "agent": "dealer_logic_sales_v2"
+        },
+        {
+          "timing": "1_week_later",
+          "channel": "phone_call",
+          "message": "First-time buyer consultation call",
+          "approach": "educational_not_sales_focused"
+        }
+      ]
+    }
+  },
+  "compliance_and_consent": {
+    "consent_management": {
+      "opt_in_tracking": true,
+      "opt_out_processing": "immediate",
+      "consent_renewal": "annual",
+      "granular_permissions": {
+        "sms_marketing": "separate_consent",
+        "email_marketing": "separate_consent",
+        "phone_calls": "separate_consent",
+        "direct_mail": "separate_consent"
+      }
+    },
+    "regulatory_compliance": {
+      "tcpa_compliance": true,
+      "can_spam_compliance": true,
+      "gdpr_compliance": true,
+      "ccpa_compliance": true,
+      "call_recording_disclosure": true,
+      "do_not_call_registry_checking": true
+    },
+    "frequency_caps": {
+      "daily_contact_limit": 2,
+      "weekly_contact_limit": 5,
+      "monthly_contact_limit": 15,
+      "channel_specific_limits": {
+        "sms": "max_3_per_week",
+        "phone": "max_2_per_week",
+        "email": "max_5_per_week"
+      }
+    }
+  }
+}

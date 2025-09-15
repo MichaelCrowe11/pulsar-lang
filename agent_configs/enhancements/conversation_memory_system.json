@@ -1,0 +1,516 @@
+{
+  "conversation_memory_system": {
+    "persistent_memory": {
+      "type": "webhook",
+      "name": "customer_memory_store",
+      "description": "Store and retrieve customer conversation history and preferences",
+      "url": "https://api.dealership.com/v2/memory/customer",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{MEMORY_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "operations": {
+        "store_conversation": {
+          "endpoint": "/store",
+          "method": "POST",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "customer_id": {
+                "type": "string",
+                "description": "Unique customer identifier"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Customer phone number as backup ID"
+              },
+              "conversation_data": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {"type": "string"},
+                  "timestamp": {"type": "string", "format": "date-time"},
+                  "agent_id": {"type": "string"},
+                  "intent": {"type": "string"},
+                  "outcome": {"type": "string"},
+                  "key_points": {"type": "array", "items": {"type": "string"}},
+                  "sentiment_score": {"type": "number"},
+                  "satisfaction_rating": {"type": "number"},
+                  "next_steps": {"type": "array", "items": {"type": "string"}}
+                }
+              },
+              "customer_preferences": {
+                "type": "object",
+                "properties": {
+                  "communication_style": {
+                    "type": "string",
+                    "enum": ["formal", "friendly", "direct", "detailed"]
+                  },
+                  "preferred_contact_method": {
+                    "type": "string",
+                    "enum": ["phone", "email", "sms", "app"]
+                  },
+                  "preferred_contact_time": {
+                    "type": "string",
+                    "description": "Best time to contact (e.g., 'weekday_evenings')"
+                  },
+                  "language_preference": {
+                    "type": "string",
+                    "default": "en"
+                  },
+                  "decision_making_style": {
+                    "type": "string",
+                    "enum": ["analytical", "relationship", "driver", "expressive"]
+                  }
+                }
+              },
+              "automotive_profile": {
+                "type": "object",
+                "properties": {
+                  "current_vehicles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "year": {"type": "integer"},
+                        "make": {"type": "string"},
+                        "model": {"type": "string"},
+                        "vin": {"type": "string"},
+                        "purchase_date": {"type": "string", "format": "date"},
+                        "mileage": {"type": "integer"},
+                        "condition": {"type": "string"}
+                      }
+                    }
+                  },
+                  "vehicle_preferences": {
+                    "type": "object",
+                    "properties": {
+                      "preferred_makes": {"type": "array", "items": {"type": "string"}},
+                      "preferred_body_styles": {"type": "array", "items": {"type": "string"}},
+                      "fuel_type_preference": {"type": "string"},
+                      "budget_range": {
+                        "type": "object",
+                        "properties": {
+                          "min": {"type": "number"},
+                          "max": {"type": "number"},
+                          "payment_preference": {"type": "string", "enum": ["cash", "finance", "lease"]}
+                        }
+                      },
+                      "feature_priorities": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Important features like 'safety', 'fuel_economy', 'technology'"
+                      }
+                    }
+                  },
+                  "service_history": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "service_date": {"type": "string", "format": "date"},
+                        "vehicle_vin": {"type": "string"},
+                        "service_type": {"type": "string"},
+                        "cost": {"type": "number"},
+                        "satisfaction": {"type": "number"},
+                        "next_service_due": {"type": "string", "format": "date"}
+                      }
+                    }
+                  }
+                }
+              },
+              "relationship_data": {
+                "type": "object",
+                "properties": {
+                  "customer_since": {"type": "string", "format": "date"},
+                  "total_purchases": {"type": "integer"},
+                  "lifetime_value": {"type": "number"},
+                  "loyalty_tier": {"type": "string", "enum": ["bronze", "silver", "gold", "platinum"]},
+                  "referrals_made": {"type": "integer"},
+                  "complaints_filed": {"type": "integer"},
+                  "preferred_salesperson": {"type": "string"},
+                  "preferred_service_advisor": {"type": "string"}
+                }
+              }
+            },
+            "required": ["customer_id", "conversation_data"]
+          }
+        },
+        "retrieve_customer_context": {
+          "endpoint": "/retrieve",
+          "method": "GET",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "customer_id": {"type": "string"},
+              "phone_number": {"type": "string"},
+              "include_history": {"type": "boolean", "default": true},
+              "history_limit": {"type": "integer", "default": 10},
+              "include_preferences": {"type": "boolean", "default": true}
+            }
+          }
+        },
+        "update_preferences": {
+          "endpoint": "/preferences",
+          "method": "PATCH",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "customer_id": {"type": "string"},
+              "preference_updates": {"type": "object"}
+            }
+          }
+        }
+      },
+      "timeout_ms": 3000
+    },
+    "session_context": {
+      "type": "client",
+      "name": "session_manager",
+      "description": "Manage conversation context within current session",
+      "parameters": {
+        "context_storage": {
+          "max_context_tokens": 4000,
+          "compression_threshold": 3000,
+          "key_information_preservation": [
+            "customer_identification",
+            "current_intent",
+            "important_decisions",
+            "commitments_made",
+            "next_steps",
+            "emotional_state",
+            "urgency_level"
+          ]
+        },
+        "auto_summarization": {
+          "enabled": true,
+          "trigger_interval": "every_5_minutes",
+          "summary_style": "bullet_points",
+          "include_action_items": true
+        },
+        "context_sharing": {
+          "cross_agent_enabled": true,
+          "shared_fields": [
+            "customer_profile",
+            "conversation_summary",
+            "completed_actions",
+            "pending_commitments",
+            "sentiment_history"
+          ]
+        }
+      }
+    },
+    "intelligent_recall": {
+      "type": "webhook",
+      "name": "context_intelligence",
+      "description": "AI-powered context retrieval and relevance scoring",
+      "url": "https://api.dealership.com/v2/ai/context-recall",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{AI_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_id": {"type": "string"},
+          "current_conversation": {
+            "type": "object",
+            "properties": {
+              "intent": {"type": "string"},
+              "context": {"type": "string"},
+              "agent_type": {"type": "string"}
+            }
+          },
+          "recall_parameters": {
+            "type": "object",
+            "properties": {
+              "relevance_threshold": {"type": "number", "default": 0.7},
+              "max_historical_items": {"type": "integer", "default": 5},
+              "include_emotional_context": {"type": "boolean", "default": true},
+              "prioritize_recent": {"type": "boolean", "default": true},
+              "weight_by_outcome": {"type": "boolean", "default": true}
+            }
+          }
+        }
+      },
+      "timeout_ms": 2000
+    }
+  },
+  "personalization_engine": {
+    "adaptive_communication": {
+      "type": "client",
+      "name": "communication_adapter",
+      "description": "Adapt communication style based on customer history",
+      "parameters": {
+        "style_detection": {
+          "communication_patterns": {
+            "formal": {
+              "indicators": ["uses_titles", "complete_sentences", "professional_language"],
+              "adaptation": {
+                "tone": "professional",
+                "formality_level": 0.9,
+                "use_first_name": false
+              }
+            },
+            "friendly": {
+              "indicators": ["casual_language", "humor", "personal_sharing"],
+              "adaptation": {
+                "tone": "warm",
+                "formality_level": 0.3,
+                "use_first_name": true,
+                "include_small_talk": true
+              }
+            },
+            "direct": {
+              "indicators": ["short_responses", "task_focused", "impatient_signals"],
+              "adaptation": {
+                "tone": "efficient",
+                "brevity": true,
+                "skip_pleasantries": true,
+                "focus_on_results": true
+              }
+            },
+            "analytical": {
+              "indicators": ["asks_detailed_questions", "wants_specifications", "compares_options"],
+              "adaptation": {
+                "provide_detailed_info": true,
+                "include_comparisons": true,
+                "cite_sources": true,
+                "offer_data_sheets": true
+              }
+            }
+          }
+        },
+        "decision_making_adaptation": {
+          "driver_style": {
+            "characteristics": ["quick_decisions", "results_focused", "time_sensitive"],
+            "approach": "present_best_option_first, highlight_benefits, create_urgency"
+          },
+          "analytical_style": {
+            "characteristics": ["thorough_research", "detailed_comparisons", "fact_driven"],
+            "approach": "provide_comprehensive_data, allow_time_for_analysis, offer_detailed_comparisons"
+          },
+          "relationship_style": {
+            "characteristics": ["values_trust", "seeks_recommendations", "relationship_focused"],
+            "approach": "build_rapport, share_testimonials, reference_past_positive_experiences"
+          },
+          "expressive_style": {
+            "characteristics": ["emotional_decisions", "values_excitement", "story_driven"],
+            "approach": "create_emotional_connection, use_storytelling, highlight_lifestyle_benefits"
+          }
+        }
+      }
+    },
+    "predictive_needs": {
+      "type": "webhook",
+      "name": "needs_prediction",
+      "description": "Predict customer needs based on history and context",
+      "url": "https://api.dealership.com/v2/ai/predict-needs",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{PREDICTION_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_profile": {"type": "object"},
+          "current_context": {"type": "object"},
+          "prediction_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "next_vehicle_interest",
+                "service_needs",
+                "financing_preferences",
+                "upsell_opportunities",
+                "churn_risk",
+                "satisfaction_drivers"
+              ]
+            }
+          }
+        }
+      },
+      "timeout_ms": 4000
+    }
+  },
+  "enhanced_agent_prompts": {
+    "memory_aware_reception": {
+      "prompt_addition": "Before starting the conversation, use customer_memory_store to retrieve any existing customer information based on their phone number. If found, greet them personally and reference relevant history (e.g., 'Good to hear from you again, Mr. Johnson. How's the 2023 Civic treating you?'). Use communication_adapter to match their preferred communication style. If this is a return customer with previous issues, acknowledge and ensure resolution.",
+      "context_usage": "Always check for: previous_purchases, service_history, communication_preferences, any_outstanding_issues, loyalty_status"
+    },
+    "memory_aware_sales": {
+      "prompt_addition": "Retrieve customer context at conversation start. Reference their vehicle history, previous interests, and stated preferences. Use needs_prediction to anticipate what they might be interested in today. If they've test driven vehicles before, reference that experience. Adapt your approach based on their decision_making_style. For returning customers, acknowledge their loyalty and any previous positive experiences.",
+      "context_usage": "Use: purchase_history, vehicle_preferences, budget_history, decision_patterns, previous_sales_interactions"
+    },
+    "memory_aware_finance": {
+      "prompt_addition": "Access customer's financial history including previous financing, credit tier changes, and payment preferences. Reference successful past transactions to build confidence. Use their financing history to suggest similar terms. If they've had financing challenges before, acknowledge and focus on how circumstances may have improved. Personalize protection product recommendations based on their vehicle usage patterns.",
+      "context_usage": "Reference: credit_history, previous_financing_terms, payment_preferences, insurance_choices, protection_product_history"
+    }
+  },
+  "conversation_continuity": {
+    "cross_session_resumption": {
+      "type": "webhook",
+      "name": "resume_conversation",
+      "description": "Resume conversations from previous sessions",
+      "url": "https://api.dealership.com/v2/conversations/resume",
+      "method": "POST",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_id": {"type": "string"},
+          "previous_conversation_id": {"type": "string"},
+          "resume_context": {
+            "type": "object",
+            "properties": {
+              "last_agent": {"type": "string"},
+              "last_intent": {"type": "string"},
+              "pending_actions": {"type": "array"},
+              "commitments_made": {"type": "array"},
+              "next_steps": {"type": "array"}
+            }
+          }
+        }
+      },
+      "timeout_ms": 3000
+    },
+    "follow_up_automation": {
+      "type": "client",
+      "name": "automated_follow_up",
+      "description": "Schedule and execute automated follow-ups based on conversation outcomes",
+      "parameters": {
+        "follow_up_triggers": {
+          "test_drive_scheduled": {
+            "schedule": [
+              {"delay": "1_day_before", "type": "reminder_sms"},
+              {"delay": "2_hours_before", "type": "confirmation_call"},
+              {"delay": "1_day_after", "type": "feedback_call"}
+            ]
+          },
+          "quote_provided": {
+            "schedule": [
+              {"delay": "2_days", "type": "follow_up_call"},
+              {"delay": "1_week", "type": "offer_extension"},
+              {"delay": "2_weeks", "type": "new_incentives_notification"}
+            ]
+          },
+          "financing_application_submitted": {
+            "schedule": [
+              {"delay": "2_hours", "type": "status_update"},
+              {"delay": "1_day", "type": "approval_notification"},
+              {"delay": "3_days", "type": "alternative_options_if_declined"}
+            ]
+          },
+          "service_completed": {
+            "schedule": [
+              {"delay": "1_day", "type": "satisfaction_survey"},
+              {"delay": "1_week", "type": "follow_up_check"},
+              {"delay": "6_months", "type": "next_service_reminder"}
+            ]
+          }
+        }
+      }
+    }
+  },
+  "analytics_and_insights": {
+    "conversation_analytics": {
+      "type": "webhook",
+      "name": "conversation_insights",
+      "description": "Generate insights from conversation patterns",
+      "url": "https://api.dealership.com/v2/analytics/conversations",
+      "method": "POST",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "analysis_type": {
+            "type": "string",
+            "enum": ["customer_journey", "agent_performance", "outcome_prediction", "satisfaction_drivers"]
+          },
+          "time_range": {"type": "string"},
+          "customer_segment": {"type": "string"},
+          "agent_group": {"type": "string"}
+        }
+      },
+      "insights_generated": [
+        "most_effective_conversation_paths",
+        "common_drop_off_points",
+        "high_conversion_patterns",
+        "customer_satisfaction_predictors",
+        "optimal_handoff_timing",
+        "personalization_effectiveness"
+      ]
+    },
+    "memory_effectiveness": {
+      "metrics": [
+        "context_recall_accuracy",
+        "personalization_success_rate",
+        "customer_recognition_rate",
+        "conversation_continuity_score",
+        "customer_satisfaction_improvement"
+      ],
+      "reporting": {
+        "frequency": "daily",
+        "dashboard_integration": true,
+        "alerts": {
+          "memory_system_failure": "immediate",
+          "context_accuracy_drop": "hourly",
+          "personalization_decline": "daily"
+        }
+      }
+    }
+  },
+  "implementation_guide": {
+    "setup_steps": [
+      {
+        "step": 1,
+        "action": "Deploy memory storage infrastructure",
+        "description": "Set up Redis/PostgreSQL for conversation storage"
+      },
+      {
+        "step": 2,
+        "action": "Configure customer_memory_store webhook",
+        "description": "Point to your memory service API endpoint"
+      },
+      {
+        "step": 3,
+        "action": "Update agent prompts with memory awareness",
+        "description": "Add memory retrieval and usage instructions"
+      },
+      {
+        "step": 4,
+        "action": "Enable session_manager for all agents",
+        "description": "Add context management to agent tools"
+      },
+      {
+        "step": 5,
+        "action": "Test memory persistence across conversations",
+        "description": "Verify context is stored and retrieved correctly"
+      },
+      {
+        "step": 6,
+        "action": "Deploy personalization engine",
+        "description": "Enable adaptive communication based on history"
+      }
+    ],
+    "testing_scenarios": [
+      {
+        "scenario": "Returning customer recognition",
+        "test": "Customer calls back after previous conversation, agent should recognize and reference history"
+      },
+      {
+        "scenario": "Cross-agent context sharing",
+        "test": "Customer transferred between agents, context should be preserved"
+      },
+      {
+        "scenario": "Personalized communication",
+        "test": "Agent should adapt style based on customer's communication preferences"
+      },
+      {
+        "scenario": "Predictive recommendations",
+        "test": "Agent should suggest relevant products/services based on history"
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "agent_id": "restaurant_host_v1",
+  "name": "Restaurant Host Agent",
+  "description": "Digital host for greeting, reservations, and seating management",
+  "greeting": "Hello! Welcome to our restaurant. I'm here to help with reservations, seating, and any questions about our dining experience.",
+  "voice": "friendly_professional",
+  "tools": [
+    {
+      "type": "webhook",
+      "name": "check_availability",
+      "url": "/api/restaurant/availability"
+    },
+    {
+      "type": "webhook",
+      "name": "create_reservation",
+      "url": "/api/restaurant/reservations"
+    },
+    {
+      "type": "webhook",
+      "name": "waitlist_management",
+      "url": "/api/restaurant/waitlist"
+    },
+    {
+      "type": "client",
+      "name": "show_menu_preview"
+    },
+    {
+      "type": "client",
+      "name": "collect_dietary_preferences"
+    }
+  ],
+  "knowledge_base": [
+    "restaurant_hours.txt",
+    "seating_policies.txt",
+    "special_events.txt",
+    "menu_highlights.txt"
+  ],
+  "handoff_rules": {
+    "order_taking": "transfer_to_server_agent",
+    "sommelier_request": "transfer_to_sommelier_agent",
+    "chef_questions": "transfer_to_chef_agent"
+  }
+}

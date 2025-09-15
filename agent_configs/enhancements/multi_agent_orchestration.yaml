@@ -1,0 +1,433 @@
+# Multi-Agent Orchestration System for ElevenLabs Agents
+# Priority 2 Enhancement: Seamless agent handoffs with context preservation
+
+workflows:
+  automotive_sales_pipeline:
+    name: "Complete Automotive Sales Journey"
+    description: "End-to-end customer journey from first contact to delivery"
+    version: "2.0"
+
+    stages:
+      # Stage 1: Initial Contact & Routing
+      - stage_id: "reception"
+        agent: "dealer_logic_reception_v2"
+        timeout_seconds: 180
+
+        entry_conditions:
+          - trigger: "inbound_call"
+          - trigger: "web_chat_initiated"
+          - trigger: "callback_requested"
+
+        context_collection:
+          required_fields:
+            - customer_phone
+            - primary_intent
+          optional_fields:
+            - customer_name
+            - customer_email
+            - zip_code
+            - preferred_language
+
+        handoff_conditions:
+          - intent: "sales_inquiry"
+            target_stage: "sales_qualification"
+            confidence_threshold: 0.8
+
+          - intent: "service_appointment"
+            target_stage: "service_scheduling"
+            confidence_threshold: 0.8
+
+          - intent: "parts_inquiry"
+            target_stage: "parts_assistance"
+            confidence_threshold: 0.8
+
+          - intent: "existing_customer_service"
+            target_stage: "customer_service"
+            confidence_threshold: 0.7
+
+          - sentiment: "very_negative"
+            target_stage: "escalation_manager"
+            immediate: true
+
+      # Stage 2: Sales Qualification & Vehicle Selection
+      - stage_id: "sales_qualification"
+        agent: "dealer_logic_sales_v2"
+        timeout_seconds: 900
+
+        entry_context:
+          preserve_from_previous: true
+          required_data:
+            - customer_contact_info
+            - initial_vehicle_interest
+
+        objectives:
+          primary:
+            - qualify_budget_range
+            - identify_vehicle_preferences
+            - assess_timeline
+            - capture_trade_in_info
+
+          secondary:
+            - build_rapport
+            - educate_on_features
+            - create_urgency
+
+        tools_enabled:
+          - inventory_search
+          - get_vehicle_details
+          - get_trade_in_estimate
+          - vehicle_comparison
+          - create_lead
+
+        handoff_conditions:
+          - condition: "vehicle_selected_and_budget_qualified"
+            target_stage: "financing_discussion"
+            context_transfer:
+              - selected_vehicle_vin
+              - budget_range
+              - trade_in_details
+              - timeline
+
+          - condition: "needs_test_drive"
+            target_stage: "test_drive_coordination"
+            context_transfer:
+              - vehicle_shortlist
+              - availability_preferences
+
+          - condition: "cash_buyer_ready"
+            target_stage: "sales_documentation"
+            bypass_financing: true
+
+          - condition: "needs_manager_approval"
+            target_stage: "sales_manager"
+            escalation_reason: "pricing_negotiation"
+
+      # Stage 3: Test Drive Coordination
+      - stage_id: "test_drive_coordination"
+        agent: "dealer_logic_sales_v2"
+        timeout_seconds: 300
+
+        objectives:
+          - schedule_test_drive_appointment
+          - confirm_required_documents
+          - set_expectations
+
+        tools_enabled:
+          - schedule_test_drive
+          - check_vehicle_availability
+          - send_confirmation_sms
+
+        completion_actions:
+          - send_calendar_invite
+          - send_preparation_checklist
+          - set_follow_up_reminder
+
+        next_stage: "post_test_drive_follow_up"
+
+      # Stage 4: Financing Discussion
+      - stage_id: "financing_discussion"
+        agent: "dealer_logic_finance_v2"
+        timeout_seconds: 1200
+
+        entry_context:
+          required_data:
+            - vehicle_price
+            - customer_credit_profile
+            - trade_in_value
+            - down_payment_amount
+
+        objectives:
+          primary:
+            - present_financing_options
+            - complete_credit_application
+            - explain_protection_products
+            - finalize_terms
+
+          secondary:
+            - maximize_backend_profit
+            - ensure_compliance
+            - build_confidence
+
+        tools_enabled:
+          - calculate_financing
+          - credit_prequalification
+          - submit_credit_application
+          - get_protection_products
+          - calculate_lease_options
+          - payment_comparison
+
+        decision_points:
+          - approved_financing:
+              target_stage: "sales_documentation"
+              context_transfer:
+                - approved_loan_terms
+                - protection_products_selected
+                - final_payment_structure
+
+          - needs_cosigner:
+              target_stage: "cosigner_coordination"
+              pause_workflow: true
+
+          - declined_financing:
+              target_stage: "alternative_financing"
+              context_transfer:
+                - decline_reasons
+                - alternative_options
+
+      # Stage 5: Sales Documentation & Delivery
+      - stage_id: "sales_documentation"
+        agent: "dealer_logic_sales_manager_v2"
+        timeout_seconds: 1800
+
+        objectives:
+          - complete_purchase_paperwork
+          - schedule_delivery
+          - arrange_financing_finalization
+          - coordinate_trade_in_processing
+
+        tools_enabled:
+          - generate_purchase_agreement
+          - schedule_delivery_appointment
+          - process_trade_in_documentation
+          - send_delivery_checklist
+
+        completion_actions:
+          - create_delivery_appointment
+          - send_welcome_package
+          - schedule_first_service_reminder
+          - update_crm_status
+
+      # Service Pipeline Branch
+      - stage_id: "service_scheduling"
+        agent: "dealer_logic_service_scheduler_v2"
+        timeout_seconds: 600
+
+        entry_context:
+          required_data:
+            - vehicle_identification
+            - service_concern
+            - preferred_timing
+
+        objectives:
+          - schedule_service_appointment
+          - provide_cost_estimate
+          - arrange_transportation
+          - set_expectations
+
+        tools_enabled:
+          - check_service_availability
+          - create_service_appointment
+          - estimate_service_cost
+          - arrange_loaner_vehicle
+
+        completion_actions:
+          - send_appointment_confirmation
+          - send_service_preparation_info
+          - set_appointment_reminders
+
+  # Specialized Workflows
+  existing_customer_retention:
+    name: "Existing Customer Retention & Upsell"
+    description: "Handle existing customers with history-aware service"
+
+    entry_conditions:
+      - customer_in_database: true
+      - purchase_history_available: true
+
+    stages:
+      - stage_id: "customer_recognition"
+        agent: "dealer_logic_reception_v2"
+
+        context_enrichment:
+          - load_purchase_history
+          - load_service_history
+          - check_loyalty_status
+          - identify_upsell_opportunities
+
+        personalization:
+          - use_previous_salesperson_if_available
+          - reference_current_vehicle
+          - acknowledge_loyalty_status
+
+  emergency_escalation:
+    name: "Emergency Escalation Workflow"
+    description: "Handle urgent situations requiring immediate human intervention"
+
+    triggers:
+      - sentiment_score: "<-0.8"
+      - keywords: ["emergency", "accident", "broken down", "stranded"]
+      - customer_request: "speak_to_manager"
+
+    immediate_actions:
+      - alert_available_managers
+      - prepare_customer_context_summary
+      - initiate_warm_transfer
+      - log_escalation_incident
+
+# Context Management System
+context_management:
+  session_persistence:
+    storage_backend: "redis"
+    ttl_seconds: 86400  # 24 hours
+
+    preserved_data:
+      customer_profile:
+        - name
+        - phone
+        - email
+        - address
+        - communication_preferences
+
+      conversation_state:
+        - current_intent
+        - completed_steps
+        - pending_actions
+        - sentiment_history
+
+      business_context:
+        - selected_vehicles
+        - pricing_discussions
+        - financing_status
+        - appointment_details
+        - document_status
+
+  cross_agent_sharing:
+    enabled: true
+
+    shared_context_fields:
+      - customer_identification
+      - conversation_summary
+      - completed_actions
+      - outstanding_commitments
+      - escalation_flags
+
+    context_compression:
+      max_context_tokens: 2000
+      summarization_trigger: 1500
+      preserve_critical_fields: true
+
+# Handoff Protocols
+handoff_protocols:
+  warm_transfer:
+    preparation_time: 15  # seconds
+
+    steps:
+      1. "summarize_conversation_for_next_agent"
+      2. "prepare_context_package"
+      3. "brief_receiving_agent"
+      4. "introduce_customer_to_new_agent"
+      5. "confirm_successful_handoff"
+
+    failure_handling:
+      - attempt_alternative_agent
+      - escalate_to_supervisor
+      - schedule_callback_with_specialist
+
+  cold_transfer:
+    use_cases:
+      - "routine_appointment_scheduling"
+      - "simple_parts_inquiry"
+      - "standard_service_questions"
+
+    context_package:
+      - customer_contact_info
+      - intent_classification
+      - key_conversation_points
+
+# Performance Monitoring
+orchestration_metrics:
+  handoff_success_rate:
+    target: ">95%"
+    measurement: "successful_transfers / total_transfer_attempts"
+
+  context_preservation:
+    target: ">90%"
+    measurement: "information_retained_across_handoffs"
+
+  customer_satisfaction:
+    target: ">4.5/5"
+    measurement: "post_conversation_survey_scores"
+
+  workflow_completion:
+    target: ">80%"
+    measurement: "completed_workflows / initiated_workflows"
+
+# Integration Configuration
+integrations:
+  crm_system:
+    provider: "salesforce"
+    sync_frequency: "real_time"
+
+    data_mapping:
+      - agent_conversation_id: "salesforce_activity_id"
+      - customer_phone: "salesforce_lead_phone"
+      - workflow_stage: "salesforce_opportunity_stage"
+
+  calendar_system:
+    provider: "google_calendar"
+
+    appointment_types:
+      - sales_appointment
+      - test_drive
+      - service_appointment
+      - delivery_appointment
+
+  notification_system:
+    channels:
+      - sms
+      - email
+      - slack
+      - teams
+
+    escalation_notifications:
+      immediate: ["sms", "slack"]
+      urgent: ["email", "slack"]
+      standard: ["email"]
+
+# Error Handling & Fallbacks
+error_handling:
+  agent_unavailable:
+    fallback_sequence:
+      1. "attempt_backup_agent"
+      2. "offer_callback_scheduling"
+      3. "escalate_to_human_supervisor"
+
+  context_loss:
+    recovery_actions:
+      1. "attempt_context_reconstruction_from_logs"
+      2. "ask_customer_to_repeat_key_information"
+      3. "apologize_and_start_fresh_with_summary"
+
+  tool_failures:
+    graceful_degradation:
+      - continue_conversation_without_tool
+      - offer_alternative_solutions
+      - schedule_follow_up_when_system_available
+
+# Testing & Validation
+testing_scenarios:
+  end_to_end_sales:
+    steps:
+      - "customer_calls_about_new_vehicle"
+      - "reception_routes_to_sales"
+      - "sales_qualifies_and_demonstrates"
+      - "handoff_to_finance_for_approval"
+      - "return_to_sales_for_documentation"
+      - "schedule_delivery_appointment"
+
+    success_criteria:
+      - no_information_loss_between_agents
+      - smooth_transitions_without_repetition
+      - complete_workflow_in_under_45_minutes
+
+  complex_escalation:
+    steps:
+      - "frustrated_customer_calls_reception"
+      - "immediate_escalation_to_manager"
+      - "context_preserved_during_handoff"
+      - "issue_resolution_tracked"
+
+    success_criteria:
+      - escalation_triggered_within_30_seconds
+      - full_context_available_to_manager
+      - customer_satisfaction_improved

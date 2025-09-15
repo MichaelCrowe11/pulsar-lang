@@ -1,0 +1,254 @@
+{
+  "enhanced_finance_tools": [
+    {
+      "type": "webhook",
+      "name": "calculate_financing",
+      "description": "Calculate detailed financing options and monthly payments",
+      "url": "https://api.dealership.com/v2/finance/calculate",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_price": {
+            "type": "number",
+            "description": "Total vehicle price including taxes and fees"
+          },
+          "down_payment": {
+            "type": "number",
+            "description": "Down payment amount"
+          },
+          "trade_in_value": {
+            "type": "number",
+            "description": "Trade-in vehicle value"
+          },
+          "loan_amount": {
+            "type": "number",
+            "description": "Amount to finance"
+          },
+          "loan_terms": {
+            "type": "array",
+            "items": {"type": "integer"},
+            "description": "Loan term options in months (e.g., [36, 48, 60, 72])"
+          },
+          "credit_tier": {
+            "type": "string",
+            "enum": ["prime", "near_prime", "subprime", "deep_subprime"],
+            "description": "Customer credit tier"
+          }
+        },
+        "required": ["vehicle_price", "loan_amount"]
+      },
+      "timeout_ms": 5000
+    },
+    {
+      "type": "webhook",
+      "name": "credit_prequalification",
+      "description": "Perform soft credit check for prequalification",
+      "url": "https://api.dealership.com/v2/finance/prequalify",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_info": {
+            "type": "object",
+            "properties": {
+              "first_name": {"type": "string"},
+              "last_name": {"type": "string"},
+              "ssn_last_4": {"type": "string"},
+              "date_of_birth": {"type": "string", "format": "date"},
+              "zip_code": {"type": "string"},
+              "annual_income": {"type": "number"},
+              "employment_status": {"type": "string", "enum": ["employed", "self_employed", "retired", "other"]}
+            },
+            "required": ["first_name", "last_name", "ssn_last_4", "zip_code"]
+          },
+          "soft_pull_consent": {
+            "type": "boolean",
+            "description": "Customer consent for soft credit pull"
+          }
+        },
+        "required": ["customer_info", "soft_pull_consent"]
+      },
+      "timeout_ms": 8000
+    },
+    {
+      "type": "webhook",
+      "name": "get_financing_programs",
+      "description": "Get available financing programs and incentives",
+      "url": "https://api.dealership.com/v2/finance/programs",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_make": {"type": "string"},
+          "vehicle_model": {"type": "string"},
+          "customer_type": {"type": "string", "enum": ["new", "returning", "military", "student", "senior"]},
+          "credit_tier": {"type": "string"}
+        }
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "webhook",
+      "name": "submit_credit_application",
+      "description": "Submit full credit application to lenders",
+      "url": "https://api.dealership.com/v2/finance/apply",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "applicant_info": {
+            "type": "object",
+            "properties": {
+              "personal": {
+                "type": "object",
+                "properties": {
+                  "first_name": {"type": "string"},
+                  "middle_name": {"type": "string"},
+                  "last_name": {"type": "string"},
+                  "ssn": {"type": "string"},
+                  "date_of_birth": {"type": "string", "format": "date"},
+                  "phone": {"type": "string"},
+                  "email": {"type": "string", "format": "email"}
+                }
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "street": {"type": "string"},
+                  "city": {"type": "string"},
+                  "state": {"type": "string"},
+                  "zip_code": {"type": "string"},
+                  "years_at_address": {"type": "number"}
+                }
+              },
+              "employment": {
+                "type": "object",
+                "properties": {
+                  "employer_name": {"type": "string"},
+                  "job_title": {"type": "string"},
+                  "annual_income": {"type": "number"},
+                  "years_employed": {"type": "number"},
+                  "employment_status": {"type": "string"}
+                }
+              }
+            }
+          },
+          "vehicle_info": {
+            "type": "object",
+            "properties": {
+              "vin": {"type": "string"},
+              "year": {"type": "integer"},
+              "make": {"type": "string"},
+              "model": {"type": "string"},
+              "price": {"type": "number"}
+            }
+          },
+          "loan_details": {
+            "type": "object",
+            "properties": {
+              "amount": {"type": "number"},
+              "term_months": {"type": "integer"},
+              "down_payment": {"type": "number"}
+            }
+          },
+          "consent": {
+            "type": "object",
+            "properties": {
+              "credit_check": {"type": "boolean"},
+              "terms_accepted": {"type": "boolean"}
+            }
+          }
+        },
+        "required": ["applicant_info", "vehicle_info", "loan_details", "consent"]
+      },
+      "timeout_ms": 10000
+    },
+    {
+      "type": "webhook",
+      "name": "get_protection_products",
+      "description": "Get available extended warranties and protection products",
+      "url": "https://api.dealership.com/v2/finance/protection-products",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_vin": {"type": "string"},
+          "loan_amount": {"type": "number"},
+          "customer_tier": {"type": "string"}
+        }
+      },
+      "timeout_ms": 3000
+    },
+    {
+      "type": "webhook",
+      "name": "calculate_lease_options",
+      "description": "Calculate lease payment options",
+      "url": "https://api.dealership.com/v2/finance/lease-calculate",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{DEALER_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "vehicle_msrp": {"type": "number"},
+          "lease_terms": {"type": "array", "items": {"type": "integer"}},
+          "mileage_options": {"type": "array", "items": {"type": "integer"}},
+          "money_factor": {"type": "number"},
+          "residual_value": {"type": "number"},
+          "down_payment": {"type": "number"}
+        },
+        "required": ["vehicle_msrp"]
+      },
+      "timeout_ms": 4000
+    },
+    {
+      "type": "client",
+      "name": "payment_comparison",
+      "description": "Create side-by-side payment comparison table",
+      "parameters": {
+        "financing_options": {"type": "array"},
+        "lease_options": {"type": "array"},
+        "cash_option": {"type": "object"}
+      }
+    },
+    {
+      "type": "client",
+      "name": "finance_calculator",
+      "description": "Interactive financing calculator widget",
+      "parameters": {
+        "vehicle_price": {"type": "number"},
+        "trade_value": {"type": "number"},
+        "available_terms": {"type": "array"}
+      }
+    }
+  ],
+  "enhanced_prompt": "You are a professional automotive finance specialist. Help customers understand their financing options and secure the best rates. Use calculate_financing to show accurate payment options based on their situation. Perform credit_prequalification with customer consent to determine their credit tier and available rates. Get current financing_programs to identify special offers and incentives. Present lease_options when appropriate. For qualified customers, use submit_credit_application to process their application. Explain protection_products and their benefits. Always be transparent about rates, terms, and fees. Focus on finding solutions that fit their budget. Collect all required information systematically and explain each step. Never pressure customers into decisions - provide education and options.",
+  "rag_settings": {
+    "enabled": true,
+    "embedding_model": "e5_mistral_7b_instruct",
+    "max_vector_distance": 0.4,
+    "max_documents_length": 100000,
+    "max_retrieved_rag_chunks_count": 20
+  }
+}

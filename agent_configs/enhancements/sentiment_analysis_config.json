@@ -1,0 +1,222 @@
+{
+  "sentiment_analysis_system": {
+    "global_sentiment_monitor": {
+      "type": "client",
+      "name": "advanced_sentiment_monitor",
+      "description": "Real-time sentiment analysis with escalation triggers",
+      "parameters": {
+        "sentiment_thresholds": {
+          "very_negative": -0.8,
+          "negative": -0.6,
+          "neutral_low": -0.2,
+          "neutral_high": 0.2,
+          "positive": 0.6,
+          "very_positive": 0.8
+        },
+        "emotion_detection": {
+          "enabled": true,
+          "emotions": ["anger", "frustration", "satisfaction", "confusion", "urgency", "happiness"],
+          "confidence_threshold": 0.7
+        },
+        "escalation_triggers": {
+          "immediate_escalation": {
+            "keywords": [
+              "manager", "supervisor", "complaint", "lawsuit", "attorney", "lawyer",
+              "terrible", "worst", "horrible", "disgusting", "furious", "livid",
+              "fraud", "scam", "cheat", "lie", "lied", "stealing", "rip off",
+              "discrimination", "racist", "sexist", "harassment"
+            ],
+            "sentiment_threshold": -0.7,
+            "action": "escalate_immediately"
+          },
+          "urgent_escalation": {
+            "keywords": [
+              "angry", "frustrated", "mad", "upset", "annoyed", "ridiculous",
+              "stupid", "incompetent", "useless", "waste of time", "fed up",
+              "cancel", "return", "refund", "money back", "never again"
+            ],
+            "sentiment_threshold": -0.5,
+            "consecutive_triggers": 2,
+            "action": "escalate_urgent"
+          },
+          "priority_attention": {
+            "keywords": [
+              "disappointed", "unhappy", "concerned", "worried", "confused",
+              "trouble", "problem", "issue", "error", "mistake", "wrong"
+            ],
+            "sentiment_threshold": -0.3,
+            "consecutive_triggers": 3,
+            "action": "flag_for_attention"
+          }
+        },
+        "escalation_actions": {
+          "escalate_immediately": {
+            "transfer_to_human": true,
+            "priority_level": "urgent",
+            "notification_channels": ["sms", "email", "slack"],
+            "context_preservation": true,
+            "escalation_message": "Customer requires immediate manager attention due to high frustration level."
+          },
+          "escalate_urgent": {
+            "transfer_to_human": true,
+            "priority_level": "high",
+            "notification_channels": ["email", "slack"],
+            "context_preservation": true,
+            "escalation_message": "Customer showing sustained negative sentiment, needs human intervention."
+          },
+          "flag_for_attention": {
+            "agent_notification": true,
+            "adjust_response_tone": "empathetic",
+            "offer_alternatives": true,
+            "supervisor_notification": false
+          }
+        },
+        "positive_sentiment_actions": {
+          "very_positive": {
+            "actions": ["offer_additional_services", "request_review", "upsell_opportunity"],
+            "note_in_crm": "Highly satisfied customer - upsell opportunity"
+          },
+          "positive": {
+            "actions": ["confirm_satisfaction", "offer_additional_help"],
+            "note_in_crm": "Satisfied customer"
+          }
+        }
+      }
+    },
+    "real_time_monitoring": {
+      "type": "webhook",
+      "name": "sentiment_logger",
+      "description": "Log sentiment data for analytics",
+      "url": "https://api.dealership.com/v2/analytics/sentiment",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{ANALYTICS_API_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {"type": "string"},
+          "agent_id": {"type": "string"},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "sentiment_score": {"type": "number"},
+          "emotion": {"type": "string"},
+          "confidence": {"type": "number"},
+          "escalation_triggered": {"type": "boolean"},
+          "customer_phone": {"type": "string"}
+        }
+      },
+      "timeout_ms": 2000
+    },
+    "conversation_coaching": {
+      "type": "client",
+      "name": "real_time_coaching",
+      "description": "Provide real-time suggestions to improve conversation",
+      "parameters": {
+        "coaching_triggers": {
+          "negative_trend": {
+            "condition": "sentiment_declining_for_30_seconds",
+            "suggestions": [
+              "Acknowledge the customer's frustration",
+              "Ask clarifying questions to understand the issue",
+              "Offer specific solutions or alternatives",
+              "Use empathetic language"
+            ]
+          },
+          "confusion_detected": {
+            "condition": "customer_seems_confused",
+            "suggestions": [
+              "Slow down and explain more clearly",
+              "Ask if they have questions",
+              "Offer to repeat information",
+              "Break complex information into smaller parts"
+            ]
+          },
+          "satisfaction_opportunity": {
+            "condition": "positive_sentiment_detected",
+            "suggestions": [
+              "Capitalize on positive momentum",
+              "Confirm their satisfaction",
+              "Ask about additional needs",
+              "Consider upselling opportunity"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "integration_examples": {
+    "add_to_agent_config": {
+      "tools": [
+        "{{sentiment_analysis_system.global_sentiment_monitor}}",
+        "{{sentiment_analysis_system.real_time_monitoring}}",
+        "{{sentiment_analysis_system.conversation_coaching}}"
+      ],
+      "prompt_additions": [
+        "Monitor customer sentiment throughout the conversation using the sentiment_monitor tool.",
+        "If negative sentiment is detected, adjust your tone to be more empathetic and helpful.",
+        "Use escalation triggers appropriately - transfer to human supervisor if customer shows high frustration.",
+        "Log sentiment data for analytics and continuous improvement.",
+        "Use real-time coaching suggestions to improve conversation flow."
+      ]
+    }
+  },
+  "escalation_workflows": {
+    "immediate_escalation": {
+      "steps": [
+        "Detect trigger keyword or very negative sentiment",
+        "Pause conversation briefly",
+        "Send notification to supervisor",
+        "Prepare context summary",
+        "Transfer call with warm handoff",
+        "Log incident for review"
+      ],
+      "notification_template": {
+        "subject": "URGENT: Customer Escalation Required",
+        "message": "Customer {{customer_phone}} requires immediate attention. Sentiment: {{sentiment_score}}. Trigger: {{trigger_reason}}. Agent: {{agent_id}}. Please take call immediately.",
+        "channels": ["sms", "email", "slack"]
+      }
+    },
+    "urgent_escalation": {
+      "steps": [
+        "Detect sustained negative sentiment",
+        "Attempt de-escalation techniques",
+        "If unsuccessful, prepare for human handoff",
+        "Send notification to available supervisor",
+        "Transfer with full context",
+        "Schedule follow-up"
+      ],
+      "notification_template": {
+        "subject": "Customer Needs Human Intervention",
+        "message": "Customer {{customer_phone}} showing negative sentiment for {{duration}}. Agent {{agent_id}} requesting human backup. Context: {{conversation_summary}}",
+        "channels": ["email", "slack"]
+      }
+    }
+  },
+  "analytics_dashboard": {
+    "real_time_metrics": [
+      "current_conversations_sentiment",
+      "escalations_per_hour",
+      "agent_performance_by_sentiment",
+      "customer_satisfaction_trend"
+    ],
+    "daily_reports": [
+      "sentiment_distribution",
+      "escalation_reasons",
+      "agent_sentiment_scores",
+      "customer_feedback_correlation"
+    ],
+    "alerts": [
+      {
+        "condition": "escalation_rate > 15% in 1 hour",
+        "action": "notify_management",
+        "message": "High escalation rate detected - review agent performance"
+      },
+      {
+        "condition": "average_sentiment < -0.3 for 2 hours",
+        "action": "investigate_issues",
+        "message": "Sustained negative sentiment detected - check for system issues"
+      }
+    ]
+  }
+}
