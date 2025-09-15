@@ -1,0 +1,53 @@
+name: Deploy Trading System
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'autonomous-trading-system/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        cd autonomous-trading-system
+        npm install
+
+    - name: Configure API Keys
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        COINBASE_API_KEY: ${{ secrets.COINBASE_API_KEY }}
+        COINBASE_SECRET: ${{ secrets.COINBASE_SECRET }}
+        COINBASE_PASSPHRASE: ${{ secrets.COINBASE_PASSPHRASE }}
+        BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+        BINANCE_SECRET: ${{ secrets.BINANCE_SECRET }}
+        KRAKEN_API_KEY: ${{ secrets.KRAKEN_API_KEY }}
+        KRAKEN_SECRET: ${{ secrets.KRAKEN_SECRET }}
+      run: |
+        cd autonomous-trading-system
+        node scripts/setup-from-github-secrets.js
+
+    - name: Run Tests
+      run: |
+        cd autonomous-trading-system
+        npm test
+
+    - name: Deploy to Pipedream
+      if: success()
+      env:
+        PIPEDREAM_API_KEY: ${{ secrets.PIPEDREAM_API_KEY }}
+      run: |
+        cd autonomous-trading-system
+        npm run deploy:production

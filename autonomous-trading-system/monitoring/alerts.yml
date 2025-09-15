@@ -1,0 +1,84 @@
+groups:
+  - name: trading_alerts
+    interval: 30s
+    rules:
+      # Critical Alerts
+      - alert: TradingSystemDown
+        expr: up{job="trading-bot"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: trading-bot
+        annotations:
+          summary: "Trading system is down"
+          description: "Trading bot has been down for more than 2 minutes"
+
+      - alert: HighDailyLoss
+        expr: daily_loss_percentage > 5
+        for: 1m
+        labels:
+          severity: critical
+          component: risk-management
+        annotations:
+          summary: "Daily loss exceeds 5%"
+          description: "Current daily loss: {{ $value }}%"
+
+      - alert: CircuitBreakerTriggered
+        expr: circuit_breaker_status == 1
+        for: 1m
+        labels:
+          severity: critical
+          component: circuit-breaker
+        annotations:
+          summary: "Circuit breaker has been triggered"
+          description: "Trading halted due to circuit breaker activation"
+
+      # Warning Alerts
+      - alert: HighAPILatency
+        expr: api_response_time_ms > 1000
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High API latency detected"
+          description: "API response time: {{ $value }}ms"
+
+      - alert: LowBalance
+        expr: account_balance_usd < 1000
+        for: 10m
+        labels:
+          severity: warning
+          component: account
+        annotations:
+          summary: "Account balance is low"
+          description: "Current balance: ${{ $value }}"
+
+      - alert: HighErrorRate
+        expr: rate(errors_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate: {{ $value }} errors/sec"
+
+      # Info Alerts
+      - alert: NewTradeExecuted
+        expr: increase(trades_total[1m]) > 0
+        labels:
+          severity: info
+          component: trading
+        annotations:
+          summary: "New trade executed"
+          description: "{{ $value }} new trades in the last minute"
+
+      - alert: ProfitTarget
+        expr: daily_profit_percentage > 2
+        labels:
+          severity: info
+          component: performance
+        annotations:
+          summary: "Daily profit target reached"
+          description: "Current daily profit: {{ $value }}%"
