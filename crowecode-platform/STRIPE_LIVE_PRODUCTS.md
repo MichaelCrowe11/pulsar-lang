@@ -49,9 +49,9 @@
 ### Production (Fly.io) - ✅ DEPLOYED
 ```bash
 fly secrets set \
-  STRIPE_SECRET_KEY="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" \
-  STRIPE_PUBLISHABLE_KEY="pk_live_51QJpErDSZPCbVOig6qVepQpCnuLu5agqOFwbQp5NbTE2PxKdBb2GDzXjjmW7es6Krg9nse1C987uPnZRHBDwVNSg00mSVmQcdw" \
-  STRIPE_WEBHOOK_SECRET="whsec_B0LRyALYl4vIVg8GCTUIwLwgWku65WGB" \
+  STRIPE_SECRET_KEY="[REDACTED - Set in Fly.io dashboard]" \
+  STRIPE_PUBLISHABLE_KEY="[REDACTED - Set in Fly.io dashboard]" \
+  STRIPE_WEBHOOK_SECRET="[REDACTED - Set in Fly.io dashboard]" \
   CROWECODE_PRO_PRICE_ID="price_1S9DwwDSZPCbVOighgXMpXNM" \
   CROWECODE_TEAM_PRICE_ID="price_1S9DxgDSZPCbVOigKOmPtx8X" \
   CROWECODE_ENTERPRISE_PLUS_PRICE_ID="price_1S9Dy6DSZPCbVOigkm3Y8DUk" \
@@ -62,7 +62,7 @@ fly secrets set \
 ### Local Development (.env.local for LIVE testing)
 ```env
 # LIVE Stripe Keys (BE CAREFUL - These are LIVE keys!)
-STRIPE_SECRET_KEY_LIVE=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
+STRIPE_SECRET_KEY_LIVE=[REDACTED - Get from Stripe Dashboard]
 STRIPE_PUBLISHABLE_KEY_LIVE=pk_live_51QJpErDSZPCbVOig...
 
 # LIVE Price IDs
