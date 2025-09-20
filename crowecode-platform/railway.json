@@ -1,0 +1,28 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm ci --legacy-peer-deps && npx prisma generate && npm run build",
+    "watchPatterns": [
+      "src/**",
+      "prisma/**",
+      "package.json"
+    ]
+  },
+  "deploy": {
+    "runtime": "NODE_JS",
+    "startCommand": "npx prisma migrate deploy && npm start",
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 30,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3,
+    "numReplicas": 1,
+    "region": "us-west1"
+  },
+  "environments": {
+    "production": {
+      "NODE_ENV": "production",
+      "PORT": "${{PORT}}"
+    }
+  }
+}
